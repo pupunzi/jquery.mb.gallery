@@ -1,0 +1,21 @@
+jquery.mb.gallery
+
+2.0 Major issue:
+  Completly redrown the workflow, simplifyed thecode, better performance, easly intgratable with Flickr.
+  doesn't work in IE Quirks mode!! (no docType declaration).
+  Added EXIF metadata display.
+
+>> 1.5.5 issue:
+  a. add a target element where to show the gallery.
+  b. IE7 didn't show images at second call due to a bug introduced in 1.5.1 release (bug fixed).
+  c. IE7 problems on top positioning (bug fixed).
+
+1.5.2 issue:
+  Now descriptios can have images and links.
+
+1.5.1
+  Added a preload images for the toolbar;
+  removed the src attr from the images to speedup on load.
+
+1.5 Major issue:
+  Now you can have multiple galleries on the page that you can call from a link.
