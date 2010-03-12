@@ -1,0 +1,176 @@
+<!doctype html>
+<!--
+  ~ jquery.mb.components
+  ~ Copyright (c) 2001-2010. Matteo Bicocchi (Pupunzi); Open lab srl, Firenze - Italy
+  ~ email: info@pupunzi.com
+  ~ site: http://pupunzi.com
+  ~
+  ~ Licences: MIT, GPL
+  ~ http://www.opensource.org/licenses/mit-license.php
+  ~ http://www.gnu.org/licenses/gpl.html
+  -->
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>mbGallery</title>
+
+  <style type="text/css">
+
+    .wrapper{
+      font-family:Arial, Helvetica, sans-serif;
+    /*margin-top:20px;*/
+      margin-left:50px;
+    }
+
+    .wrapper h1{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:26px;
+    }
+
+    .galleryIDX{
+      text-align:center;
+      top:0;
+      left:0;
+      width:12%;
+      height:100%;
+      margin:auto;
+      position:absolute;
+    }
+
+    #galleryPlace{
+      position:absolute;
+      top:0;
+      width:88%;
+      left:12%;
+      height:100%;
+    }
+
+    #g1{
+      display:none;
+      position:relative;
+      margin-top:100px;
+      padding:30px;
+    }
+
+    .mbGallery .header table{
+      width:265px !important;
+    }
+    .mbGallery{
+      -moz-box-shadow:#333 2px 2px 5px;
+      -webkit-box-shadow:#333 2px 2px 5px;
+    }
+    .galleryCont{
+      display:none;
+    }
+    .descriptionBox{
+      font-size:10px;
+      background-color:#333333;
+      color:white;
+    }
+
+    .desc{
+      font-family:Arial, Helvetica, sans-serif;
+      color:#000000;
+      font-size:14px;
+    }
+
+    .imgDesc{
+      font-family:Arial, Helvetica, sans-serif;
+      color:#fff;
+      font-size:10px;
+
+    }
+    .galleryIDX .btn{
+      padding:5px;
+      padding-top:10px;
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      color:#fff;
+      background:#333;
+      cursor:pointer;
+      -moz-box-sizing:content-box;
+      width:110px;
+      margin:auto;
+      margin-top:85px;
+      -moz-border-radius:10px;
+      -webkit-border-radius:10px;
+    }
+
+    .galleryIDX .btn img{
+      padding-bottom:15px;
+    }
+
+
+
+  </style>
+  <script type="text/javascript" src="http://jquery.com/src/jquery-latest.js"></script>
+  <script type="text/javascript" src="inc/mbGallery.js"></script>
+  <script type="text/javascript" src="inc/jquery.mb.flickr.js"></script>
+  <script type="text/javascript">
+    $(function(){
+      if (self.location.href == top.location.href){
+        $("body").css({font:"normal 13px/16px 'trebuchet MS', verdana, sans-serif"});
+        var logo=$("<a href='http://pupunzi.com' style='position:absolute;top:10px;left:10px;z-index:1000'><img id='logo' border='0' src='http://pupunzi.com/images/logo.png' alt='mb.ideas.repository'></a>");
+        $("body").prepend(logo);
+        $("#logo").fadeIn();
+      }
+
+      $.printOutGallery=function(gallery){
+        if (gallery.isInit==undefined){
+        $(gallery.photos).each(function(i){
+          var thumb=$("<a href='"+this.square+"'>&nbsp;</a>").addClass("imgThumb").attr({w:this.sourceWidth,h:this.sourceHeight});
+
+          $(gallery).append(thumb);
+          var full=$("<a href='"+this.source+"'>&nbsp;</a>").addClass("imgFull");
+          $(gallery).append(full);
+          var flickrUrl=$("<a href='"+this.url+"' target='_blank'></a>").html(" see it on flickr!");
+          var imgTitle=$("<div/>").addClass("imgTitle").html(this.title+" - ").append(flickrUrl);
+          $(gallery).append(imgTitle);
+          var desc= typeof this.description =="undefined"?"":this.description;
+          var imgDesc=$("<div/>").addClass("imgDesc").html(desc);
+          $(gallery).append(imgDesc);
+
+          if (i== gallery.photos.length-1){
+            $(gallery).mbGallery({maskBgnd:'#000', maskOpacity:.7, per_page:gallery.per_page });
+          }
+        });
+        }else{
+          $(gallery).mbGallery({maskBgnd:'#000', maskOpacity:.7});
+        }
+      };
+
+      $.fn.mbGallery.defaults={
+        containment:"body",
+        maskOpacity:.5,
+        startFrom: 0,
+        autoSlide: true,
+        slideTimer: 6000
+      };
+    });
+
+    $.mbFlickr.flickr_api_key="f40779ab07dd09e5890f48e3618296b3";
+    $.mbFlickr.flickr_user_id="16424076@N00";
+    $.mbFlickr.flickr_user_name="pupunzi";
+
+/*
+    $.mbFlickr.flickr_api_key="0eed131c597f44f7b9b36c75e8ecaac7";
+    $.mbFlickr.flickr_user_id="";
+    $.mbFlickr.flickr_user_name="lamirphotos";
+*/
+
+  </script>
+</head>
+<body >
+<div class="galleryIDX">
+  <div class="btn"  onclick="$('#g1').mb_loadFlickrPhotos({per_page:'all',flickr_photoset_id:'72157600884372818',callBack:$.printOutGallery});">start gallery</div>
+</div>
+<div id="galleryPlace" ></div>
+
+<div id="g1" class="galleryCont">
+  
+
+</div>
+
+</body>
+</html>
