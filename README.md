@@ -1,4 +1,4 @@
-# mb.gallery
+# mb.gallery 2.0
 
 __An open source jQuery component to easily build a photo gallery.__
 
