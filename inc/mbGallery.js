@@ -57,8 +57,9 @@
       }
       gallery.initialized = true;
       gallery.options = $.extend({}, $.mbGallery.defaults, options);
-      var css= $("<link rel='stylesheet' id='mbGalleryCss' type='text/css' href='"+gallery.options.cssURL+gallery.options.skin+".css' title='tyle'  media='screen'/>");
-      $("head").prepend(css);
+//      var css= $("<link rel='stylesheet' id='mbGalleryCss' type='text/css' href='"+gallery.options.cssURL+gallery.options.skin+".css' title='style'  media='all'/>");
+//      $("head").append(css);
+      $("#mbGalleryCss").attr("href",gallery.options.cssURL+gallery.options.skin+".css");
       $(gallery).hide();
       gallery.galleryID= "mb_gallery_"+gallery.id;
       $(gallery).mb_getPhotos();
