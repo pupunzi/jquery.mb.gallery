@@ -81,7 +81,7 @@
         overlay.fadeIn();
         $("body").append(galleryScreen);
       }else{
-        galleryScreen.addClass("conatined");
+        galleryScreen.addClass("contained");
         $("#"+gallery.options.containment).show();
         $("#"+gallery.options.containment).append(galleryScreen);
       }

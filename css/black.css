@@ -16,7 +16,7 @@
   -moz-box-shadow:#666 2px 2px 6px;
   -webkit-box-shadow:#666 2px 2px 6px;
 }
-.mbGall_black.conatined.galleryScreen{
+.mbGall_black.contained.galleryScreen{
   position:absolute;
   background:#000;
   -moz-border-radius:8px;
