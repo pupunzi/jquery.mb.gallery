@@ -11,7 +11,7 @@
 
 /*
  * Name:jquery.mb.gallery
- * Version: 2.0
+ * Version: 2.0.1
  *
  *
  * It is possible to show EXIF metadata of your photos.
