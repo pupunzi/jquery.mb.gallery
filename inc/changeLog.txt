@@ -1,5 +1,8 @@
 jquery.mb.gallery
 
+2.0.1 Major issue:
+  fixed a terrible bug on IE that prevented it to load the CSS chosen on the fly by the script.
+
 2.0 Major issue:
   Completly redrown the workflow, simplifyed thecode, better performance, easly intgratable with Flickr.
   doesn't work in IE Quirks mode!! (no docType declaration).
