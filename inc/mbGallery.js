@@ -11,7 +11,7 @@
 
 /*
  * Name:jquery.mb.gallery
- * Version: 2.0
+ * Version: 2.0.1
  *
  *
  * It is possible to show EXIF metadata of your photos.
@@ -25,7 +25,7 @@
   $.mbGallery ={
     name:"mb.gallery",
     author:"Matteo Bicocchi",
-    version:"2.0",
+    version:"2.0.1",
     defaults:{
       containment:"body",
       cssURL:"css/",
@@ -57,9 +57,8 @@
       }
       gallery.initialized = true;
       gallery.options = $.extend({}, $.mbGallery.defaults, options);
-//      var css= $("<link rel='stylesheet' id='mbGalleryCss' type='text/css' href='"+gallery.options.cssURL+gallery.options.skin+".css' title='style'  media='all'/>");
-//      $("head").append(css);
-      $("#mbGalleryCss").attr("href",gallery.options.cssURL+gallery.options.skin+".css");
+      var css= "<link rel='stylesheet' id='mbGalleryCss' type='text/css' href='"+gallery.options.cssURL+gallery.options.skin+".css' title='tyle'  media='screen'/>";
+      $("head").prepend(css);
       $(gallery).hide();
       gallery.galleryID= "mb_gallery_"+gallery.id;
       $(gallery).mb_getPhotos();
@@ -82,7 +81,7 @@
         overlay.fadeIn();
         $("body").append(galleryScreen);
       }else{
-        galleryScreen.addClass("contained");
+        galleryScreen.addClass("conatined");
         $("#"+gallery.options.containment).show();
         $("#"+gallery.options.containment).append(galleryScreen);
       }

@@ -1,0 +1,317 @@
+<!doctype html>
+        
+<!--
+  ~ jquery.mb.components
+  ~ Copyright (c) 2001-2010. Matteo Bicocchi (Pupunzi); Open lab srl, Firenze - Italy
+  ~ email: info@pupunzi.com
+  ~ site: http://pupunzi.com
+  ~
+  ~ Licences: MIT, GPL
+  ~ http://www.opensource.org/licenses/mit-license.php
+  ~ http://www.gnu.org/licenses/gpl.html
+  -->
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>mbGallery</title>
+
+<style type="text/css">
+
+  .wrapper{
+    font-family:Arial, Helvetica, sans-serif;
+  /*margin-top:20px;*/
+    margin-left:50px;
+  }
+
+  .wrapper h1{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:26px;
+  }
+
+  .galleryIDX{
+    text-align:center;
+    top:0;
+    left:0;
+    width:12%;
+    height:100%;
+    margin:auto;
+    position:absolute;
+  }
+
+  #galleryPlace{
+    position:absolute;
+    top:0;
+    width:88%;
+    left:12%;
+    height:100%;
+  }
+
+  #g1{
+  /*display:none;*/
+    position:relative;
+    margin-top:100px;
+    padding:30px;
+  }
+  #thumbs{
+    position:absolute;
+    top:200px;
+  }
+  #thumbs img{
+    padding:5px;
+    margin:5px;
+    -moz-box-shadow:#333 2px 2px 5px;
+    -webkit-box-shadow:#333 2px 2px 5px;
+    cursor:pointer;
+  }
+
+  .msg{
+    margin-left:30px;
+    font:16px/20px Arial, Helvetica, sans-serif;
+  }
+
+  .mbGallery .header table{
+    width:265px !important;
+  }
+  .mbGallery{
+    -moz-box-shadow:#333 2px 2px 5px;
+    -webkit-box-shadow:#333 2px 2px 5px;
+  }
+  .galleryCont{
+    display:none;
+  }
+  .descriptionBox{
+    font-size:10px;
+    background-color:#333333;
+    color:white;
+  }
+
+  .desc{
+    font-family:Arial, Helvetica, sans-serif;
+    color:#000000;
+    font-size:14px;
+  }
+
+  .imgDesc{
+    font-family:Arial, Helvetica, sans-serif;
+    color:#fff;
+    font-size:10px;
+  }
+
+
+  span.btn{
+    padding:10px;
+    margin-left:5px;
+    display:inline-block;
+    cursor:pointer;
+    font:12px/14px Arial, Helvetica, sans-serif;
+    color:#aaa;
+    background-color:#eee;
+    -moz-border-radius:8px;
+    -webkit-border-radius:8px;
+    -moz-box-shadow:#999 2px 0px 3px;
+    -webkit-box-shadow:#999 2px 0px 3px;
+  }
+  span.btn.pages{
+    background-color:#fff;
+  }
+  span.btn.pages:hover, span.btn.pages.sel {
+    background-color:#f3f3f3;
+    color:#999;
+  }
+  span.btn:hover, span.btn.sel{
+    background-color:#000;
+  }
+
+  .galleryIDX .btn{
+    padding:5px;
+    padding-top:10px;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:12px;
+    color:#fff;
+    background:#333;
+    cursor:pointer;
+    -moz-box-sizing:content-box;
+    width:110px;
+    margin:auto;
+    margin-top:85px;
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+  }
+
+  .galleryIDX .btn img{
+    padding-bottom:15px;
+  }
+
+  .controls{
+    position:relative;
+    margin-top:100px;
+  }
+
+  #galleryInfo{
+    position:relative;
+    display:inline-block;
+    margin-top:20px;
+  }
+
+</style>
+<script type="text/javascript" src="http://jquery.com/src/jquery-latest.js"></script>
+<script type="text/javascript" src="inc/mbGallery.js"></script>
+<script type="text/javascript" src="inc/jquery.mb.flickr.js"></script>
+<script type="text/javascript">
+  $(function(){
+    if (self.location.href == top.location.href){
+      $("body").css({font:"normal 13px/16px 'trebuchet MS', verdana, sans-serif"});
+      var logo=$("<a href='http://pupunzi.com' style='position:absolute;top:10px;left:10px;z-index:1000'><img id='logo' border='0' src='http://pupunzi.com/images/logo.png' alt='mb.ideas.repository'></a>");
+      $("body").prepend(logo);
+      $("#logo").fadeIn();
+    }
+
+    /*
+    * Use jquery.mb.flickr to get the Flickr photos of a set or a user to populate jquery.mb.gallery
+    * call jquery.mb.gallery as callback.
+    * */
+    $.printOutGallery=function(gallery){
+      if (gallery.isInit==undefined){
+        clearTimeout(document.flickr.tracer);
+        $("#thumbs").empty();
+        $(gallery).empty();
+        if(! $("#galleryInfo").html()){
+
+          /*build the pages index for the gallery*/
+          var pages=$("<div class='pagesIDX'/>");
+          for(var i=1;i<=gallery.pages;i++){
+            var page=$("<span class='pages btn' page='"+i+"'>"+i+"</span>").click(function(){
+
+              if($(this).hasClass("sel")) return;
+
+              gallery.isInit=undefined;
+              $(".pagesIDX span").removeClass("sel");
+              $(this).addClass("sel");
+              document.flickr.page=$(this).attr("page");
+              $('#g1').mb_loadFlickrPhotos({page:document.flickr.page});
+            });
+
+            pages.append(page);
+          }
+          $("#galleryInfo").html(pages);
+          $(".pagesIDX span").removeClass("sel");
+          $(".pagesIDX span[page='1']").addClass("sel");
+        }
+
+        /*
+        * populate the mb.gallery
+        * and build the thumbs
+        * */
+        $(gallery.photos).each(function(i){
+          var photoURL = this.source;
+          var photoW = this.sourceWidth;
+          var photoH = this.sourceHeight;
+          if($.mbFlickr.defaults.size=="medium"){
+            photoURL=this.medium;
+            photoW= this.mediumWidth;
+            photoH= this.mediumHeight;
+          }
+          var t=$("<img src='"+this.square+"'>").css({opacity:0,width:this.squareWidth,height:this.squareHeight}).load(function(){ $(this).fadeTo(1000,1);});
+          t.click(function(){
+            $(gallery).mbGallery({startFrom:i,autoSlide:false});
+          });
+          $("#thumbs").append(t);
+
+          var thumb=$("<a href='"+this.square+"'>&nbsp;</a>").addClass("imgThumb").attr({w:photoW,h:photoH});
+
+          $(gallery).append(thumb);
+          var full=$("<a href='"+photoURL+"'>&nbsp;</a>").addClass("imgFull");
+          $(gallery).append(full);
+          var flickrUrl=$("<a href='"+this.url+"' target='_blank'></a>").html(this.title);
+          var imgTitle=$("<div/>").addClass("imgTitle").html(flickrUrl);
+          $(gallery).append(imgTitle);
+          var desc= typeof this.description =="undefined"?"":this.description;
+          var imgDesc=$("<div/>").addClass("imgDesc").html(desc);
+          $(gallery).append(imgDesc);
+        });
+      }
+      else{
+        $(gallery).mbGallery();
+      }
+    };
+
+    $.loader = function(){
+      document.flickr.loaded=0;
+      document.flickr.tracer= setInterval(function(){
+          $("#thumbs").html("<span class='msg'>page: "+document.flickr.page+" - loading "+document.flickr.loaded+" of "+document.flickr.total+" photos from Flickr</span>");
+      },500);
+    };
+
+    /* *
+    *
+    * NEXT and PREV page functionalities
+    *
+    * */
+
+    $("#next").click(function(){
+      document.flickr.page++;
+      $(".pagesIDX span").removeClass("sel");
+      $(".pagesIDX span[page='"+document.flickr.page+"']").addClass("sel");
+      $('#g1').get(0).isInit=undefined;
+      $('#g1').mb_loadFlickrPhotos({page:document.flickr.page});
+    });
+
+    $("#prev").click(function(){
+      document.flickr.page--;
+      $(".pagesIDX span").removeClass("sel");
+      $(".pagesIDX span[page='"+document.flickr.page+"']").addClass("sel");
+      $('#g1').get(0).isInit=undefined;
+      $('#g1').mb_loadFlickrPhotos({page:document.flickr.page});
+    });
+
+    // start page stored in a global variable
+    document.flickr.page=1;
+
+    $.mbGallery.defaults.addRaster=true;
+    $.mbGallery.defaults.galleryTitle="my Flickr photos";
+
+    /*
+    * YOU NEED YOUR OWN API KEY !!!
+    * to get it: http://www.flickr.com/services/apps/create/apply/
+    * */
+    $.mbFlickr.flickr_api_key="[YOUR FLICKR API]";
+
+    $.mbFlickr.defaults.size="medium"; //  medium or surce
+    $.mbFlickr.defaults.per_page=40; //photos per page
+
+    /* *
+    *
+    * YOU CAN SHOW EITHER A USER SET OR ALL USER PHOTOS:
+    * $.mbFlickr.defaults.flickr_photoset_id, if defined, override $.mbFlickr.flickr_user_id
+    *
+    * to get the user NSID of Flickr just see the URL of the user RSS; it's something like: 16424076@N00
+    * you can show only public sets or user's photos.
+    *
+    * */
+
+    //$.mbFlickr.defaults.flickr_photoset_id='72157600884372818';
+    $.mbFlickr.flickr_user_id="16424076@N00";
+
+
+
+    $.mbFlickr.defaults.onStart=$.loader;
+    $.mbFlickr.defaults.callBack=$.printOutGallery;
+
+    //start the Flickr gallery
+    $('#g1').mb_loadFlickrPhotos({page:document.flickr.page});
+
+  });
+
+</script>
+</head>
+<body >
+<div class="controls">
+  <span id="prev" class="btn">prev</span>
+  <div id="galleryInfo"></div>
+  <span id="next" class="btn">next</span>
+</div>
+<div id="thumbs" class=""></div>
+<div id="g1" class="galleryCont"></div>
+</body>
+</html>
