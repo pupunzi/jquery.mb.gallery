@@ -30,7 +30,7 @@
       containment:"body",
       cssURL:"css/",
       skin:"white",
-      overlay:"#333",
+      overlayBackground:"#333",
       exifData:false, //todo
 
       galleryTitle:"My Gallery",
@@ -39,15 +39,22 @@
       titleSelector: ".imgTitle",
       descSelector: ".imgDesc",
 
-      minWidth: 500,
-      minHeight: 400,
+      minWidth: 300,
+      minHeight: 200,
       maxWidth: 0,
       maxHeight: 0,
-      maskOpacity:.5,
+      fullScreen:true,
+      addRaster:false,
+      overlayOpacity:.5,
       startFrom: 0,//"random"
       fadeTime: 500,
       slideTimer: 6000,
-      autoSlide: true
+      autoSlide: true,
+
+      onOpen:function(){},
+      onBeforeClose:function(){},
+      onClose:function(){},
+      onChangePhoto:function(){}
     },
     buildMbGallery:function(options){
       var gallery= $(this).get(0);
@@ -57,19 +64,22 @@
       }
       gallery.initialized = true;
       gallery.options = $.extend({}, $.mbGallery.defaults, options);
-      var css= "<link rel='stylesheet' id='mbGalleryCss' type='text/css' href='"+gallery.options.cssURL+gallery.options.skin+".css' title='tyle'  media='screen'/>";
+      if(gallery.options.onOpen) gallery.options.onOpen();
+
+      var css= $("<link rel='stylesheet' id='mbGalleryCss' type='text/css' href='"+gallery.options.cssURL+gallery.options.skin+".css' title='tyle'  media='screen'/>");
       $("head").prepend(css);
       $(gallery).hide();
       gallery.galleryID= "mb_gallery_"+gallery.id;
       $(gallery).mb_getPhotos();
 
-      var overlay=$("<div/>").addClass("mb_overlay").one("click",function(){$(gallery).mb_closeGallery();}).css({opacity:gallery.options.maskOpacity,backgroundColor: gallery.options.overlay}).hide();
+      var overlay=$("<div/>").addClass("mb_overlay").one("click",function(){$(gallery).mb_closeGallery();}).css({opacity:gallery.options.overlayOpacity,background: gallery.options.overlayBackground}).hide();
       var galleryScreen= $("<div/>").attr("id",gallery.galleryID).addClass("galleryScreen").addClass("mbGall_"+gallery.options.skin);
       var galleryDesc=$("<div/>").addClass("galleryDesc").css({opacity:.7}).hide();
       var galleryTitle=$("<div/>").addClass("galleryTitle").html(gallery.options.galleryTitle);
       var galleryImg= $("<div/>").addClass("galleryImg")
               .hover(function(){if (galleryDesc.html()) galleryDesc.slideDown();},function(){galleryDesc.slideUp();})
               .dblclick(function(){if (gallery.sliding) $(gallery).mb_stopSlide(); else $(gallery).mb_startSlide();});
+      var galleryRaster= $("<div/>").addClass("galleryRaster").css({width:"100%",height:"100%"});
       var galleryLoader= $("<div/>").addClass("loader").mb_bringToFront().css("opacity",.7).hide();
       var galleryThumbs=$("<div/>").addClass("galleryThumbs").hide();
       var galleryNav=$("<div/>").addClass("galleryNav").hide();
@@ -93,6 +103,8 @@
 
       galleryScreen.append(galleryImg);
       galleryImg.append(galleryLoader);
+      if(gallery.options.addRaster)
+        galleryImg.append(galleryRaster).mb_bringToFront();
       galleryImg.append(galleryThumbs);
       galleryImg.append(galleryDesc);
       if(gallery.options.containment=="body")
@@ -177,13 +189,14 @@
       galleryDesc.html(gallery.images[gallery.idx].description);
       if(gallery.sliding){
         galleryNav.find(".startStopIcon").addClass("selected");
-        gallery.startSlide=setTimeout(function(){
+        gallery.startGallery=setTimeout(function(){
           gallery.idx=gallery.idx==gallery.images.length-1?0:gallery.idx+1;
           $(gallery).mb_preload();
         },gallery.options.slideTimer);
       }
       galleryNav.find(".photoCounter").html((gallery.idx+1)+" / <b>"+gallery.images.length+"</b>");
       if(galleryDesc.html()=="") galleryDesc.slideUp();
+      if(gallery.options.onChangePhoto) gallery.options.onChangePhoto();
     },
     buildThumbs:function(){
       var gallery= $(this).get(0);
@@ -237,7 +250,7 @@
       var galleryBtns= $("<div/>").addClass("galleryBtns");
       galleryNav.append(photoTitle);
       galleryNav.append(galleryBtns);
-      galleryBtns.prepend(thumbsIcon).prepend(startStopIcon).prepend(prevIcon).prepend(nextIcon).prepend((showExif?exifIcon:"")).prepend(photoCounter);//.prepend(galleryCloseIcon);
+      galleryBtns.prepend(thumbsIcon).prepend(startStopIcon).prepend(prevIcon).prepend(nextIcon).prepend((showExif?exifIcon:"")).prepend(photoCounter);
     },
     //   todo
     showExifData:function(){
@@ -258,11 +271,12 @@
       galleryThumbs.find(".thumb").removeClass("selected").css("opacity",1);
       actualThumb.addClass("selected").css("opacity",.4);
     },
-    startSlide:function(){
+    startSlide:function(idx){
       var gallery= $(this).get(0);
       var galleryNav=$("#"+gallery.galleryID).find(".galleryNav");
       gallery.sliding=true;
-      gallery.idx=gallery.idx==gallery.images.length-1?0:gallery.idx+1;
+
+      gallery.idx=idx?idx: gallery.idx==gallery.images.length-1?0:gallery.idx+1;
       $(gallery).mb_preload();
       galleryNav.find(".startStopIcon").addClass("selected");
     },
@@ -270,7 +284,7 @@
       var gallery= $(this).get(0);
       var galleryNav=$("#"+gallery.galleryID).find(".galleryNav");
       gallery.sliding=false;
-      clearTimeout(gallery.startSlide);
+      clearTimeout(gallery.startGallery);
       galleryNav.find(".startStopIcon").removeClass("selected");
     },
     prev:function(){
@@ -287,7 +301,16 @@
       gallery.idx=gallery.idx==gallery.images.length-1?0:gallery.idx+1;
       $(gallery).mb_preload();
     },
-    showThumbs:function(){
+    gotoIDX:function(idx){
+      var gallery= $(this).get(0);
+      gallery.idx = idx-1;
+      $(gallery).mb_selectThumb();
+      $(gallery).mb_stopSlide();
+      $(gallery).mb_preload();
+      $(gallery).mb_hideThumbs();
+
+    },
+    loader:function(){
       var gallery= $(this).get(0);
       var galleryNav=$("#"+gallery.galleryID).find(".galleryNav");
       galleryNav.find(".thumbsIcon").addClass("selected");
@@ -303,8 +326,14 @@
     },
     closeGallery:function(){
       var gallery= $(this).get(0);
+      if(gallery.options.onBeforeClose) gallery.options.onBeforeClose();
       if(!$.browser.msie)
-        $("#"+gallery.galleryID).animate({position:"absolute",top:-1000},"slow",function(){$("#"+gallery.galleryID).remove();$("#"+gallery.options.containment).slideUp();});
+        $("#"+gallery.galleryID).animate({position:"absolute",top:-1000},"slow",
+                function(){
+                  $("#"+gallery.galleryID).remove();
+                  $("#"+gallery.options.containment).slideUp();
+                  if (gallery.options.onClose) gallery.options.onClose();
+                });
       else{
         $("#"+gallery.galleryID).remove();
         $("#"+gallery.options.containment).hide();
@@ -319,31 +348,30 @@
     getDim:function(gallery,w,h){
       var nw=w?w:$(this).outerWidth();
       var nh=h?h:$(this).outerHeight();
-      //      console.debug(nw, nh )
-
       var wh=gallery.options.containment=="body"?$(window).height():$("#"+gallery.options.containment).innerHeight();
       var ww=gallery.options.containment=="body"?$(window).width():$("#"+gallery.options.containment).innerWidth();
       if (gallery.options.galleryMaxHeight>0 && $(this).outerHeight()>gallery.options.galleryMaxHeight){nh=gallery.options.galleryMaxHeight;}
       if (gallery.options.galleryMaxWidth>0 && $(this).outerWidth()>gallery.options.galleryMaxWidth){nw=gallery.options.galleryMaxWidth;}
 
-      if (nh+120>=wh){
+
+      if (parseFloat(nh)+120>=wh || gallery.options.fullScreen){
         nh= wh-130;
         nw=(nh*$(this).outerWidth())/$(this).outerHeight();
         $(this).attr("height", nh);
         $(this).attr("width", nw);
       }
-      if (nw+100>=ww){
+      if (parseFloat(nw)+100>=ww ){
         nw= ww-120;
         nh=(nw*$(this).outerHeight())/$(this).outerWidth();
         $(this).attr("width", nw);
         $(this).attr("height", nh);
       }
+
       return [nh,nw];
     }
   });
 
   // public methods
-
   $.fn.mbGallery= $.mbGallery.buildMbGallery;
   $.fn.mb_getPhotos= $.mbGallery.getPhotos;
   $.fn.mb_buildThumbs= $.mbGallery.buildThumbs;
@@ -355,10 +383,11 @@
 
   $.fn.mb_galleryNext= $.mbGallery.next;
   $.fn.mb_galleryPrev= $.mbGallery.prev;
+  $.fn.mb_gotoIDX= $.mbGallery.gotoIDX;
   $.fn.mb_startSlide= $.mbGallery.startSlide;
   $.fn.mb_stopSlide= $.mbGallery.stopSlide;
 
-  $.fn.mb_showThumbs= $.mbGallery.showThumbs;
+  $.fn.mb_showThumbs= $.mbGallery.loader;
   $.fn.mb_hideThumbs= $.mbGallery.hideThumbs;
   $.fn.mb_closeGallery= $.mbGallery.closeGallery;
 
