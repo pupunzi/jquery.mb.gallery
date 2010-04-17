@@ -115,7 +115,7 @@
       $(gallery).mb_selectThumb();
       $(gallery).mb_buildNav();
       $(gallery).mb_preload();
-      setTimeout(function(){galleryNav.fadeIn(500);},1000);
+//      setTimeout(function(){galleryNav.fadeIn(500);},1000);
     },
     getPhotos: function(){
       var gallery= $(this).get(0);
@@ -139,7 +139,7 @@
       var showExif=gallery.options.exifData;
       $("<img/>").attr({"src":gallery.images[gallery.idx].full+rndVar,"exif":showExif}).load(
               function(){
-                if(!gallery.sliding) $("#"+gallery.galleryID).find(".loader").fadeOut(500,function(){$("#"+gallery.galleryID).find(".loader").removeClass("loading");});//
+                if(!gallery.sliding) $("#"+gallery.galleryID).find(".loader").fadeOut(500,function(){$("#"+gallery.galleryID).find(".loader").removeClass("loading");});
                 $(gallery).mb_changePhoto(rndVar);
                 $(gallery).mb_selectThumb();
               });
@@ -171,7 +171,7 @@
         height:h
       },"slow");
 
-      newImg.fadeIn("slow",function(){});
+      newImg.fadeIn("slow",function(){galleryNav.fadeIn(500)});
       newImg.next("img").fadeOut("slow",function(){$(this).remove();});
       photoTitle.fadeOut("slow",function(){photoTitle.html(gallery.images[gallery.idx].title); photoTitle.fadeIn();});
       galleryDesc.html(gallery.images[gallery.idx].description);
