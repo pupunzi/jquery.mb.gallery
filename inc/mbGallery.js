@@ -66,7 +66,7 @@
       gallery.options = $.extend({}, $.mbGallery.defaults, options);
       if(gallery.options.onOpen) gallery.options.onOpen();
 
-      var css= $("<link rel='stylesheet' id='mbGalleryCss' type='text/css' href='"+gallery.options.cssURL+gallery.options.skin+".css' title='tyle'  media='screen'/>");
+      var css= "<link rel='stylesheet' id='mbGalleryCss' type='text/css' href='"+gallery.options.cssURL+gallery.options.skin+".css' title='tyle'  media='screen'/>";
       $("head").prepend(css);
       $(gallery).hide();
       gallery.galleryID= "mb_gallery_"+gallery.id;
