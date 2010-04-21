@@ -35,6 +35,13 @@
   -moz-border-radius:8px;
   -webkit-border-radius:8px;
 }
+.mbGall_white .galleryRaster{
+  top:0;
+  position:relative;
+  background:url("elements/raster.png");
+  box-sizing:border-box;
+  overflow:hidden;
+}
 
 .mbGall_white .galleryImg .galleryDesc{
   font:14px/18px Arial, sans-serif;
@@ -44,9 +51,13 @@
   width:40%;
   padding:4px;
   position:absolute;
+  z-index:1;
   background:#666;
   box-sizing:border-box;
   overflow:hidden;
+}
+.mbGall_white .galleryImg .galleryDesc a{
+  color:#fff;
 }
 
 .mbGall_white .galleryTitle{
@@ -117,8 +128,11 @@
 }
 
 .mbGall_white .galleryNav .photoTitle{
+  height:20px;
+  overflow:hidden;
   padding-top:25px;
   padding-left:15px;
+  padding-right:180px;
   font:16px/18px Arial, sans-serif;
 }
 
@@ -170,6 +184,7 @@
   bottom:0;
   padding:5px;
   position:absolute;
+  z-index:2;
   background:#fff;
   width:100%;
   -moz-box-shadow:#333 -2px 0px 3px;

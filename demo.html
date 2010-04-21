@@ -15,9 +15,6 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>mbGallery 2.0</title>
-
-  <link id="mbGalleryCss" href="css/white.css" media="all" rel="stylesheet" type="text/css">
-
   <style type="text/css">
     body{
       font-family:Arial, Helvetica, sans-serif;
@@ -61,22 +58,19 @@
     span.btn:hover{
       background-color:#000;
     }
-    #g1{
-      display:none;
-    }
   </style>
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
   <script type="text/javascript" src="inc/mbGallery.js"></script>
   <script type="text/javascript" src="inc/jquery.exif.js"></script>
   <script type="text/javascript">
     $(function(){
       if (self.location.href == top.location.href){
         $("body").css({font:"normal 13px/16px 'trebuchet MS', verdana, sans-serif"});
-        var logo=$("<a href='http://pupunzi.com' style='position:absolute;top:10px;left:10px;z-index:1000'><img id='logo' border='0' src='http://pupunzi.com/images/logo.png' alt='mb.ideas.repository'></a>");
+        var logo=$("<a href='http://pupunzi.com/#mb.components/mb.gallery/gallery.html' style='position:absolute;top:10px;left:10px;z-index:1000'><img id='logo' border='0' src='http://pupunzi.com/images/logo.png' alt='mb.ideas.repository'></a>");
         $("body").prepend(logo);
         $("#logo").fadeIn();
       }
-//      $("img").live("click",function(){console.debug($(this).exifAll());});
     });
   </script>
 </head>
@@ -85,14 +79,19 @@
 <div class="wrapper">
   <h1>mb.gallery.2.0.demo</h1>
   <div class="text">
+
     <h2> Here is the mb.gallery 2.0!</h2>
     <h3>Try it now:</h3>
-    <span class="btn" onclick="$('#g1').mbGallery({maskBgnd:'#ccc', maskOpacity:.9,startFrom: 5});">Open gallery 1 (overlay)</span>&nbsp;&nbsp;
-    <span class="btn" onclick="$('#containment').slideDown('slow',function(){$('#g2').mbGallery({maskBgnd:'#ccc', maskOpacity:.9, containment:'containment',minWidth: 100, minHeight: 100,skin:'black', exifData:true});});">Open gallery 2 (into DOM element)</span>
+    <span class="btn" onclick="$('#g1').mbGallery({maskBgnd:'#ccc', overlayOpacity:.9,startFrom: 5});">Open gallery 1 (overlay)</span>&nbsp;&nbsp;
+    <span class="btn" onclick="$('#containment').slideDown('slow',function(){$('#g2').mbGallery({maskBgnd:'#ccc', overlayOpacity:.9, containment:'containment',minWidth: 100, minHeight: 100,skin:'black', exifData:true, onClose:function(){$('#goto').hide()}});}); $('#goto').show()">Open gallery 2 (into DOM element)</span>&nbsp;&nbsp;
+    <span class="btn" onclick="self.location.href='demo_flickr.html'">Open Flickr set as gallery</span>
     <div id="containment" style="width:100%;height:600px;padding-top:50px; display:none"></div>
+
     <br>
     <br>
   </div>
+
+  <span id="goto" class="btn" style="display:none;" onclick="$('#g2').mb_gotoIDX(5)">go to photo n. 5</span>
   <div class="longText">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin purus orci, volutpat ut pulvinar volutpat, convallis in orci. Quisque eget arcu convallis dui lacinia vestibulum non ut odio. Cras fringilla mollis mattis. Cras dictum rutrum ultricies. Donec auctor, risus eu tincidunt auctor, diam ligula facilisis libero, sit amet interdum felis enim ut est. Maecenas nec nulla quis ante convallis volutpat convallis at justo. Pellentesque quam orci, consectetur sit amet interdum a, tempus eget erat. Nam in ante odio. Vivamus nec augue vitae mi molestie pretium sed id elit. Aenean ultrices auctor ipsum eu vestibulum. Phasellus non dolor vel nisi congue egestas in a eros. Phasellus nunc nulla, interdum ut viverra eu, tristique sed sapien.
 
@@ -107,6 +106,7 @@
   </div>
 
 </div>
+
 <div  id="g1" class="galleryCont">
   <a class="imgThumb" href="gallery1/LR/01.jpg"></a>
   <a class="imgFull" href="gallery1/HR/01.jpg"></a>
@@ -125,6 +125,7 @@
   <div class="imgDesc">Description 04</div>
 
   <a class="imgThumb" href="gallery1/LR/05.jpg"></a>
+
   <a class="imgFull" href="gallery1/HR/05.jpg"></a>
   <div class="imgDesc">Description 05</div>
 
@@ -134,6 +135,7 @@
 
   <a class="imgThumb" href="gallery1/LR/07.jpg"></a>
   <a class="imgFull" href="gallery1/HR/07.jpg"></a>
+
   <div class="imgDesc">Description 07</div>
 
   <a class="imgThumb" href="gallery1/LR/08.jpg"></a>
@@ -185,6 +187,7 @@
   <div class="imgDesc">Description 06</div>
 
   <a class="imgThumb" href="gallery2/LR/07.jpg"></a>
+
   <a class="imgFull" href="gallery2/HR/07.jpg"></a>
   <div class="imgDesc">Description 07</div>
 
@@ -194,6 +197,7 @@
 
   <a class="imgThumb" href="gallery2/LR/09.jpg"></a>
   <a class="imgFull" href="gallery2/HR/09.jpg"></a>
+
   <div class="imgDesc">Description 09</div>
 
   <a class="imgThumb" href="gallery2/LR/10.jpg"></a>
@@ -217,6 +221,5 @@
   <div class="imgDesc">Description 11</div>
 
 </div>
-<!--<img src="IMGA0055.jpg" alt="exif" exif="true">-->
 </body>
 </html>
