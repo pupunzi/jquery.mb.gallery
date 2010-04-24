@@ -147,14 +147,17 @@
     preload:function(){
       var gallery= $(this).get(0);
       if(!gallery.sliding) $("#"+gallery.galleryID).find(".loader").addClass("loading").show();
-      var rndVar=$.browser.msie?"?"+new Date():"";
+      var rndVar=$.browser.msie?"?"+new Date().getMilliseconds():"?"+new Date().getMilliseconds();
       var showExif=gallery.options.exifData;
-      $("<img/>").attr({"src":gallery.images[gallery.idx].full+rndVar,"exif":showExif}).load(
+
+      $("<img/>")
+              .load(
               function(){
                 if(!gallery.sliding) $("#"+gallery.galleryID).find(".loader").fadeOut(500,function(){$("#"+gallery.galleryID).find(".loader").removeClass("loading");});
                 $(gallery).mb_changePhoto(rndVar);
                 $(gallery).mb_selectThumb();
-              });
+              })
+              .attr({"src":gallery.images[gallery.idx].full+rndVar,"exif":showExif});
 
     },
     changePhoto:function(rndVar){
