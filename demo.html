@@ -82,7 +82,7 @@
 
     <h2> Here is the mb.gallery 2.0!</h2>
     <h3>Try it now:</h3>
-    <span class="btn" onclick="$('#g1').mbGallery({maskBgnd:'#ccc', overlayOpacity:.9,startFrom: 5});">Open gallery 1 (overlay)</span>&nbsp;&nbsp;
+    <span class="btn" onclick="$('#g1').mbGallery({maskBgnd:'#ccc',minWidth: 50, minHeight: 50, overlayOpacity:.9,startFrom: 5});">Open gallery 1 (overlay)</span>&nbsp;&nbsp;
     <span class="btn" onclick="$('#containment').slideDown('slow',function(){$('#g2').mbGallery({maskBgnd:'#ccc', overlayOpacity:.9, containment:'containment',minWidth: 100, minHeight: 100,skin:'black', exifData:true, onClose:function(){$('#goto').hide()}});}); $('#goto').show()">Open gallery 2 (into DOM element)</span>&nbsp;&nbsp;
     <span class="btn" onclick="self.location.href='demo_flickr.html'">Open Flickr set as gallery</span>
     <div id="containment" style="width:100%;height:600px;padding-top:50px; display:none"></div>

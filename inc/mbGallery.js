@@ -11,7 +11,7 @@
 
 /*
  * Name:jquery.mb.gallery
- * Version: 2.0.2
+ * Version: 2.0.3
  *
  *
  * It is possible to show EXIF metadata of your photos.
@@ -25,7 +25,7 @@
   $.mbGallery ={
     name:"mb.gallery",
     author:"Matteo Bicocchi",
-    version:"2.0.2",
+    version:"2.0.3",
     defaults:{
       containment:"body",
       cssURL:"css/",
@@ -39,8 +39,8 @@
       titleSelector: ".imgTitle",
       descSelector: ".imgDesc",
 
-      minWidth: 300,
-      minHeight: 200,
+      minWidth: 50,
+      minHeight: 50,
       maxWidth: 0,
       maxHeight: 0,
       fullScreen:true,
@@ -75,7 +75,7 @@
       var overlay=$("<div/>").addClass("mb_overlay").one("click",function(){$(gallery).mb_closeGallery();}).css({opacity:gallery.options.overlayOpacity,background: gallery.options.overlayBackground}).hide();
       var galleryScreen= $("<div/>").attr("id",gallery.galleryID).addClass("galleryScreen").addClass("mbGall_"+gallery.options.skin);
       var galleryDesc=$("<div/>").addClass("galleryDesc").css({opacity:.7}).hide();
-      var galleryTitle=$("<div/>").addClass("galleryTitle").html(gallery.options.galleryTitle);
+      var galleryTitle=$("<div/>").addClass("galleryTitle").html(gallery.options.galleryTitle).hide();
       var galleryImg= $("<div/>").addClass("galleryImg")
               .hover(function(){if (galleryDesc.html()) galleryDesc.slideDown();},function(){galleryDesc.slideUp();})
               .dblclick(function(){if (gallery.sliding) $(gallery).mb_stopSlide(); else $(gallery).mb_startSlide();});
@@ -164,6 +164,7 @@
       var gallery= $(this).get(0);
       $("#"+gallery.galleryID).find(".loader").fadeOut(500,function(){$("#"+gallery.galleryID).find(".loader").removeClass("loading");});
       var galleryImg=$("#"+gallery.galleryID).find(".galleryImg");
+      var galleryTitle=$("#"+gallery.galleryID).find(".galleryTitle");
       var photoTitle=$("#"+gallery.galleryID).find(".photoTitle");
       var galleryDesc=$("#"+gallery.galleryID).find(".galleryDesc");
       var galleryScreen=$("#"+gallery.galleryID);
@@ -186,7 +187,7 @@
         height:h
       },"slow");
 
-      newImg.fadeIn("slow",function(){galleryNav.fadeIn(500)});
+      newImg.fadeIn("slow",function(){galleryNav.fadeIn(500); galleryTitle.fadeIn()});
       newImg.next("img").fadeOut("slow",function(){$(this).remove();});
       photoTitle.fadeOut("slow",function(){photoTitle.html(gallery.images[gallery.idx].title); photoTitle.fadeIn();});
       galleryDesc.html(gallery.images[gallery.idx].description);
