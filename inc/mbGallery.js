@@ -11,7 +11,7 @@
 
 /*
  * Name:jquery.mb.gallery
- * Version: 2.0.3
+ * Version: 2.0.4
  *
  *
  * It is possible to show EXIF metadata of your photos.
@@ -25,7 +25,7 @@
   $.mbGallery ={
     name:"mb.gallery",
     author:"Matteo Bicocchi",
-    version:"2.0.3",
+    version:"2.0.4",
     defaults:{
       containment:"body",
       cssURL:"css/",
@@ -121,17 +121,17 @@
         minHeight:gallery.options.minHeight
       });
       gallery.sliding=gallery.options.autoSlide;
-      gallery.idx=gallery.options.startFrom=="random"?Math.floor(Math.random()*(gallery.images.length-1)):gallery.options.startFrom;
+      gallery.idx=gallery.options.startFrom=="random"?Math.floor(Math.random()*(gallery.images.length-1)):gallery.options.startFrom>gallery.images.length-1?gallery.images.length-1:gallery.options.startFrom;
       $("#"+gallery.galleryID).find(".loader").addClass("loading").show();
       $(gallery).mb_buildThumbs();
       $(gallery).mb_selectThumb();
       $(gallery).mb_buildNav();
       $(gallery).mb_preload();
-//      setTimeout(function(){galleryNav.fadeIn(500);},1000);
     },
     getPhotos: function(){
       var gallery= $(this).get(0);
       gallery.images= new Array();
+
       $(gallery).find(gallery.options.thumbnailSelector).each(function(i){
         var photo=new Object();
         photo.idx= i;
@@ -244,10 +244,10 @@
         $(gallery).mb_galleryNext();
       });
 
-       var showExif=gallery.options.exifData;
-       var exifIcon= showExif?$("<div/>").addClass("exifIcon ico").bind("click",function(){
-         $(gallery).mb_showExifData();
-       }):"";
+      var showExif=gallery.options.exifData;
+      var exifIcon= showExif?$("<div/>").addClass("exifIcon ico").bind("click",function(){
+        $(gallery).mb_showExifData();
+      }):"";
 
       var photoCounter= $("<div/>").addClass("photoCounter ico");
 
@@ -260,12 +260,12 @@
     showExifData:function(){
       var gallery= $(this).get(0);
       /*
-      EXIF methods:
-      $(this).exif(key): a specific key;
-      $(this).exifPretty(): all key as string;
-      $(this).exifAll(): all key as object;
+       EXIF methods:
+       $(this).exif(key): a specific key;
+       $(this).exifPretty(): all key as string;
+       $(this).exifAll(): all key as object;
        */
-     // console.debug($("#"+gallery.galleryID).find(".highRes").exifAll());
+      // console.debug($("#"+gallery.galleryID).find(".highRes").exifAll());
       $(gallery).mb_stopSlide();
     },
     selectThumb:function(){
