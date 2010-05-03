@@ -145,6 +145,11 @@
 .mbGall_white .galleryNav div.photoCounter.ico:hover{
   background-color:#fff;
 }
+
+.mbGall_white .galleryNav div.photoCounter .totalImages{
+  font-weight:bold;
+}
+
 .mbGall_white .galleryNav .ico.selected{
   background-color:#f3f3f3;
   -moz-box-shadow:#666 1px 1px 3px;
@@ -224,4 +229,13 @@
   width:100%;
   height:100%;
   background:#000 url("elements/loading.gif") no-repeat center center;
+}
+
+.thumbsContainer img{
+  padding:5px;
+  margin:2px;
+  cursor:pointer;
+  -moz-box-shadow:#999 2px 0px 5px;
+  -webkit-box-shadow:#999 2px 0px 5px;
+  
 }

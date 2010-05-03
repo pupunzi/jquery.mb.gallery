@@ -142,6 +142,12 @@
 .mbGall_black .galleryNav div.photoCounter.ico:hover{
   color:#000;
 }
+
+.mbGall_white .galleryNav div.photoCounter .totalImages{
+  font-weight:bold;
+}
+
+
 .mbGall_black .galleryNav .ico.selected{
   background-color:#fff;
   /*

@@ -33,6 +33,8 @@
       overlayBackground:"#333",
       exifData:false, //todo
 
+      printOutThumbs:false,
+
       galleryTitle:"My Gallery",
       imageSelector: ".imgFull",
       thumbnailSelector: ".imgThumb",
@@ -62,7 +64,6 @@
         $(gallery).mb_closeGallery();
         return;
       }
-      gallery.initialized = true;
       gallery.options = $.extend({}, $.mbGallery.defaults, options);
       if(gallery.options.onOpen) gallery.options.onOpen();
 
@@ -72,6 +73,13 @@
       gallery.galleryID= "mb_gallery_"+gallery.id;
       $(gallery).mb_getPhotos();
 
+      if (gallery.options.printOutThumbs){//&& gallery.options.containment=="body"
+        gallery.options.printOutThumbs=false;
+        $(gallery).mb_thumbsOnPage();
+        return;
+      }
+      gallery.initialized = true;
+      
       var overlay=$("<div/>").addClass("mb_overlay").one("click",function(){$(gallery).mb_closeGallery();}).css({opacity:gallery.options.overlayOpacity,background: gallery.options.overlayBackground}).hide();
       var galleryScreen= $("<div/>").attr("id",gallery.galleryID).addClass("galleryScreen").addClass("mbGall_"+gallery.options.skin);
       var galleryDesc=$("<div/>").addClass("galleryDesc").css({opacity:.7}).hide();
@@ -198,7 +206,7 @@
           $(gallery).mb_preload();
         },gallery.options.slideTimer);
       }
-      galleryNav.find(".photoCounter").html((gallery.idx+1)+" / <b>"+gallery.images.length+"</b>");
+      galleryNav.find(".photoCounter").html((gallery.idx+1)+" / <span class='totalImages'>"+gallery.images.length+"</span>");
       if(galleryDesc.html()=="") galleryDesc.slideUp();
       if(gallery.options.onChangePhoto) gallery.options.onChangePhoto();
     },
@@ -307,12 +315,14 @@
     },
     gotoIDX:function(idx){
       var gallery= $(this).get(0);
+      if(idx-1==gallery.idx){
+        return;
+      }
       gallery.idx = idx-1;
       $(gallery).mb_selectThumb();
       $(gallery).mb_stopSlide();
       $(gallery).mb_preload();
       $(gallery).mb_hideThumbs();
-
     },
     loader:function(){
       var gallery= $(this).get(0);
@@ -345,6 +355,35 @@
       $(".mb_overlay").slideUp("slow",function(){$(".mb_overlay").remove();});
       $(gallery).mb_stopSlide();
       gallery.initialized=false;
+    },
+    thumbsOnPage:function(){
+      var gallery= $(this).get(0);
+      //gallery.initialized=false;
+      if ($("#"+gallery.id+"_thumbsContainer").html()!=null){
+        $("#"+gallery.id+"_thumbsContainer").slideUp(500,function(){$(this).remove();})
+        return;
+      }
+      var thumbsContainer=$("<div>").attr("id",gallery.id+"_thumbsContainer").addClass("thumbsContainer").hide();
+      $(gallery).after(thumbsContainer);
+      $(gallery.images).each(function(i){
+        var photo=this;
+        var img=$("<img/>").addClass("thumb");
+        img.attr("src",photo.thumb);
+        img.bind("click",function(){
+          if($(this).is(".selected")) return;
+          if(!gallery.initialized){
+            gallery.options.startFrom=i;
+            gallery.options.autoSlide=false;
+            gallery.options.printOutThumbs=false;
+            $(gallery).mbGallery(gallery.options);
+          }
+        else
+          $(gallery).mb_gotoIDX(i+1);
+        });
+        img.attr("id", gallery.galleryID+"_thumb1_"+i);
+        thumbsContainer.append(img);
+      });
+      thumbsContainer.slideDown();
     }
   };
 
@@ -392,6 +431,7 @@
   $.fn.mb_stopSlide= $.mbGallery.stopSlide;
 
   $.fn.mb_showThumbs= $.mbGallery.loader;
+  $.fn.mb_thumbsOnPage= $.mbGallery.thumbsOnPage;
   $.fn.mb_hideThumbs= $.mbGallery.hideThumbs;
   $.fn.mb_closeGallery= $.mbGallery.closeGallery;
 

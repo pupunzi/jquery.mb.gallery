@@ -14,7 +14,7 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>mbGallery 2.0</title>
+  <title>mbGallery 2.0</title>    
   <style type="text/css">
     body{
       font-family:Arial, Helvetica, sans-serif;
@@ -82,16 +82,121 @@
 
     <h2> Here is the mb.gallery 2.0!</h2>
     <h3>Try it now:</h3>
-    <span class="btn" onclick="$('#g1').mbGallery({maskBgnd:'#ccc',minWidth: 50, minHeight: 50, overlayOpacity:.9,startFrom: 5,addRaster:true});">Open gallery 1 (overlay)</span>&nbsp;&nbsp;
+    <span class="btn" onclick="$('#g1').mbGallery({maskBgnd:'#ccc',minWidth: 50, minHeight: 50, overlayOpacity:.9,startFrom: 5,addRaster:true, printOutThumbs:true});">Open gallery 1 (overlay)</span>&nbsp;&nbsp;
     <span class="btn" onclick="$('#containment').slideDown('slow',function(){$('#g2').mbGallery({maskBgnd:'#ccc', overlayOpacity:.9, containment:'containment',minWidth: 100, minHeight: 100,skin:'black', exifData:true, onClose:function(){$('#goto').hide()}});}); $('#goto').show()">Open gallery 2 (into DOM element)</span>&nbsp;&nbsp;
     <span class="btn" onclick="self.location.href='demo_flickr.html'">Open Flickr set as gallery</span>
-    <div id="containment" style="width:100%;height:600px;padding-top:50px; display:none"></div>
-
     <br>
     <br>
   </div>
 
-  <span id="goto" class="btn" style="display:none;" onclick="$('#g2').mb_gotoIDX(5)">go to photo n. 5</span>
+  <div  id="g1" class="galleryCont">
+    <a class="imgThumb" href="gallery1/LR/01.jpg"></a>
+    <a class="imgFull" href="gallery1/HR/01.jpg"></a>
+    <div class="imgDesc">Description 01</div>
+
+    <a class="imgThumb" href="gallery1/LR/02.jpg"></a>
+    <a class="imgFull" href="gallery1/HR/02.jpg"></a>
+    <div class="imgDesc">Description 02</div>
+
+    <a class="imgThumb" href="gallery1/LR/03.jpg"></a>
+    <a class="imgFull" href="gallery1/HR/03.jpg"></a>
+    <div class="imgDesc">Description 03</div>
+
+    <a class="imgThumb" href="gallery1/LR/04.jpg"></a>
+    <a class="imgFull" href="gallery1/HR/04.jpg"></a>
+    <div class="imgDesc">Description 04</div>
+
+    <a class="imgThumb" href="gallery1/LR/05.jpg"></a>
+    <a class="imgFull" href="gallery1/HR/05.jpg"></a>
+    <div class="imgDesc">Description 05</div>
+
+    <a class="imgThumb" href="gallery1/LR/06.jpg"></a>
+    <a class="imgFull" href="gallery1/HR/06.jpg"></a>
+    <div class="imgDesc">Description 06</div>
+
+    <a class="imgThumb" href="gallery1/LR/07.jpg"></a>
+    <a class="imgFull" href="gallery1/HR/07.jpg"></a>
+
+    <div class="imgDesc">Description 07</div>
+
+    <a class="imgThumb" href="gallery1/LR/08.jpg"></a>
+    <a class="imgFull" href="gallery1/HR/08.jpg"></a>
+    <div class="imgDesc">Description 08</div>
+
+    <a class="imgThumb" href="gallery1/LR/09.jpg"></a>
+    <a class="imgFull" href="gallery1/HR/09.jpg"></a>
+    <div class="imgDesc">Description 09</div>
+
+    <a class="imgThumb" href="gallery1/LR/10.jpg"></a>
+    <a class="imgFull" href="gallery1/HR/10.jpg"></a>
+    <div class="imgDesc">Description 10</div>
+
+    <a class="imgThumb" href="gallery1/LR/11.jpg"></a>
+    <a class="imgFull" href="gallery1/HR/11.jpg"></a>
+    <div class="imgDesc">Description 11</div>
+  </div>
+
+  <div  id="g2" class="galleryCont">
+    <a class="imgThumb" href="gallery2/LR/01.jpg"></a>
+    <a class="imgFull" href="gallery2/HR/01.jpg"></a>
+    <div class="imgDesc">Description 01</div>
+
+    <a class="imgThumb" href="gallery2/LR/02.jpg"></a>
+    <a class="imgFull" href="gallery2/HR/02.jpg"></a>
+    <div class="imgDesc">Description 02</div>
+
+    <a class="imgThumb" href="gallery2/LR/03.jpg"></a>
+    <a class="imgFull" href="gallery2/HR/03.jpg"></a>
+    <div class="imgDesc">Description 03</div>
+
+    <a class="imgThumb" href="gallery2/LR/04.jpg"></a>
+    <a class="imgFull" href="gallery2/HR/04.jpg"></a>
+    <div class="imgDesc">Description 04</div>
+
+    <a class="imgThumb" href="gallery2/LR/05.jpg"></a>
+    <a class="imgFull" href="gallery2/HR/05.jpg"></a>
+    <div class="imgDesc">Description 05</div>
+
+    <a class="imgThumb" href="gallery2/LR/06.jpg"></a>
+    <a class="imgFull" href="gallery2/HR/06.jpg"></a>
+    <div class="imgDesc">Description 06</div>
+
+    <a class="imgThumb" href="gallery2/LR/07.jpg"></a>
+
+    <a class="imgFull" href="gallery2/HR/07.jpg"></a>
+    <div class="imgDesc">Description 07</div>
+
+    <a class="imgThumb" href="gallery2/LR/08.jpg"></a>
+    <a class="imgFull" href="gallery2/HR/08.jpg"></a>
+    <div class="imgDesc">Description 08</div>
+
+    <a class="imgThumb" href="gallery2/LR/09.jpg"></a>
+    <a class="imgFull" href="gallery2/HR/09.jpg"></a>
+
+    <div class="imgDesc">Description 09</div>
+
+    <a class="imgThumb" href="gallery2/LR/10.jpg"></a>
+    <a class="imgFull" href="gallery2/HR/10.jpg"></a>
+    <div class="imgDesc">Description 10</div>
+
+    <a class="imgThumb" href="gallery2/LR/11.jpg"></a>
+    <a class="imgFull" href="gallery2/HR/11.jpg"></a>
+    <div class="imgDesc">Description 11</div>
+
+    <a class="imgThumb" href="gallery2/LR/12.jpg"></a>
+    <a class="imgFull" href="gallery2/HR/12.jpg"></a>
+    <div class="imgDesc">Description 11</div>
+
+    <a class="imgThumb" href="gallery2/LR/13.jpg"></a>
+    <a class="imgFull" href="gallery2/HR/13.jpg"></a>
+    <div class="imgDesc">Description 11</div>
+
+    <a class="imgThumb" href="gallery2/LR/14.jpg"></a>
+    <a class="imgFull" href="gallery2/HR/14.jpg"></a>
+    <div class="imgDesc">Description 11</div>
+  </div>
+  <span id="goto" class="btn" style="display:none;" onclick="$('#g2').mb_gotoIDX(5)">go to photo n. 5</span>  
+  <div id="containment" style="width:100%;height:600px;padding-top:50px; display:none"></div>  
   <div class="longText">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin purus orci, volutpat ut pulvinar volutpat, convallis in orci. Quisque eget arcu convallis dui lacinia vestibulum non ut odio. Cras fringilla mollis mattis. Cras dictum rutrum ultricies. Donec auctor, risus eu tincidunt auctor, diam ligula facilisis libero, sit amet interdum felis enim ut est. Maecenas nec nulla quis ante convallis volutpat convallis at justo. Pellentesque quam orci, consectetur sit amet interdum a, tempus eget erat. Nam in ante odio. Vivamus nec augue vitae mi molestie pretium sed id elit. Aenean ultrices auctor ipsum eu vestibulum. Phasellus non dolor vel nisi congue egestas in a eros. Phasellus nunc nulla, interdum ut viverra eu, tristique sed sapien.
 
@@ -107,113 +212,6 @@
 
 </div>
 
-<div  id="g1" class="galleryCont">
-  <a class="imgThumb" href="gallery1/LR/01.jpg"></a>
-  <a class="imgFull" href="gallery1/HR/01.jpg"></a>
-  <div class="imgDesc">Description 01</div>
-
-  <a class="imgThumb" href="gallery1/LR/02.jpg"></a>
-  <a class="imgFull" href="gallery1/HR/02.jpg"></a>
-  <div class="imgDesc">Description 02</div>
-
-  <a class="imgThumb" href="gallery1/LR/03.jpg"></a>
-  <a class="imgFull" href="gallery1/HR/03.jpg"></a>
-  <div class="imgDesc">Description 03</div>
-
-  <a class="imgThumb" href="gallery1/LR/04.jpg"></a>
-  <a class="imgFull" href="gallery1/HR/04.jpg"></a>
-  <div class="imgDesc">Description 04</div>
-
-  <a class="imgThumb" href="gallery1/LR/05.jpg"></a>
-  <a class="imgFull" href="gallery1/HR/05.jpg"></a>
-  <div class="imgDesc">Description 05</div>
-
-  <a class="imgThumb" href="gallery1/LR/06.jpg"></a>
-  <a class="imgFull" href="gallery1/HR/06.jpg"></a>
-  <div class="imgDesc">Description 06</div>
-
-  <a class="imgThumb" href="gallery1/LR/07.jpg"></a>
-  <a class="imgFull" href="gallery1/HR/07.jpg"></a>
-
-  <div class="imgDesc">Description 07</div>
-
-  <a class="imgThumb" href="gallery1/LR/08.jpg"></a>
-  <a class="imgFull" href="gallery1/HR/08.jpg"></a>
-  <div class="imgDesc">Description 08</div>
-
-  <a class="imgThumb" href="gallery1/LR/09.jpg"></a>
-  <a class="imgFull" href="gallery1/HR/09.jpg"></a>
-  <div class="imgDesc">Description 09</div>
-
-  <a class="imgThumb" href="gallery1/LR/10.jpg"></a>
-  <a class="imgFull" href="gallery1/HR/10.jpg"></a>
-  <div class="imgDesc">Description 10</div>
-
-  <a class="imgThumb" href="gallery1/LR/11.jpg"></a>
-  <a class="imgFull" href="gallery1/HR/11.jpg"></a>
-  <div class="imgDesc">Description 11</div>
-</div>
-
-<div  id="g2" class="galleryCont">
-  <a class="imgThumb" href="gallery2/LR/01.jpg"></a>
-  <a class="imgFull" href="gallery2/HR/01.jpg"></a>
-  <div class="imgDesc">Description 01</div>
-
-  <a class="imgThumb" href="gallery2/LR/02.jpg"></a>
-  <a class="imgFull" href="gallery2/HR/02.jpg"></a>
-  <div class="imgDesc">Description 02</div>
-
-  <a class="imgThumb" href="gallery2/LR/03.jpg"></a>
-  <a class="imgFull" href="gallery2/HR/03.jpg"></a>
-  <div class="imgDesc">Description 03</div>
-
-  <a class="imgThumb" href="gallery2/LR/04.jpg"></a>
-  <a class="imgFull" href="gallery2/HR/04.jpg"></a>
-  <div class="imgDesc">Description 04</div>
-
-  <a class="imgThumb" href="gallery2/LR/05.jpg"></a>
-  <a class="imgFull" href="gallery2/HR/05.jpg"></a>
-  <div class="imgDesc">Description 05</div>
-
-  <a class="imgThumb" href="gallery2/LR/06.jpg"></a>
-  <a class="imgFull" href="gallery2/HR/06.jpg"></a>
-  <div class="imgDesc">Description 06</div>
-
-  <a class="imgThumb" href="gallery2/LR/07.jpg"></a>
-
-  <a class="imgFull" href="gallery2/HR/07.jpg"></a>
-  <div class="imgDesc">Description 07</div>
-
-  <a class="imgThumb" href="gallery2/LR/08.jpg"></a>
-  <a class="imgFull" href="gallery2/HR/08.jpg"></a>
-  <div class="imgDesc">Description 08</div>
-
-  <a class="imgThumb" href="gallery2/LR/09.jpg"></a>
-  <a class="imgFull" href="gallery2/HR/09.jpg"></a>
-
-  <div class="imgDesc">Description 09</div>
-
-  <a class="imgThumb" href="gallery2/LR/10.jpg"></a>
-  <a class="imgFull" href="gallery2/HR/10.jpg"></a>
-  <div class="imgDesc">Description 10</div>
-
-  <a class="imgThumb" href="gallery2/LR/11.jpg"></a>
-  <a class="imgFull" href="gallery2/HR/11.jpg"></a>
-  <div class="imgDesc">Description 11</div>
-
-  <a class="imgThumb" href="gallery2/LR/12.jpg"></a>
-  <a class="imgFull" href="gallery2/HR/12.jpg"></a>
-  <div class="imgDesc">Description 11</div>
-
-  <a class="imgThumb" href="gallery2/LR/13.jpg"></a>
-  <a class="imgFull" href="gallery2/HR/13.jpg"></a>
-  <div class="imgDesc">Description 11</div>
-
-  <a class="imgThumb" href="gallery2/LR/14.jpg"></a>
-  <a class="imgFull" href="gallery2/HR/14.jpg"></a>
-  <div class="imgDesc">Description 11</div>
-
-</div>
 </body>
 </html>
 
