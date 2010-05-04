@@ -1,5 +1,11 @@
 jquery.mb.gallery
 
+2.0.4 Minor bugfix:
+  if startFrom > gallery.images than startFrom = gallery.images.length-1.
+
+2.0.2 Minor bugfix:
+  Opera preload bugfix.
+
 2.0.1 Major issue:
   fixed a terrible bug on IE that prevented it to load the CSS chosen on the fly by the script.
 

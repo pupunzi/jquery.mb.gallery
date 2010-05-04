@@ -11,7 +11,7 @@
 
 /*
  * Name:jquery.mb.gallery
- * Version: 2.0.2
+ * Version: 2.0.4
  *
  *
  * It is possible to show EXIF metadata of your photos.
@@ -25,7 +25,7 @@
   $.mbGallery ={
     name:"mb.gallery",
     author:"Matteo Bicocchi",
-    version:"2.0.2",
+    version:"2.0.4",
     defaults:{
       containment:"body",
       cssURL:"css/",
@@ -33,14 +33,16 @@
       overlayBackground:"#333",
       exifData:false, //todo
 
+      printOutThumbs:false,
+
       galleryTitle:"My Gallery",
       imageSelector: ".imgFull",
       thumbnailSelector: ".imgThumb",
       titleSelector: ".imgTitle",
       descSelector: ".imgDesc",
 
-      minWidth: 300,
-      minHeight: 200,
+      minWidth: 50,
+      minHeight: 50,
       maxWidth: 0,
       maxHeight: 0,
       fullScreen:true,
@@ -62,7 +64,6 @@
         $(gallery).mb_closeGallery();
         return;
       }
-      gallery.initialized = true;
       gallery.options = $.extend({}, $.mbGallery.defaults, options);
       if(gallery.options.onOpen) gallery.options.onOpen();
 
@@ -72,10 +73,17 @@
       gallery.galleryID= "mb_gallery_"+gallery.id;
       $(gallery).mb_getPhotos();
 
+      if (gallery.options.printOutThumbs){//&& gallery.options.containment=="body"
+        gallery.options.printOutThumbs=false;
+        $(gallery).mb_thumbsOnPage();
+        return;
+      }
+      gallery.initialized = true;
+      
       var overlay=$("<div/>").addClass("mb_overlay").one("click",function(){$(gallery).mb_closeGallery();}).css({opacity:gallery.options.overlayOpacity,background: gallery.options.overlayBackground}).hide();
       var galleryScreen= $("<div/>").attr("id",gallery.galleryID).addClass("galleryScreen").addClass("mbGall_"+gallery.options.skin);
       var galleryDesc=$("<div/>").addClass("galleryDesc").css({opacity:.7}).hide();
-      var galleryTitle=$("<div/>").addClass("galleryTitle").html(gallery.options.galleryTitle);
+      var galleryTitle=$("<div/>").addClass("galleryTitle").html(gallery.options.galleryTitle).hide();
       var galleryImg= $("<div/>").addClass("galleryImg")
               .hover(function(){if (galleryDesc.html()) galleryDesc.slideDown();},function(){galleryDesc.slideUp();})
               .dblclick(function(){if (gallery.sliding) $(gallery).mb_stopSlide(); else $(gallery).mb_startSlide();});
@@ -121,17 +129,17 @@
         minHeight:gallery.options.minHeight
       });
       gallery.sliding=gallery.options.autoSlide;
-      gallery.idx=gallery.options.startFrom=="random"?Math.floor(Math.random()*(gallery.images.length-1)):gallery.options.startFrom;
+      gallery.idx=gallery.options.startFrom=="random"?Math.floor(Math.random()*(gallery.images.length-1)):gallery.options.startFrom>gallery.images.length-1?gallery.images.length-1:gallery.options.startFrom;
       $("#"+gallery.galleryID).find(".loader").addClass("loading").show();
       $(gallery).mb_buildThumbs();
       $(gallery).mb_selectThumb();
       $(gallery).mb_buildNav();
       $(gallery).mb_preload();
-//      setTimeout(function(){galleryNav.fadeIn(500);},1000);
     },
     getPhotos: function(){
       var gallery= $(this).get(0);
       gallery.images= new Array();
+
       $(gallery).find(gallery.options.thumbnailSelector).each(function(i){
         var photo=new Object();
         photo.idx= i;
@@ -147,20 +155,24 @@
     preload:function(){
       var gallery= $(this).get(0);
       if(!gallery.sliding) $("#"+gallery.galleryID).find(".loader").addClass("loading").show();
-      var rndVar=$.browser.msie?"?"+new Date():"";
+      var rndVar=$.browser.msie?"?"+new Date().getMilliseconds():"?"+new Date().getMilliseconds();
       var showExif=gallery.options.exifData;
-      $("<img/>").attr({"src":gallery.images[gallery.idx].full+rndVar,"exif":showExif}).load(
+
+      $("<img/>")
+              .load(
               function(){
                 if(!gallery.sliding) $("#"+gallery.galleryID).find(".loader").fadeOut(500,function(){$("#"+gallery.galleryID).find(".loader").removeClass("loading");});
                 $(gallery).mb_changePhoto(rndVar);
                 $(gallery).mb_selectThumb();
-              });
+              })
+              .attr({"src":gallery.images[gallery.idx].full+rndVar,"exif":showExif});
 
     },
     changePhoto:function(rndVar){
       var gallery= $(this).get(0);
       $("#"+gallery.galleryID).find(".loader").fadeOut(500,function(){$("#"+gallery.galleryID).find(".loader").removeClass("loading");});
       var galleryImg=$("#"+gallery.galleryID).find(".galleryImg");
+      var galleryTitle=$("#"+gallery.galleryID).find(".galleryTitle");
       var photoTitle=$("#"+gallery.galleryID).find(".photoTitle");
       var galleryDesc=$("#"+gallery.galleryID).find(".galleryDesc");
       var galleryScreen=$("#"+gallery.galleryID);
@@ -183,7 +195,7 @@
         height:h
       },"slow");
 
-      newImg.fadeIn("slow",function(){galleryNav.fadeIn(500)});
+      newImg.fadeIn("slow",function(){galleryNav.fadeIn(500); galleryTitle.fadeIn()});
       newImg.next("img").fadeOut("slow",function(){$(this).remove();});
       photoTitle.fadeOut("slow",function(){photoTitle.html(gallery.images[gallery.idx].title); photoTitle.fadeIn();});
       galleryDesc.html(gallery.images[gallery.idx].description);
@@ -194,7 +206,7 @@
           $(gallery).mb_preload();
         },gallery.options.slideTimer);
       }
-      galleryNav.find(".photoCounter").html((gallery.idx+1)+" / <b>"+gallery.images.length+"</b>");
+      galleryNav.find(".photoCounter").html((gallery.idx+1)+" / <span class='totalImages'>"+gallery.images.length+"</span>");
       if(galleryDesc.html()=="") galleryDesc.slideUp();
       if(gallery.options.onChangePhoto) gallery.options.onChangePhoto();
     },
@@ -240,10 +252,10 @@
         $(gallery).mb_galleryNext();
       });
 
-       var showExif=gallery.options.exifData;
-       var exifIcon= showExif?$("<div/>").addClass("exifIcon ico").bind("click",function(){
-         $(gallery).mb_showExifData();
-       }):"";
+      var showExif=gallery.options.exifData;
+      var exifIcon= showExif?$("<div/>").addClass("exifIcon ico").bind("click",function(){
+        $(gallery).mb_showExifData();
+      }):"";
 
       var photoCounter= $("<div/>").addClass("photoCounter ico");
 
@@ -256,12 +268,12 @@
     showExifData:function(){
       var gallery= $(this).get(0);
       /*
-      EXIF methods:
-      $(this).exif(key): a specific key;
-      $(this).exifPretty(): all key as string;
-      $(this).exifAll(): all key as object;
+       EXIF methods:
+       $(this).exif(key): a specific key;
+       $(this).exifPretty(): all key as string;
+       $(this).exifAll(): all key as object;
        */
-     // console.debug($("#"+gallery.galleryID).find(".highRes").exifAll());
+      // console.debug($("#"+gallery.galleryID).find(".highRes").exifAll());
       $(gallery).mb_stopSlide();
     },
     selectThumb:function(){
@@ -303,12 +315,14 @@
     },
     gotoIDX:function(idx){
       var gallery= $(this).get(0);
+      if(idx-1==gallery.idx){
+        return;
+      }
       gallery.idx = idx-1;
       $(gallery).mb_selectThumb();
       $(gallery).mb_stopSlide();
       $(gallery).mb_preload();
       $(gallery).mb_hideThumbs();
-
     },
     loader:function(){
       var gallery= $(this).get(0);
@@ -341,6 +355,35 @@
       $(".mb_overlay").slideUp("slow",function(){$(".mb_overlay").remove();});
       $(gallery).mb_stopSlide();
       gallery.initialized=false;
+    },
+    thumbsOnPage:function(){
+      var gallery= $(this).get(0);
+      //gallery.initialized=false;
+      if ($("#"+gallery.id+"_thumbsContainer").html()!=null){
+        $("#"+gallery.id+"_thumbsContainer").slideUp(500,function(){$(this).remove();})
+        return;
+      }
+      var thumbsContainer=$("<div>").attr("id",gallery.id+"_thumbsContainer").addClass("thumbsContainer").hide();
+      $(gallery).after(thumbsContainer);
+      $(gallery.images).each(function(i){
+        var photo=this;
+        var img=$("<img/>").addClass("thumb");
+        img.attr("src",photo.thumb);
+        img.bind("click",function(){
+          if($(this).is(".selected")) return;
+          if(!gallery.initialized){
+            gallery.options.startFrom=i;
+            gallery.options.autoSlide=false;
+            gallery.options.printOutThumbs=false;
+            $(gallery).mbGallery(gallery.options);
+          }
+        else
+          $(gallery).mb_gotoIDX(i+1);
+        });
+        img.attr("id", gallery.galleryID+"_thumb1_"+i);
+        thumbsContainer.append(img);
+      });
+      thumbsContainer.slideDown();
     }
   };
 
@@ -388,6 +431,7 @@
   $.fn.mb_stopSlide= $.mbGallery.stopSlide;
 
   $.fn.mb_showThumbs= $.mbGallery.loader;
+  $.fn.mb_thumbsOnPage= $.mbGallery.thumbsOnPage;
   $.fn.mb_hideThumbs= $.mbGallery.hideThumbs;
   $.fn.mb_closeGallery= $.mbGallery.closeGallery;
 
