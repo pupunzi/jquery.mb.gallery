@@ -44,14 +44,13 @@
 
 (function($) {
   document.flickr=new Object();
-  $.mbFlickr= {
+  $.mbFlickr={
     name:"mb.flickr",
     author:"Matteo Bicocchi",
     version:"1.0",
     //Flickr_API_DATA
     flickr_api_key:"",
     flickr_user_name:"",
-
 
     defaults:{
       flickr_user_id:"",
@@ -184,7 +183,7 @@
       var key = $.mbFlickr.flickr_api_key;
       $(gallery.photos).each(function(i){
 
-        $.getJSON("http://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key="+key+"&photo_id="+this.id+"&secret="+this.secret+"&format=json&rnd="+new Date()+"&jsoncallback=?",
+        $.getJSON("http://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key="+key+"&photo_id="+this.id+"&secret="+this.secret+"&format=json&rnd="+new Date().getMilliseconds()+"&jsoncallback=?",
                 function(data){
                   gallery.photos[i].description=data.photo.description._content==undefined?"":data.photo.description._content;
                 });
