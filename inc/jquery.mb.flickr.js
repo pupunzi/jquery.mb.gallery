@@ -127,7 +127,6 @@
       if (per_page=="all")per_page=100;
       var key= $.mbFlickr.flickr_api_key;
       var userNSID= $.mbFlickr.defaults.flickr_user_id;
-
       $.getJSON("http://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&api_key="+key+"&user_id="+userNSID+"&per_page="+per_page+"&page="+page+"&format=json&jsoncallback=?",
               function(data){
                 gallery.photos = data.photos.photo;
