@@ -79,7 +79,7 @@
         return;
       }
       gallery.initialized = true;
-      
+
       var overlay=$("<div/>").addClass("mb_overlay").one("click",function(){$(gallery).mb_closeGallery();}).css({opacity:gallery.options.overlayOpacity,background: gallery.options.overlayBackground}).hide();
       var galleryScreen= $("<div/>").attr("id",gallery.galleryID).addClass("galleryScreen").addClass("mbGall_"+gallery.options.skin);
       var galleryDesc=$("<div/>").addClass("galleryDesc").css({opacity:.7}).hide();
@@ -91,12 +91,13 @@
       var galleryLoader= $("<div/>").addClass("loader").mb_bringToFront().css("opacity",.7).hide();
       var galleryThumbs=$("<div/>").addClass("galleryThumbs").hide();
       var galleryNav=$("<div/>").addClass("galleryNav").hide();
+      var galleryCloseIcon= $("<div/>").addClass("galleryCloseIcon ico").one("click",function(){$(gallery).mb_closeGallery();});   //galleryCloseIcon
       galleryScreen.bind("mouseleave",function(){
         $(gallery).mb_hideThumbs();
       });
       if(gallery.options.containment=="body"){
         $("body").append(overlay);
-        overlay.fadeIn();
+        overlay.fadeIn(400,function(){});
         $("body").append(galleryScreen);
       }else{
         galleryScreen.addClass("conatined");
@@ -106,7 +107,6 @@
       galleryScreen.append(galleryNav);
       galleryScreen.append(galleryTitle);
 
-      var galleryCloseIcon= $("<div/>").addClass("galleryCloseIcon ico").one("click",function(){$(gallery).mb_closeGallery();});//galleryCloseIcon
       galleryTitle.append(galleryCloseIcon);
 
       galleryScreen.append(galleryImg);
@@ -124,6 +124,12 @@
           left:"50%",
           marginLeft:-(gallery.options.minWidth/2)
         });
+      if($.browser.msie && $.browser.version<8){
+        galleryScreen.css({
+          width:gallery.options.minWidth,
+          height:gallery.options.minHeight
+        });
+      }
       galleryImg.css({
         minWidth:gallery.options.minWidth,
         minHeight:gallery.options.minHeight
@@ -183,13 +189,22 @@
       var dim=newImg.getDim(gallery,gallery.images[gallery.idx].fullWidth,gallery.images[gallery.idx].fullHeight);
       var w=parseFloat(dim[1]);
       var h=parseFloat(dim[0]);
-      if(gallery.options.containment=="body")
+
+      if(gallery.options.containment=="body"){
         galleryScreen.animate({
           top:"50%",
           marginTop:-(h/2),
           left:"50%",
           marginLeft:-(w/2)
-        },"slow");
+        },"slow",function(){
+          if($.browser.msie && $.browser.version<8){
+            galleryScreen.css({
+              width:"",
+              height:""
+            });
+          }          
+        });
+      }
       galleryImg.animate({
         width:w,
         height:h
@@ -377,8 +392,8 @@
             gallery.options.printOutThumbs=false;
             $(gallery).mbGallery(gallery.options);
           }
-        else
-          $(gallery).mb_gotoIDX(i+1);
+          else
+            $(gallery).mb_gotoIDX(i+1);
         });
         img.attr("id", gallery.galleryID+"_thumb1_"+i);
         thumbsContainer.append(img);

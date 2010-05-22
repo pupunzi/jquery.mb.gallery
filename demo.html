@@ -82,7 +82,8 @@
 
     <h2> Here is the mb.gallery 2.0!</h2>
     <h3>Try it now:</h3>
-    <span class="btn" onclick="$('#g1').mbGallery({maskBgnd:'#ccc',minWidth: 50, minHeight: 50, overlayOpacity:.9,startFrom: 5,addRaster:true, printOutThumbs:true});">Open gallery 1 (overlay)</span>&nbsp;&nbsp;
+    <span class="btn" onclick="$('#g1').mbGallery({maskBgnd:'#ccc',minWidth: 50, minHeight: 50, overlayOpacity:.9,startFrom: 5,addRaster:true, printOutThumbs:false});">Open gallery 1 (overlay)</span>&nbsp;&nbsp;
+    <span class="btn" onclick="$('#g1').mbGallery({maskBgnd:'#ccc',minWidth: 50, minHeight: 50, overlayOpacity:.9,startFrom: 5,addRaster:true, printOutThumbs:true});">Open gallery 1 (with thumbs)</span>&nbsp;&nbsp;
     <span class="btn" onclick="$('#containment').slideDown('slow',function(){$('#g2').mbGallery({maskBgnd:'#ccc', overlayOpacity:.9, containment:'containment',minWidth: 100, minHeight: 100,skin:'black', exifData:true, onClose:function(){$('#goto').hide()}});}); $('#goto').show()">Open gallery 2 (into DOM element)</span>&nbsp;&nbsp;
     <span class="btn" onclick="self.location.href='demo_flickr.html'">Open Flickr set as gallery</span>
     <br>
