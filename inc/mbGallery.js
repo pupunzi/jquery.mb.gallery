@@ -1,7 +1,7 @@
 /*******************************************************************************
  jquery.mb.components
  Copyright (c) 2001-2010. Matteo Bicocchi (Pupunzi); Open lab srl, Firenze - Italy
- email: info@pupunzi.com
+ email: mbicocchi@open-lab.com
  site: http://pupunzi.com
 
  Licences: MIT, GPL
@@ -375,7 +375,10 @@
       var gallery= $(this).get(0);
       //gallery.initialized=false;
       if ($("#"+gallery.id+"_thumbsContainer").html()!=null){
-        $("#"+gallery.id+"_thumbsContainer").slideUp(500,function(){$(this).remove();})
+        if($("#"+gallery.id+"_thumbsContainer").is(":visible"))
+          $("#"+gallery.id+"_thumbsContainer").slideUp(500,function(){$(this).remove();});
+        else
+          $("#"+gallery.id+"_thumbsContainer").slideDown(500);        
         return;
       }
       var thumbsContainer=$("<div>").attr("id",gallery.id+"_thumbsContainer").addClass("thumbsContainer").hide();
