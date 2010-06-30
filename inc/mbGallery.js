@@ -11,7 +11,7 @@
 
 /*
  * Name:jquery.mb.gallery
- * Version: 2.0.4
+ * Version: 2.0.7
  *
  *
  * It is possible to show EXIF metadata of your photos.
@@ -25,7 +25,7 @@
   $.mbGallery ={
     name:"mb.gallery",
     author:"Matteo Bicocchi",
-    version:"2.0.4",
+    version:"2.0.7",
     defaults:{
       containment:"body",
       cssURL:"css/",
