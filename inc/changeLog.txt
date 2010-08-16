@@ -1,5 +1,8 @@
 jquery.mb.gallery
 
+2.0.7 Minor bugfix:
+  managment of multiple gallery with thumbs.
+
 2.0.4 Minor bugfix:
   if startFrom > gallery.images than startFrom = gallery.images.length-1.
 
