@@ -1,5 +1,4 @@
 <!doctype html>
-        
 <!--
   ~ jquery.mb.components
   ~ Copyright (c) 2001-2010. Matteo Bicocchi (Pupunzi); Open lab srl, Firenze - Italy
@@ -113,6 +112,8 @@
     -webkit-box-shadow:#999 2px 0px 3px;
   }
   span.btn.pages{
+    -moz-border-radius:2px;
+    -webkit-border-radius:2px;
     background-color:#fff;
   }
   span.btn.pages:hover, span.btn.pages.sel {
@@ -151,18 +152,19 @@
   #galleryInfo{
     position:relative;
     display:inline-block;
-    margin-top:20px;
+    margin-top:0px;
   }
 
 </style>
 <script type="text/javascript" src="http://jquery.com/src/jquery-latest.js"></script>
 <script type="text/javascript" src="inc/mbGallery.js"></script>
 <script type="text/javascript" src="inc/jquery.mb.flickr.js"></script>
+
 <script type="text/javascript">
   $(function(){
     if (self.location.href == top.location.href){
       $("body").css({font:"normal 13px/16px 'trebuchet MS', verdana, sans-serif"});
-      var logo=$("<a href='http://pupunzi.com' style='position:absolute;top:10px;left:10px;z-index:1000'><img id='logo' border='0' src='http://pupunzi.com/images/logo.png' alt='mb.ideas.repository'></a>");
+      var logo=$("<a href='http://pupunzi.com/#mb.components/mb.gallery/gallery.html' style='position:absolute;top:10px;left:10px;z-index:1000'><img id='logo' border='0' src='http://pupunzi.com/images/logo.png' alt='mb.ideas.repository'></a>");
       $("body").prepend(logo);
       $("#logo").fadeIn();
     }
@@ -172,6 +174,7 @@
     * call jquery.mb.gallery as callback.
     * */
     $.printOutGallery=function(gallery){
+
       if (gallery.isInit==undefined){
         clearTimeout(document.flickr.tracer);
         $("#thumbs").empty();
@@ -239,7 +242,7 @@
     $.loader = function(){
       document.flickr.loaded=0;
       document.flickr.tracer= setInterval(function(){
-          $("#thumbs").html("<span class='msg'>page: "+document.flickr.page+" - loading "+document.flickr.loaded+" of "+document.flickr.total+" photos from Flickr</span>");
+        $("#thumbs").html("<span class='msg'>page: "+document.flickr.page+" - loading "+document.flickr.loaded+" of "+document.flickr.total+" photos from Flickr</span>");
       },500);
     };
 
@@ -268,49 +271,35 @@
     // start page stored in a global variable
     document.flickr.page=1;
 
+    //MB.GALLERY DEFAULTS SETTINGS
     $.mbGallery.defaults.addRaster=true;
     $.mbGallery.defaults.galleryTitle="my Flickr photos";
 
-    /*
-    * YOU NEED YOUR OWN API KEY !!!
-    * to get it: http://www.flickr.com/services/apps/create/apply/
-    * */
-    $.mbFlickr.flickr_api_key="[YOUR FLICKR API]";
+    //YOU MUST USE YOUR OWN API KEY !!!!!
+    $.mbFlickr.flickr_api_key="[YourKey]";
+    $.mbFlickr.defaults.size="medium"; //  medium / source
+    $.mbFlickr.defaults.per_page=40;
 
-    $.mbFlickr.defaults.size="medium"; //  medium or surce
-    $.mbFlickr.defaults.per_page=40; //photos per page
-
-    /* *
-    *
-    * YOU CAN SHOW EITHER A USER SET OR ALL USER PHOTOS:
-    * $.mbFlickr.defaults.flickr_photoset_id, if defined, override $.mbFlickr.flickr_user_id
-    *
-    * to get the user NSID of Flickr just see the URL of the user RSS; it's something like: 16424076@N00
-    * you can show only public sets or user's photos.
-    *
-    * */
-
+    $.mbFlickr.defaults.flickr_user_id="16424076@N00";
+    //or
     //$.mbFlickr.defaults.flickr_photoset_id='72157600884372818';
-    $.mbFlickr.flickr_user_id="16424076@N00";
-
-
-
+    
     $.mbFlickr.defaults.onStart=$.loader;
-    $.mbFlickr.defaults.callBack=$.printOutGallery;
+    $.mbFlickr.defaults.callback=$.printOutGallery;
 
-    //start the Flickr gallery
-    $('#g1').mb_loadFlickrPhotos({page:document.flickr.page});
-
+    $("#next").click();
   });
 
 </script>
 </head>
 <body >
+
 <div class="controls">
   <span id="prev" class="btn">prev</span>
   <div id="galleryInfo"></div>
   <span id="next" class="btn">next</span>
 </div>
+<br><span class="btn" onclick="self.location.href='demo.html'">Open standard mb.gallery</span>
 <div id="thumbs" class=""></div>
 <div id="g1" class="galleryCont"></div>
 </body>
