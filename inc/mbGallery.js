@@ -16,7 +16,7 @@
  *
  * It is possible to show EXIF metadata of your photos.
  * include: jquery.exif.js (http://www.nihilogic.dk/labs/exifjquery/)
- * set exifData: true 
+ * set exifData: true
  * to keep EXIF data in your jpeg from Photoshop© you can't use "save for the web" command; use "save as..." and save as .jpg instead.
  */
 
@@ -67,7 +67,8 @@
       gallery.options = $.extend({}, $.mbGallery.defaults, options);
       if(gallery.options.onOpen) gallery.options.onOpen();
 
-      var css= "<link rel='stylesheet' id='mbGalleryCss' type='text/css' href='"+gallery.options.cssURL+gallery.options.skin+".css'  media='screen'/>";
+      var css= "<link rel='stylesheet' id='mbGalleryCss' type='text/css' href='"+gallery.options.cssURL+gallery.options.skin+".css' title='tyle'  media='screen'/>";
+      if($("#mbGalleryCss")) $("#mbGalleryCss").remove();
       $("head").prepend(css);
       $(gallery).hide();
       gallery.galleryID= "mb_gallery_"+gallery.id;
@@ -202,7 +203,7 @@
               width:"",
               height:""
             });
-          }          
+          }
         });
       }
       galleryImg.animate({
@@ -378,7 +379,7 @@
         if($("#"+gallery.id+"_thumbsContainer").is(":visible"))
           $("#"+gallery.id+"_thumbsContainer").slideUp(500,function(){$(this).remove();});
         else
-          $("#"+gallery.id+"_thumbsContainer").slideDown(500);        
+          $("#"+gallery.id+"_thumbsContainer").slideDown(500);
         return;
       }
       var thumbsContainer=$("<div>").attr("id",gallery.id+"_thumbsContainer").addClass("thumbsContainer").hide();

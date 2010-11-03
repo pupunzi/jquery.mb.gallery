@@ -1,0 +1,111 @@
+<!doctype html>
+
+<!--
+  ~ jquery.mb.components
+  ~ Copyright (c) 2001-2010. Matteo Bicocchi (Pupunzi); Open lab srl, Firenze - Italy
+  ~ email: mbicocchi@open-lab.com
+  ~ site: http://pupunzi.com
+  ~
+  ~ Licences: MIT, GPL
+  ~ http://www.opensource.org/licenses/mit-license.php
+  ~ http://www.gnu.org/licenses/gpl.html
+  -->
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>mbGallery 2.0</title>
+  <style type="text/css">
+    body{
+      font-family:Arial, Helvetica, sans-serif;
+    }
+    .wrapper{
+      position:relative;
+      font-family:Arial, Helvetica, sans-serif;
+      padding-top:90px;
+      padding-left:50px;
+      width:80%;
+      margin:auto
+    }
+    .galleryCont{
+      display:none;
+    }
+    .wrapper .text{
+      font-family:Arial, Helvetica, sans-serif;
+    }
+    .wrapper h1{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:26px;
+    }
+    .longText{
+      margin-top:20px;
+      width:600px;
+      font:18px/24px Arial, Helvetica, sans-serif;
+      color:gray;
+    }
+    span.btn{
+      padding:10px;
+      display:inline-block;
+      cursor:pointer;
+      font:12px/14px Arial, Helvetica, sans-serif;
+      color:#aaa;
+      background-color:#eee;
+      -moz-border-radius:10px;
+      -webkit-border-radius:10px;
+      -moz-box-shadow:#999 2px 0px 3px;
+      -webkit-box-shadow:#999 2px 0px 3px;
+    }
+    span.btn:hover{
+      background-color:#000;
+    }
+  </style>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <script type="text/javascript" src="../inc/mbGallery.js"></script>
+  <script type="text/javascript">
+    $(function(){
+      if (self.location.href == top.location.href){
+        $("body").css({font:"normal 13px/16px 'trebuchet MS', verdana, sans-serif"});
+        var logo=$("<a href='http://pupunzi.com/#mb.components/mb.gallery/gallery.html' style='position:absolute;top:10px;left:10px;z-index:1000'><img id='logo' border='0' src='http://pupunzi.com/images/logo.png' alt='mb.ideas.repository'></a>");
+        $("body").prepend(logo);
+        $("#logo").fadeIn();
+      }
+    });
+
+    function loadGallery(url,data){
+      if(!data) data="";
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        success: function(html){
+          $("body").append(html);
+        }
+      });
+    }
+  </script>
+</head>
+<body >
+
+<div class="wrapper">
+  <h1>mb.gallery.2.0.demo</h1>
+  <div class="text">
+
+    <h2> mb.gallery 2.0 loaded via Ajax</h2>
+    <h3>Try it now:</h3>
+    <span class="btn" onclick="loadGallery('ajax_gallery.html')">load gallery 1 via ajax</span>&nbsp;&nbsp;
+    <br>
+    <br>
+  </div>
+
+  <div class="longText">
+
+    All the images and the mb.gallery init function are into an external html file loaded via ajax once you click the button. in this way you can easily invoke the gallery from any page. 
+    See the page source to get the code
+
+  </div>
+
+</div>
+
+</body>
+</html>
+
