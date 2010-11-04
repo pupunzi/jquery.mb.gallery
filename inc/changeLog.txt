@@ -1,5 +1,9 @@
 jquery.mb.gallery
 
+2.0.8 Minor bugfix:
+  Added a demo for ajax galleries.
+  fix the image index from 0-based to 1-based (now calling startFrom:1 start from the first and not the second image)
+
 2.0.7 Minor bugfix:
   managment of multiple gallery with thumbs.
 
