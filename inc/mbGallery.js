@@ -48,7 +48,7 @@
       fullScreen:true,
       addRaster:false,
       overlayOpacity:.5,
-      startFrom: 0,//"random"
+      startFrom: 1,//"random"
       fadeTime: 500,
       slideTimer: 6000,
       autoSlide: true,
@@ -136,7 +136,7 @@
         minHeight:gallery.options.minHeight
       });
       gallery.sliding=gallery.options.autoSlide;
-      gallery.idx=gallery.options.startFrom=="random"?Math.floor(Math.random()*(gallery.images.length-1)):gallery.options.startFrom>gallery.images.length-1?gallery.images.length-1:gallery.options.startFrom;
+      gallery.idx=gallery.options.startFrom=="random"?Math.floor(Math.random()*(gallery.images.length-1)):gallery.options.startFrom>gallery.images.length?gallery.images.length-1:gallery.options.startFrom-1;
       $("#"+gallery.galleryID).find(".loader").addClass("loading").show();
       $(gallery).mb_buildThumbs();
       $(gallery).mb_selectThumb();
@@ -391,7 +391,7 @@
         img.bind("click",function(){
           if($(this).is(".selected")) return;
           if(!gallery.initialized){
-            gallery.options.startFrom=i;
+            gallery.options.startFrom=i+1;
             gallery.options.autoSlide=false;
             gallery.options.printOutThumbs=false;
             $(gallery).mbGallery(gallery.options);
