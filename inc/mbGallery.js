@@ -81,18 +81,44 @@
       }
       gallery.initialized = true;
 
-      var overlay=$("<div/>").addClass("mb_overlay").one("click",function(){$(gallery).mb_closeGallery();}).css({opacity:gallery.options.overlayOpacity,background: gallery.options.overlayBackground}).hide();
-      var galleryScreen= $("<div/>").attr("id",gallery.galleryID).addClass("galleryScreen").addClass("mbGall_"+gallery.options.skin);
-      var galleryDesc=$("<div/>").addClass("galleryDesc").css({opacity:.7}).hide();
-      var galleryTitle=$("<div/>").addClass("galleryTitle").html(gallery.options.galleryTitle).hide();
-      var galleryImg= $("<div/>").addClass("galleryImg")
+      var overlay=$("<div/>")
+              .addClass("mb_overlay")
+              .one("click",function(){$(gallery).mb_closeGallery();})
+              .css({opacity:gallery.options.overlayOpacity,background: gallery.options.overlayBackground})
+              .hide();
+      var galleryScreen= $("<div/>")
+              .attr("id",gallery.galleryID)
+              .addClass("galleryScreen")
+              .addClass("mbGall_"+gallery.options.skin);
+      var galleryDesc=$("<div/>")
+              .addClass("galleryDesc")
+              .css({opacity:.7})
+              .hide();
+      var galleryTitle=$("<div/>")
+              .addClass("galleryTitle")
+              .html(gallery.options.galleryTitle)
+              .hide();
+      var galleryImg= $("<div/>")
+              .addClass("galleryImg")
               .hover(function(){if (galleryDesc.html()) galleryDesc.slideDown();},function(){galleryDesc.slideUp();})
               .dblclick(function(){if (gallery.sliding) $(gallery).mb_stopSlide(); else $(gallery).mb_startSlide();});
-      var galleryRaster= $("<div/>").addClass("galleryRaster").css({width:"100%",height:"100%"});
-      var galleryLoader= $("<div/>").addClass("loader").mb_bringToFront().css("opacity",.7).hide();
-      var galleryThumbs=$("<div/>").addClass("galleryThumbs").hide();
-      var galleryNav=$("<div/>").addClass("galleryNav").hide();
-      var galleryCloseIcon= $("<div/>").addClass("galleryCloseIcon ico").one("click",function(){$(gallery).mb_closeGallery();});   //galleryCloseIcon
+      var galleryRaster= $("<div/>")
+              .addClass("galleryRaster")
+              .css({width:"100%",height:"100%"});
+      var galleryLoader= $("<div/>")
+              .addClass("loader")
+              .mb_bringToFront()
+              .css("opacity",.7)
+              .hide();
+      var galleryThumbs=$("<div/>")
+              .addClass("galleryThumbs")
+              .hide();
+      var galleryNav=$("<div/>")
+              .addClass("galleryNav")
+              .hide();
+      var galleryCloseIcon= $("<div/>")
+              .addClass("galleryCloseIcon ico")
+              .one("click",function(){$(gallery).mb_closeGallery();});   //galleryCloseIcon
       galleryScreen.bind("mouseleave",function(){
         $(gallery).mb_hideThumbs();
       });
@@ -276,9 +302,17 @@
       var photoCounter= $("<div/>").addClass("photoCounter ico");
 
       var galleryBtns= $("<div/>").addClass("galleryBtns");
-      galleryNav.append(photoTitle);
-      galleryNav.append(galleryBtns);
-      galleryBtns.prepend(thumbsIcon).prepend(startStopIcon).prepend(prevIcon).prepend(nextIcon).prepend((showExif?exifIcon:"")).prepend(photoCounter);
+      galleryNav
+              .append(photoTitle);
+      galleryNav
+              .append(galleryBtns);
+      galleryBtns
+              .prepend(thumbsIcon)
+              .prepend(startStopIcon)
+              .prepend(prevIcon)
+              .prepend(nextIcon)
+              .prepend((showExif?exifIcon:""))
+              .prepend(photoCounter);
     },
     //   todo
     showExifData:function(){
