@@ -3,10 +3,10 @@
 __An open source jQuery component to easily build a photo gallery.__
 
 1. ##### an overlayed photogallery
-![mb.gallery](http://pupunzi.com/gitHub/mb.gallery1.jpg)
+![mb.gallery](http://dl.dropbox.com/u/1976976/gitHub//mb.gallery1.jpg)
 
 2. ##### a photogallery in place
-![mb.gallery](http://pupunzi.com/gitHub/mb.gallery2.jpg)
+![mb.gallery](http://dl.dropbox.com/u/1976976/gitHub//mb.gallery2.jpg)
 
 ## [go to the demo](http://pupunzi.com/#mb.components/mb.gallery/gallery.html)
 
