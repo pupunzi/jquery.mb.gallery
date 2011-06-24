@@ -159,7 +159,6 @@
 <script type="text/javascript" src="http://jquery.com/src/jquery-latest.js"></script>
 <script type="text/javascript" src="inc/mbGallery.js"></script>
 <script type="text/javascript" src="inc/jquery.mb.flickr.js"></script>
-
 <script type="text/javascript">
   $(function(){
     if (self.location.href == top.location.href){
@@ -169,19 +168,13 @@
       $("#logo").fadeIn();
     }
 
-    /*
-    * Use jquery.mb.flickr to get the Flickr photos of a set or a user to populate jquery.mb.gallery
-    * call jquery.mb.gallery as callback.
-    * */
+    /*APPLY PHOTOS TO MB.GALLERY*/
     $.printOutGallery=function(gallery){
-
       if (gallery.isInit==undefined){
         clearTimeout(document.flickr.tracer);
         $("#thumbs").empty();
         $(gallery).empty();
         if(! $("#galleryInfo").html()){
-
-          /*build the pages index for the gallery*/
           var pages=$("<div class='pagesIDX'/>");
           for(var i=1;i<=gallery.pages;i++){
             var page=$("<span class='pages btn' page='"+i+"'>"+i+"</span>").click(function(){
@@ -202,10 +195,6 @@
           $(".pagesIDX span[page='1']").addClass("sel");
         }
 
-        /*
-        * populate the mb.gallery
-        * and build the thumbs
-        * */
         $(gallery.photos).each(function(i){
           var photoURL = this.source;
           var photoW = this.sourceWidth;
@@ -233,8 +222,7 @@
           var imgDesc=$("<div/>").addClass("imgDesc").html(desc);
           $(gallery).append(imgDesc);
         });
-      }
-      else{
+      }else{
         $(gallery).mbGallery();
       }
     };
@@ -246,11 +234,6 @@
       },500);
     };
 
-    /* *
-    *
-    * NEXT and PREV page functionalities
-    *
-    * */
 
     $("#next").click(function(){
       document.flickr.page++;
@@ -268,23 +251,21 @@
       $('#g1').mb_loadFlickrPhotos({page:document.flickr.page});
     });
 
-    // start page stored in a global variable
-    document.flickr.page=1;
+    document.flickr.page=0;
 
     //MB.GALLERY DEFAULTS SETTINGS
     $.mbGallery.defaults.addRaster=true;
     $.mbGallery.defaults.galleryTitle="my Flickr photos";
 
-    //YOU MUST USE YOUR OWN API KEY !!!!!
-    $.mbFlickr.flickr_api_key="f40779ab07dd09e5890f48e3618296b3";
-    $.mbFlickr.defaults.size="medium"; //  medium / source
+    $.mbFlickr.flickr_api_key="f40779ab07dd09e5890f48e3618296b3"; //YOU MUST USE YOUR OWN API KEY !!!!!
+    //    $.mbFlickr.flickr_user_name="pupunzi";
+    $.mbFlickr.defaults.size="medium"; //  medium/surce
     $.mbFlickr.defaults.per_page=40;
+    $.mbFlickr.defaults.onStart=$.loader;
 
     $.mbFlickr.defaults.flickr_user_id="16424076@N00";
-    //or
     //$.mbFlickr.defaults.flickr_photoset_id='72157600884372818';
-    
-    $.mbFlickr.defaults.onStart=$.loader;
+
     $.mbFlickr.defaults.callback=$.printOutGallery;
 
     $("#next").click();
@@ -300,7 +281,20 @@
   <span id="next" class="btn">next</span>
 </div>
 <br><span class="btn" onclick="self.location.href='demo.html'">Open standard mb.gallery</span>
+
+
 <div id="thumbs" class=""></div>
 <div id="g1" class="galleryCont"></div>
+ <script type="text/javascript">
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+  <script type="text/javascript">
+    try {
+      var pageTracker = _gat._getTracker("UA-10907260-1");
+      pageTracker._trackPageview();
+    } catch(err) {}
+  </script>
+
 </body>
 </html>
