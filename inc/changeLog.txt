@@ -1,5 +1,8 @@
 jquery.mb.gallery
 
+2.1.0 Minor bugfix:
+  if more than one in place gallery is on a page with different skin the previous opened gallery broken.
+
 2.0.8 Minor bugfix:
   Added a demo for ajax galleries.
   fix the image index from 0-based to 1-based (now calling startFrom:1 start from the first and not the second image)

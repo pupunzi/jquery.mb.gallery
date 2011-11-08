@@ -1,6 +1,6 @@
 /*******************************************************************************
  jquery.mb.components
- Copyright (c) 2001-2010. Matteo Bicocchi (Pupunzi); Open lab srl, Firenze - Italy
+ Copyright (c) 2001-2011. Matteo Bicocchi (Pupunzi); Open lab srl, Firenze - Italy
  email: mbicocchi@open-lab.com
  site: http://pupunzi.com
 
@@ -12,7 +12,7 @@
 /*
  * jQuery.mb.components: jquery.mb.flickr
  * version: 1.5
- * © 2001 - 2009 Matteo Bicocchi (pupunzi), Open Lab
+ * © 2001 - 2011 Matteo Bicocchi (pupunzi), Open Lab
  *
  * to obtain a Flickr API key:
  * http://www.flickr.com/services/apps/create/apply/

@@ -1,0 +1,7 @@
+ * Chiave: f40779ab07dd09e5890f48e3618296b3
+ * Segreto: c24a710f28bc3a6f
+ * NSID: 16424076@N00
+
+    $.mbFlickr.flickr_api_key="f40779ab07dd09e5890f48e3618296b3";
+    $.mbFlickr.flickr_user_id="16424076@N00";
+    $.mbFlickr.flickr_user_name="pupunzi";
