@@ -251,7 +251,6 @@
 
 			newImg.fadeIn("slow", function () {galleryNav.fadeIn(500); galleryTitle.fadeIn(); });
 
-
 /*
       newImg.next("img").fadeOut("slow",function(){$(this).remove();});
 			photoTitle.fadeOut("slow",function(){photoTitle.html(gallery.images[gallery.idx].title); photoTitle.fadeIn();});
