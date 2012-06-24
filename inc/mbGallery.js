@@ -250,11 +250,7 @@
 			},"slow");
 
 			newImg.fadeIn("slow", function () {galleryNav.fadeIn(500); galleryTitle.fadeIn(); });
-<<<<<<< HEAD
-			newImg.next("img").fadeOut(gallery.options.fadeTime,function(){$(this).remove();});
-			photoTitle.fadeOut(gallery.options.fadeTime,function(){photoTitle.html(gallery.images[gallery.idx].title); photoTitle.fadeIn();});
-			galleryDesc.html(gallery.images[gallery.idx].description);
-=======
+
 
 /*
       newImg.next("img").fadeOut("slow",function(){$(this).remove();});
@@ -266,7 +262,6 @@
 
 
       galleryDesc.html(gallery.images[gallery.idx].description);
->>>>>>> Implement fadeTime option - thnks to martijn
 			if(gallery.sliding){
 				galleryNav.find(".startStopIcon").addClass("selected");
 				gallery.startGallery=setTimeout(function(){
