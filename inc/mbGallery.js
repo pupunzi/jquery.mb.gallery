@@ -14,7 +14,7 @@
  *  http://www.opensource.org/licenses/mit-license.php
  *  http://www.gnu.org/licenses/gpl.html
  *
- *  last modified: 04/01/13 17.13
+ *  last modified: 16/01/13 23.03
  *  *****************************************************************************
  */
 
@@ -33,7 +33,7 @@
 	$.mbGallery ={
 		name:"mb.gallery",
 		author:"Matteo Bicocchi",
-		version:"2.1",
+		version:"2.2",
 		defaults:{
 			containment:"body",
 			cssURL:"css/",

@@ -16,7 +16,7 @@
   ~  http://www.opensource.org/licenses/mit-license.php
   ~  http://www.gnu.org/licenses/gpl.html
   ~
-  ~  last modified: 04/01/13 17.13
+  ~  last modified: 16/01/13 23.03
   ~  ******************************************************************************/
   -->
 
@@ -68,7 +68,7 @@
       background-color:#000;
     }
   </style>
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   <script type="text/javascript" src="inc/mbGallery.js"></script>
   <!--<script type="text/javascript" src="inc/jquery.exif.js"></script>-->
   <script type="text/javascript">
@@ -79,7 +79,7 @@
         $("body").prepend(logo);
         $("#logo").fadeIn();
       }
-        $(".galleryScreen").live("contextmenu",function(){return false;})
+        $("body").on("contextmenu",".galleryScreen",function(){return false;})
     });
   </script>
 </head>
