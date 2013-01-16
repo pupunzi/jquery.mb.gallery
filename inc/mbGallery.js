@@ -14,7 +14,7 @@
  *  http://www.opensource.org/licenses/mit-license.php
  *  http://www.gnu.org/licenses/gpl.html
  *
- *  last modified: 16/01/13 22.55
+ *  last modified: 04/01/13 17.13
  *  *****************************************************************************
  */
 
@@ -33,7 +33,7 @@
 	$.mbGallery ={
 		name:"mb.gallery",
 		author:"Matteo Bicocchi",
-		version:"2.2",
+		version:"2.1",
 		defaults:{
 			containment:"body",
 			cssURL:"css/",
@@ -167,7 +167,6 @@
 					left:"50%",
 					marginLeft:-(gallery.options.minWidth/2)
 				});
-
 			if($.browser.msie && $.browser.version<8){
 				galleryScreen.css({
 					width:gallery.options.minWidth,
