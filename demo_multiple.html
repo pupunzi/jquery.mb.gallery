@@ -16,7 +16,7 @@
   ~  http://www.opensource.org/licenses/mit-license.php
   ~  http://www.gnu.org/licenses/gpl.html
   ~
-  ~  last modified: 04/01/13 17.13
+  ~  last modified: 31/01/13 21.45
   ~  ******************************************************************************/
   -->
 
@@ -79,7 +79,7 @@
         $("body").prepend(logo);
         $("#logo").fadeIn();
       }
-        $(".galleryScreen").live("contextmenu",function(){return false;})
+        $("body").on("contextmenu",".galleryScreen",function(){return false;})
     });
   </script>
 </head>
