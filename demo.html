@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>jquery.mb.thumbGrid</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="//mb.components.cdn.s3.amazonaws.com/jquery.mb.browser/latest/jquery.mb.browser.min.js"></script>
+    <script src="//mb.components.cdn.s3.amazonaws.com/jquery.mb.CSSAnimate/latest/jquery.mb.CSSAnimate.min.js"></script>
+    <script src="js/jquery.mb.thumbGrid.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/thumbGrid.css"/>
+
+    <style>
+        body {
+            background: #2b2e30;
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+        }
+
+        #thumbGrid{
+            width: 980px;
+            margin: auto;
+            margin-top: 200px;
+        }
+
+        label{
+            color: white;
+        }
+
+
+        #customize {
+            display: inline-block;
+            margin-top: -30px;
+            position: absolute;
+            color: white
+        }
+
+
+        #customize input, #customize select {
+            font-size: 17px;
+            margin: 3px;
+            padding: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 0;
+            color:#fff;
+            background-color: rgba(0, 0, 0, 0.2)
+        }
+
+        #customize select {
+            margin: 0;
+            background-image: url(css/thumbgrid-font/font/downArrow.svg);
+            background-repeat: no-repeat;
+            background-position: right center;
+            padding-right: 25px;
+            outline: none;
+            overflow: hidden;
+            text-indent: 0.01px;
+            text-overflow: '';
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            -ms-appearance: none;
+            -o-appearance: none;
+            appearance: none;
+            vertical-align: middle;
+
+        }
+
+        #customize label {
+            font-size: 16px;
+            margin: 3px 0;
+            padding: 3px 0;
+            width: 150px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+<section class="content">
+    <div id="thumbGrid" data-thumbgrid="true" data-effect="scaleIn" data-delay="60" data-timing="800" data-pagination="6" data-galleryeffectnext="scaleIn" data-galleryeffectprev="scaleOut">
+
+        <img src="img/1.jpg"
+             alt="img04"
+             data-highres="http://38.media.tumblr.com/d23deac40b06633b79520a8552f40b94/tumblr_nb1uhrRrge1st5lhmo1_1280.jpg"
+             data-caption="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                />
+        <img src="img/2.jpg"
+             alt="img02"
+             data-highres="http://33.media.tumblr.com/d59fde7754e24629be674872632e7556/tumblr_nb1udanVmD1st5lhmo1_1280.jpg"
+             data-caption="Nullam quis risus eget urna mollis ornare vel eu leo."
+                />
+        <img src="img/3.jpg"
+             alt="img01"
+             data-highres="http://33.media.tumblr.com/a9d77a1bb36010a7dc0fd69a41b027c7/tumblr_nb1uw0kE8K1st5lhmo1_1280.jpg"
+             data-caption="Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus."
+                />
+        <img src="img/4.jpg"
+             alt="img03"
+             data-highres="http://33.media.tumblr.com/71be5cd5728e22354fc9dc389d5ab85b/tumblr_nb1uqjWny11st5lhmo1_1280.jpg"
+             data-caption="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                />
+        <img src="img/5.jpg"
+             alt="img01"
+             data-highres="http://38.media.tumblr.com/b0599573cbde31e8f8ec2ce4f211bfc1/tumblr_naj3a897XB1st5lhmo1_1280.jpg"
+             data-caption="Nullam quis risus eget urna mollis ornare vel eu leo."
+                />
+        <img src="img/6.jpg"
+             alt="img04"
+             data-highres="http://31.media.tumblr.com/d77e21ed167c2125627b210b48e23f81/tumblr_na0kw25OtD1st5lhmo1_1280.jpg"
+             data-caption="Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit."
+                />
+        <img src="img/7.jpg"
+             alt="img05"
+             data-highres="http://33.media.tumblr.com/0de1b93512d7b2b6287c1e4b630212b6/tumblr_n8zlzedP0b1st5lhmo1_1280.jpg"
+             data-caption="Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus."
+                />
+        <img src="img/8.jpg"
+             alt="img06"
+             data-highres="http://38.media.tumblr.com/2aec5b8337c3f2677080ea93f88a59aa/tumblr_n8zm1wVHz11st5lhmo1_1280.jpg"
+             data-caption="Cras mattis consectetur purus sit amet fermentum."
+                />
+        <img src="img/9.jpg"
+             alt="img05"
+             data-highres="http://38.media.tumblr.com/ef74704fbfda8581ba130c573779f924/tumblr_n8gybzbUB61st5lhmo1_1280.jpg"
+             data-caption="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                />
+        <img src="img/10.jpg"
+             alt="img05"
+             data-highres="http://33.media.tumblr.com/47d8817227b81bc6cae25e59dc3804d7/tumblr_n8gyvzQtkD1st5lhmo1_1280.jpg"
+             data-caption="Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit."
+                />
+        <img src="img/11.jpg"
+             alt="img06"
+             data-highres="http://33.media.tumblr.com/ba7758a52675589e05dc931572be9688/tumblr_n7ygur3NV91st5lhmo1_1280.jpg"
+             data-caption="Nullam quis risus eget urna mollis ornare vel eu leo."
+                />
+        <img src="img/12.jpg"
+             alt="img03"
+             data-highres="http://38.media.tumblr.com/ce044b7c552a59beeb778b38bc527a65/tumblr_n7yhe1sTa41st5lhmo1_1280.jpg"
+             data-caption="Cras mattis consectetur purus sit amet fermentum."
+                />
+        <img src="img/13.jpg"
+             alt="img05"
+             data-highres="http://38.media.tumblr.com/09c8a485996628c6349e6afa376b2c42/tumblr_n7yh01HyPI1st5lhmo1_1280.jpg"
+             data-caption="Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit."
+                />
+        <img src="img/14.jpg"
+             alt="img06"
+             data-highres="http://31.media.tumblr.com/26f1db79797aaf8577a32e288c5afefd/tumblr_n7yhhvUQtx1st5lhmo1_1280.jpg"
+             data-caption="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                />
+        <img src="img/15.jpg"
+             alt="img05"
+             data-highres="http://38.media.tumblr.com/4e9d8c075b15f5922682bfaa13a8125c/tumblr_n7yhezarqF1st5lhmo1_1280.jpg"
+             data-caption="Nullam quis risus eget urna mollis ornare vel eu leo."
+                />
+        <img src="img/16.jpg"
+             alt="img04"
+             data-highres="http://33.media.tumblr.com/cd40dba26eabfc0901892be37f207cf6/tumblr_n7fgl3sQS61st5lhmo1_1280.jpg"
+             data-caption="Cras mattis consectetur purus sit amet fermentum."
+                />
+        <img src="img/17.jpg"
+             alt="img06"
+             data-highres="http://31.media.tumblr.com/e096ee96140e7d11e185fc591175b242/tumblr_n7fgbrn1uX1st5lhmo1_1280.jpg"
+             data-caption="Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit."
+                />
+        <img src="img/18.jpg"
+             alt="img05"
+             data-highres="http://33.media.tumblr.com/f6c67ec2821a91051e4175f8a102e1e2/tumblr_n6rzpcsMk41st5lhmo1_1280.jpg"
+             data-caption="Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit."
+                />
+        <img src="img/19.jpg"
+             alt="img03"
+             data-highres="http://31.media.tumblr.com/99110b18afc6e8541ad7e9d5f5586d94/tumblr_n6rzlh5e4k1st5lhmo1_1280.jpg"
+             data-caption="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                />
+        <img src="img/20.jpg"
+             alt="img05"
+             data-highres="http://33.media.tumblr.com/46230f3fb958daa21c01d53a7fdcb747/tumblr_n6rz3iGDUA1st5lhmo1_1280.jpg"
+             data-caption="Cras mattis consectetur purus sit amet fermentum."
+                />
+        <img src="img/21.jpg"
+             alt="img06"
+             data-highres="http://38.media.tumblr.com/440d3426742dfc6158fc3a274e6a3497/tumblr_n6eso9JmB61st5lhmo1_1280.jpg"
+             data-caption="Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit."
+                />
+        <img src="img/22.jpg"
+             alt="img05"
+             data-highres="http://33.media.tumblr.com/e8f8e7d70ebbc9198e5f016393d03eb3/tumblr_n6esvjIrNg1st5lhmo1_1280.jpg"
+             data-caption="Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus."
+                />
+
+    </div>
+</section>
+
+<div id="customize">
+    <label for="effect">transition effect</label>
+    <select id="effect">
+        <option value="scaleIn">scaleIn</option>
+        <option value="scaleOut">scaleOut</option>
+        <option value="fade">fade</option>
+        <option value="slideUp">slideUp</option>
+        <option value="slideDown">slideDown</option>
+        <option value="slideLeft">slideLeft</option>
+        <option value="slideRight">slideRight</option>
+        <option value="slideInverse">slideInverse</option>
+        <option value="rotate">rotate</option>
+    </select>
+<!--
+    <br>
+    <label for="delay">transition delay (in ms)</label>
+    <input id="delay" value="500"/>
+    <br>
+    <label for="timing">transition timing (in ms)</label>
+    <input id="timing" value="800"/>
+-->
+
+</div>
+<script>
+
+    jQuery(function () {
+        jQuery("[data-thumbgrid]").thumbGrid();
+
+//    customize
+        jQuery("#effect").on("change",function(){
+            var x = $(this).val();
+            jQuery("#thumbGrid").data("effect", x);
+        });
+
+        jQuery("#delay").on("change",function(){
+            var x = parseFloat($(this).val());
+            jQuery("#thumbGrid").data("delay", x);
+        });
+
+        jQuery("#timing").on("change",function(){
+            var x = parseFloat($(this).val());
+            jQuery("#thumbGrid").data("timing", x);
+        });
+    });
+
+</script>
+</body>
+</html>
