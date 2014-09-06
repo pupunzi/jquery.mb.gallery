@@ -17,6 +17,11 @@
   opacity: 1;
 }
 
+#thumbGrid{
+  width: 980px;
+  margin: 0 auto;
+}
+
 .thumb-grid {
   position: absolute;
   margin: 20px auto;
@@ -24,6 +29,7 @@
   max-width: 980px;
   list-style: none;
   font-size: 0;
+
 }
 
 .thumb-grid li {
@@ -32,8 +38,6 @@
   margin: 10px;
   width: 300px;
   height: 225px;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
   overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.2);
 
@@ -68,51 +72,6 @@
 
 /* Navigation */
 
-#customize {
-  display: inline-block;
-  margin-top: -30px;
-  position: absolute;
-  color: white
-}
-
-
-#customize input, #customize select {
-  font-size: 17px;
-  margin: 3px;
-  padding: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 0;
-  color:#fff;
-  background-color: rgba(0, 0, 0, 0.2)
-}
-
-#customize select {
-  margin: 0;
-  background-image: url(thumbgrid-font/font/downArrow.svg);
-  background-repeat: no-repeat;
-  background-position: right center;
-  padding-right: 25px;
-  outline: none;
-  overflow: hidden;
-  text-indent: 0.01px;
-  text-overflow: '';
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  -o-appearance: none;
-  appearance: none;
-  vertical-align: middle;
-
-}
-
-#customize label {
-  font-size: 16px;
-  margin: 3px 0;
-  padding: 3px 0;
-  width: 150px;
-  display: inline-block;
-}
-
 nav.thumbGridNav {
   margin-top: 60px;
   text-align: center;
@@ -121,10 +80,6 @@ nav.thumbGridNav {
 
 nav.thumbGridNav .indexEl {
   cursor: pointer;
-}
-
-nav.thumbGridNav .indexEl.sel {
-  color: red;
 }
 
 nav.thumbGridNav a {
@@ -158,14 +113,21 @@ nav.thumbGridNav a.sel {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.90);
+  background: rgba(255, 255, 255, .95);
   z-index: 10000;
-
 }
 
 .tg-placeHolder {
-  background: rgb(38, 41, 43);
+  background: rgb(30, 33, 35);
   box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+}
+
+
+.tg-placeHolder div{
+  -webkit-perspective: 1000;
+  /*-webkit-transform: translateZ(0);*/
+  -webkit-backface-visibility: hidden;
+  -webkit-transform-style: preserve-3d;
 }
 
 .tg-close {
@@ -176,6 +138,7 @@ nav.thumbGridNav a.sel {
   height: 40px;
   background: transparent;
   cursor: pointer;
+  text-align: right;
 }
 
 .tg-close:after {
@@ -195,6 +158,7 @@ nav.thumbGridNav a.sel {
   height: 40px;
   background: transparent;
   cursor: pointer;
+  text-align: right;
 }
 
 .tg-next:after {
@@ -246,6 +210,56 @@ nav.thumbGridNav a.sel {
   max-width: 90%;
   margin-left: 5%;
 
+}
+
+
+/******** DEMO SWITCHER *******/
+
+
+#customize {
+  display: inline-block;
+  margin-top: -30px;
+  position: absolute;
+  color: white;
+  text-align: right;
+}
+
+
+#customize input, #customize select {
+  font-size: 17px;
+  margin: 3px;
+  padding: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 0;
+  color:#fff;
+  background-color: rgba(0, 0, 0, 0.2)
+}
+
+#customize select {
+  margin: 0;
+  background-image: url(thumbgrid-font/font/downArrow.svg);
+  background-repeat: no-repeat;
+  background-position: right center;
+  padding-right: 25px;
+  outline: none;
+  overflow: hidden;
+  text-indent: 0.01px;
+  text-overflow: '';
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  vertical-align: middle;
+
+}
+
+#customize label {
+  font-size: 16px;
+  margin: 3px 0;
+  padding: 3px 0;
+  width: 150px;
+  display: inline-block;
 }
 
 
