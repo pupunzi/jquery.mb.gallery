@@ -78,7 +78,7 @@
 <body>
 
 <section class="content">
-    <div id="thumbGrid" data-thumbgrid="true" data-effect="scaleIn" data-delay="60" data-timing="800" data-pagination="6" data-galleryeffectnext="scaleIn" data-galleryeffectprev="scaleOut">
+    <div id="thumbGrid" data-thumbgrid="true" data-effect="zoomIn" data-delay="60" data-timing="800" data-pagination="6" data-galleryeffectnext="zoomIn" data-galleryeffectprev="zoomOut">
 
         <img src="img/1.jpg"
              alt="img04"
@@ -197,8 +197,8 @@
 <div id="customize">
     <label for="effect">transition effect</label>
     <select id="effect">
-        <option value="scaleIn">scaleIn</option>
-        <option value="scaleOut">scaleOut</option>
+        <option value="zoomIn">zoomIn</option>
+        <option value="zoomOut">zoomOut</option>
         <option value="fade">fade</option>
         <option value="slideUp">slideUp</option>
         <option value="slideDown">slideDown</option>
@@ -228,6 +228,7 @@
             jQuery("#thumbGrid").data("effect", x);
         });
 
+/*
         jQuery("#delay").on("change",function(){
             var x = parseFloat($(this).val());
             jQuery("#thumbGrid").data("delay", x);
@@ -237,6 +238,7 @@
             var x = parseFloat($(this).val());
             jQuery("#thumbGrid").data("timing", x);
         });
+*/
     });
 
 </script>

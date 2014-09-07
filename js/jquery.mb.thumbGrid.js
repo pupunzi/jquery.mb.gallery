@@ -22,8 +22,8 @@
 			slideLeft: {in: {x:200, opacity:0}, out: {x:-200, opacity:0}},
 			slideRight: {in: {x:-200, opacity:0}, out: {x:200, opacity:0}},
 			slideInverse: {in: {y:200, opacity:0}, out: {y:200, opacity:0}},
-			scaleIn: {in: {scale:.5, opacity:0}, out: {scale:2, opacity:0}},
-			scaleOut: {in: {scale:2, opacity:0}, out: {scale:.1, opacity:0}},
+			zoomIn: {in: {scale:.5, opacity:0}, out: {scale:2, opacity:0}},
+			zoomOut: {in: {scale:2, opacity:0}, out: {scale:.1, opacity:0}},
 			rotate: {in: {rotate:(jQuery.browser.webkit ? 180 : 181), opacity:0}, out: {rotate: 179, opacity:0}}
 		},
 
@@ -492,9 +492,8 @@
 
 							oldImgWrapper.CSSAnimate(jQuery.thumbGrid.normalizeCss(jQuery.thumbGrid.transitions[slideShow.effect].out), grid.timing, 200, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
 								grid.isAnimating = false;
-//								oldImgWrapper.remove();
 								oldImgWrapper.removeClass("in");
-								jQuery(".ss-img-wrapper",placeHolder).not(".in").remove();
+								jQuery(".ss-img-wrapper", placeHolder).not(".in").remove();
 							});
 
 							imgWrapper.CSSAnimate(displayProperties, grid.timing, 200, "cubic-bezier(0.19, 1, 0.22, 1)");
