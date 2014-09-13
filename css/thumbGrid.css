@@ -60,6 +60,7 @@
   line-height:170%;
   text-align: center;
   z-index: 1;
+  color:#fff;
   background-color: rgba(0, 0, 0, 0.50);
 
 }
@@ -239,60 +240,6 @@ nav.thumbGridNav a.sel {
   max-width: 90%;
   margin-left: 5%;
 
-}
-
-
-/******** DEMO SWITCHER *******/
-
-
-#customize {
-  display: inline-block;
-  margin-top: -30px;
-  position: absolute;
-  color: white;
-  text-align: right;
-  margin-left: 10px;
-}
-
-
-#customize input, #customize select {
-  font-size: 15px;
-  margin: 3px;
-  padding: 4px 4px 4px 8px;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  color:#fff;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-}
-
-#customize select {
-  margin: 0;
-  background-image: url(thumbgrid-font/font/downArrow.svg);
-  background-repeat: no-repeat;
-  background-position: right center;
-  padding-right: 25px;
-  outline: none;
-  overflow: hidden;
-  text-indent: 0.01px;
-  text-overflow: '';
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  -o-appearance: none;
-  appearance: none;
-  vertical-align: middle;
-
-}
-
-#customize label {
-  font-size: 13px;
-  margin: 3px 0;
-  padding: 3px 10px 3px 0;
-  /*width: 160px;*/
-  display: inline-block;
-  text-align: left;
-  text-transform: uppercase;
-  font-weight: 500;
 }
 
 

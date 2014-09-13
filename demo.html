@@ -10,11 +10,14 @@
     <link rel="stylesheet" type="text/css" href="css/thumbGrid.css"/>
 
     <style>
-        body {
-            background: #13171c;
+        body, html {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #252a3f; /* Old browsers */
+            background: linear-gradient(135deg, #101821 0%, #2c3d4d 100%); /* W3C */
             font-family: Verdana, Arial, Helvetica, sans-serif;
         }
-
 
         label{
             color: white;
@@ -48,10 +51,60 @@
         <img src="img/20.jpg" alt="img05" data-highres="http://33.media.tumblr.com/46230f3fb958daa21c01d53a7fdcb747/tumblr_n6rz3iGDUA1st5lhmo1_1280.jpg"/>
         <img src="img/21.jpg" alt="img06" data-highres="http://38.media.tumblr.com/440d3426742dfc6158fc3a274e6a3497/tumblr_n6eso9JmB61st5lhmo1_1280.jpg"/>
         <img src="img/22.jpg" alt="img05" data-highres="http://33.media.tumblr.com/e8f8e7d70ebbc9198e5f016393d03eb3/tumblr_n6esvjIrNg1st5lhmo1_1280.jpg"/>
-
     </div>
 </section>
+<style>
+    /******** DEMO SWITCHER *******/
+    #customize {
+        display: inline-block;
+        margin-top: -30px;
+        position: absolute;
+        color: white;
+        text-align: right;
+        margin-left: 10px;
+    }
 
+
+    #customize input, #customize select {
+        font-size: 15px;
+        margin: 3px;
+        padding: 4px 4px 4px 8px;
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        color:#fff;
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 4px;
+    }
+
+    #customize select {
+        margin: 0;
+        background-image: url(thumbgrid-font/font/downArrow.svg);
+        background-repeat: no-repeat;
+        background-position: right center;
+        padding-right: 25px;
+        outline: none;
+        overflow: hidden;
+        text-indent: 0.01px;
+        text-overflow: '';
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -ms-appearance: none;
+        -o-appearance: none;
+        appearance: none;
+        vertical-align: middle;
+
+    }
+
+    #customize label {
+        font-size: 13px;
+        margin: 3px 0;
+        padding: 3px 10px 3px 0;
+        /*width: 160px;*/
+        display: inline-block;
+        text-align: left;
+        text-transform: uppercase;
+        font-weight: 500;
+    }
+</style>
 <div id="customize">
     <label for="effect">transition effect</label>
     <select id="effect">
@@ -65,14 +118,12 @@
         <option value="slideInverse">slideInverse</option>
         <option value="rotate">rotate</option>
     </select>
-<!--
-    <br>
-    <label for="delay">transition delay (in ms)</label>
-    <input id="delay" value="500"/>
-    <br>
-    <label for="timing">transition timing (in ms)</label>
-    <input id="timing" value="800"/>
--->
+        <br>
+        <label for="delay">transition delay (in ms)</label>
+        <input id="delay" value="500"/>
+        <br>
+        <label for="timing">transition timing (in ms)</label>
+        <input id="timing" value="800"/>
 
 </div>
 <script>
