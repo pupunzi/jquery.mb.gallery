@@ -7,112 +7,142 @@
   "ascent": 850,
   "glyphs": [
     {
-      "uid": "d870630ff8f81e6de3958ecaeac532f2",
-      "css": "left-open-2",
-      "code": 59404,
-      "src": "fontawesome"
+      "uid": "7222571caa5c15f83dcfd447c58d68d9",
+      "css": "search",
+      "code": 59400,
+      "src": "entypo"
     },
     {
-      "uid": "399ef63b1e23ab1b761dfbb5591fa4da",
-      "css": "right-open-2",
-      "code": 59405,
-      "src": "fontawesome"
+      "uid": "0eabe5f8d71cc838484ff39436426d2d",
+      "css": "heart",
+      "code": 59410,
+      "src": "entypo"
     },
     {
-      "uid": "f3f90c8c89795da30f7444634476ea4f",
-      "css": "angle-left",
-      "code": 59406,
-      "src": "fontawesome"
-    },
-    {
-      "uid": "7bf14281af5633a597f85b061ef1cfb9",
-      "css": "angle-right",
-      "code": 59407,
-      "src": "fontawesome"
-    },
-    {
-      "uid": "8933c2579166c2ee56ae40dc6a0b4dc6",
-      "css": "angle-circled-left",
+      "uid": "d18071bbf8f0a8cec8d1f556c91c6af0",
+      "css": "heart-empty",
       "code": 59408,
-      "src": "fontawesome"
+      "src": "entypo"
     },
     {
-      "uid": "94089b37297572e936b0943bcfa041d3",
-      "css": "angle-circled-right",
+      "uid": "25b34dea4784f72c710454f32ff8fa2b",
+      "css": "star",
+      "code": 59407,
+      "src": "entypo"
+    },
+    {
+      "uid": "0e3f1335f83cca67329b2c4bcb3aaec5",
+      "css": "star-empty",
       "code": 59409,
-      "src": "fontawesome"
+      "src": "entypo"
+    },
+    {
+      "uid": "5e9f01871d44e56b45ecbfd00f4dbc3a",
+      "css": "layout",
+      "code": 59406,
+      "src": "entypo"
     },
     {
       "uid": "c709da589c923ba3c2ad48d9fc563e93",
       "css": "cancel",
-      "code": 59394,
+      "code": 59405,
       "src": "entypo"
     },
     {
-      "uid": "c311c48d79488965b0fab7f9cd12b6b5",
-      "css": "left-open",
-      "code": 59395,
+      "uid": "c759418c008e9562944080fee617fc76",
+      "css": "cancel-circled",
+      "code": 59399,
       "src": "entypo"
     },
     {
-      "uid": "749e7d90a9182938180f1d2d8c33584e",
-      "css": "right-open",
-      "code": 59396,
+      "uid": "7e4164950ffa4990961958b2d6318658",
+      "css": "info-circled",
+      "code": 59413,
+      "src": "entypo"
+    },
+    {
+      "uid": "7ad4d2306ebda8452e5e3eff3cd8241c",
+      "css": "thumbs-up",
+      "code": 59411,
+      "src": "entypo"
+    },
+    {
+      "uid": "429fba993b729174468a9493613ad1ba",
+      "css": "thumbs-down",
+      "code": 59412,
+      "src": "entypo"
+    },
+    {
+      "uid": "91426c82d94428a33353e495418435e3",
+      "css": "share",
+      "code": 59414,
+      "src": "entypo"
+    },
+    {
+      "uid": "592717bd601645d61517d2a584d04127",
+      "css": "left-open-mini",
+      "code": 59398,
+      "src": "entypo"
+    },
+    {
+      "uid": "37f6cfbb4062ed0d01b351ec35c334ff",
+      "css": "right-open-mini",
+      "code": 59397,
       "src": "entypo"
     },
     {
       "uid": "884cfc3e6e2d456dd2a2ca0dbb9e6337",
       "css": "left-open-big",
-      "code": 59392,
+      "code": 59395,
       "src": "entypo"
     },
     {
       "uid": "004882ab2d5c418c5b2060e80596279b",
       "css": "right-open-big",
+      "code": 59396,
+      "src": "entypo"
+    },
+    {
+      "uid": "3d349daaea304032a7669b4f24931b6c",
+      "css": "shuffle",
+      "code": 59404,
+      "src": "entypo"
+    },
+    {
+      "uid": "cb13afd4722a849d48056540bb74c47e",
+      "css": "play",
+      "code": 59392,
+      "src": "entypo"
+    },
+    {
+      "uid": "48f2e18872fe74d4579a4c8a1527fc1e",
+      "css": "stop",
       "code": 59393,
       "src": "entypo"
     },
     {
-      "uid": "3327862df439988139b61814143b7a42",
-      "css": "cancel-circled",
-      "code": 59397,
-      "src": "typicons"
+      "uid": "d8d378d0ce413f231dfa37592e39c227",
+      "css": "pause",
+      "code": 59401,
+      "src": "entypo"
     },
     {
-      "uid": "11e664deed5b2587456a4f9c01d720b6",
-      "css": "cancel-1",
-      "code": 59399,
-      "src": "iconic"
+      "uid": "0afbb00323696f49e9c47f4d9fe6390b",
+      "css": "to-end",
+      "code": 59402,
+      "src": "entypo"
+    },
+    {
+      "uid": "ceefe7653a4f6edaacce9e7f196cec5a",
+      "css": "to-start",
+      "code": 59403,
+      "src": "entypo"
     },
     {
       "uid": "188e881b2e2f2b1eb350eb7697aabafd",
       "css": "cancel-circle",
-      "code": 59398,
+      "code": 59394,
       "src": "iconic"
-    },
-    {
-      "uid": "rrhco7mfj6ro9yzhe4a1rbln9flw47re",
-      "css": "cancel-2",
-      "code": 59401,
-      "src": "modernpics"
-    },
-    {
-      "uid": "wcb87qh0k9smu6zukdhbn5zip98zofkh",
-      "css": "cancel-circle-1",
-      "code": 59400,
-      "src": "modernpics"
-    },
-    {
-      "uid": "b714be5a812a474811604f700dfc87ce",
-      "css": "left-open-1",
-      "code": 59402,
-      "src": "mfglabs"
-    },
-    {
-      "uid": "37910a1398001a5ccb541cb2a253a2c7",
-      "css": "right-open-1",
-      "code": 59403,
-      "src": "mfglabs"
     }
   ]
 }
