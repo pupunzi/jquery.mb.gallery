@@ -10,12 +10,12 @@ Font license info
    Homepage:  http://www.entypo.com
 
 
-## Iconic
+## Web Symbols
 
-   Copyright (C) 2012 by P.J. Onori
+   Copyright (c) 2011 by Just Be Nice studio. All rights reserved.
 
-   Author:    P.J. Onori
+   Author:    Just Be Nice studio
    License:   SIL (http://scripts.sil.org/OFL)
-   Homepage:  http://somerandomdude.com/work/iconic/
+   Homepage:  http://www.justbenicestudio.com/
 
 

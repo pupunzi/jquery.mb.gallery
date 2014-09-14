@@ -14,7 +14,16 @@
 		name: "jquery.mb.thumbGrid",
 		version: "1.0",
 		author: "Matteo Bicocchi",
-		defaults: {},
+		defaults: {
+			effect:"slideLeft",
+			delay: 60,
+			timing: 800,
+			pagination: 6,
+			galleryeffectnext:"slideRight",
+			galleryeffectprev: "slideLeft",
+			cover:true
+
+		},
 		transitions: {
 			fade: {in: {opacity:0}, out: {opacity:0}},
 			slideUp: {in: {y:200, opacity:0}, out: {y:-200, opacity:0}},
@@ -42,10 +51,14 @@
 				grid.opt = opt;
 				grid.isAnimating = false;
 				grid.pageIndex = 0;
-				grid.effect = $grid.data("effect") || "fade";
-				grid.delay = $grid.data("delay") || 500;
-				grid.timing = $grid.data("timing") || 1000;
-				grid.pagination = $grid.data("pagination") || 3;
+				grid.effect = $grid.data("effect") || opt.effect;
+				grid.delay = $grid.data("delay") || opt.delay;
+				grid.timing = $grid.data("timing") || opt.timing;
+				grid.pagination = $grid.data("pagination") || opt.pagination;
+
+				jQuery.extend(opt, $grid.data());
+
+				grid.cover = opt.cover;
 
 				grid.elements = $grid.children().clone();
 				$grid.children().remove();
@@ -336,7 +349,7 @@
 					delayOut += grid.delay;
 				}
 
-        $grid.fadeIn();
+				$grid.fadeIn();
 
 				if (!applyEffect){
 					grid.height = page.height();
@@ -344,13 +357,10 @@
 					jQuery.thumbGrid.buildIndex(grid);
 
 					if(typeof grid.nav != "undefined")
-					grid.nav.show();
+						grid.nav.show();
 				}
 
 			},500);
-
-
-
 
 			jQuery(window).on("resize.thumbGrid", function(){
 				grid.height = page.height();
@@ -421,6 +431,33 @@
 			placeHolder.css({position:"fixed", left:pHleft, top:pHtop, width:pHwidth, height:pHheight});
 			overlay.append(placeHolder).append(slideShowClose).append(spinnerPh).append(slideShowNext).append(slideShowPrev);
 
+
+			var spinnerOpts = {
+				lines: 11, // The number of lines to draw
+				length: 6, // The length of each line
+				width: 6, // The line thickness
+				radius: 16, // The radius of the inner circle
+				corners: 1, // Corner roundness (0..1)
+				rotate: 16, // The rotation offset
+				direction: 1, // 1: clockwise, -1: counterclockwise
+				color: '#fff', // #rgb or #rrggbb or array of colors
+				speed: 1.3, // Rounds per second
+				trail: 52, // Afterglow percentage
+				shadow: false, // Whether to render a shadow
+				hwaccel: false, // Whether to use hardware acceleration
+				className: 'spinner', // The CSS class to assign to the spinner
+				zIndex: 2e9, // The z-index (defaults to 2000000000)
+				top: '50%', // Top position relative to parent
+				left: '50%' // Left position relative to parent
+			};
+
+			var target = spinnerPh.get(0),
+					spinner;
+
+			spinner = new Spinner(spinnerOpts).spin(target);
+			spinnerPh.hide();
+			spinnerPh.delay(800).fadeIn(1000);
+
 			var slideShow = {
 
 				effect: grid.effect,
@@ -431,16 +468,19 @@
 					slideShow.goTo(false);
 					grid.isAnimating=false;
 				},
+
 				goTo: function(animate){
 
 					var oldImgWrapper = jQuery(".ss-img-wrapper",placeHolder).eq(0);
 
 					var idx = grid.slideShowIdx,
-							$grid = jQuery(grid),
 							imgWrapper = jQuery("<div/>").addClass("ss-img-wrapper").addClass("in"),
 							imagesList = grid.elements,
-							imageToShowURL = $(imagesList[idx]).data("highres"),
-							img = jQuery("<img/>");
+							image = $(imagesList[idx]),
+							imageToShowURL = image.data("highres"),
+							imageCaption = image.data("caption");
+
+					var img = jQuery("<img/>");
 
 					var displayProperties = {top: 0, left: 0, opacity: 1, x:0, y:0, scale:1, rotate:0, skew:0, filter: " blur(0)"};
 					displayProperties = jQuery.thumbGrid.normalizeCss(displayProperties);
@@ -452,27 +492,6 @@
 						imgWrapper.css({opacity:0});
 					}
 
-
-					var spinnerOpts = {
-						lines: 11, // The number of lines to draw
-						length: 6, // The length of each line
-						width: 6, // The line thickness
-						radius: 16, // The radius of the inner circle
-						corners: 1, // Corner roundness (0..1)
-						rotate: 16, // The rotation offset
-						direction: 1, // 1: clockwise, -1: counterclockwise
-						color: '#fff', // #rgb or #rrggbb or array of colors
-						speed: 1.3, // Rounds per second
-						trail: 52, // Afterglow percentage
-						shadow: false, // Whether to render a shadow
-						hwaccel: false, // Whether to use hardware acceleration
-						className: 'spinner', // The CSS class to assign to the spinner
-						zIndex: 2e9, // The z-index (defaults to 2000000000)
-						top: '50%', // Top position relative to parent
-						left: '50%' // Left position relative to parent
-					};
-					var target = spinnerPh.get(0),
-							spinner;
 
 					if(animate){
 						slideShow.spinner = setTimeout(function(){
@@ -489,26 +508,30 @@
 
 							imgWrapper.css({
 								backgroundImage:"url("+imageToShowURL+")",
-								backgroundSize: "contain",
+								backgroundSize: grid.cover ? "cover" : "contain",
 								backgroundPosition: "center center",
 								backgroundRepeat: "no-repeat"
 							});
 
+							var imageIndex = jQuery("<span/>").addClass("ss-img-index").html((idx+1)+"/"+imagesList.length);
+							var captionLabel = jQuery("<label/>").html(imageCaption).prepend(imageIndex);
+
+							if(imageCaption)
+								imgWrapper.append(captionLabel);
+
 							if(animate)
 								grid.isAnimating=true;
 
-							oldImgWrapper.CSSAnimate(jQuery.thumbGrid.normalizeCss(jQuery.thumbGrid.transitions[slideShow.effect].out), grid.timing, 200, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
+							oldImgWrapper.CSSAnimate(jQuery.thumbGrid.normalizeCss(jQuery.thumbGrid.transitions[slideShow.effect].out), grid.timing, 300, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
 								grid.isAnimating = false;
 								oldImgWrapper.removeClass("in");
 								jQuery(".ss-img-wrapper", placeHolder).not(".in").remove();
 							});
 
-							console.debug(displayProperties);
-
-							imgWrapper.CSSAnimate(displayProperties, grid.timing, 200, "cubic-bezier(0.19, 1, 0.22, 1)");
+							imgWrapper.CSSAnimate(displayProperties, grid.timing, 300, "cubic-bezier(0.19, 1, 0.22, 1)");
 						});
 
-					},300);
+					},600);
 
 					placeHolder.prepend(imgWrapper);
 
@@ -541,19 +564,15 @@
 					if(grid.slideShowIdx == -1){
 						grid.slideShowIdx = $(imagesList).length-1;
 					}
-
 					slideShow.goTo(true);
-
 				}
 
 			};
 
 			jQuery("body").append(overlay);
 			overlay.fadeTo(700,1);
-			placeHolder.CSSAnimate({width: "100%", height: "100%", left: 0, top: 0, opacity:1}, 100, 800, "cubic-bezier(0.19, 1, 0.22, 1)",  function () {
-
+			placeHolder.CSSAnimate({width: "100%", height: "100%", left: 0, top: 0, opacity:1}, 600, 800, "cubic-bezier(0.19, 1, 0.22, 1)",  function () {
 				slideShow.init(grid);
-
 			})
 		},
 
@@ -569,7 +588,8 @@
 					pHwidth = origin.width(),
 					pHheight = origin.height();
 
-			jQuery(".tg-placeHolder").animate({width: pHwidth, height: pHheight, left: pHleft, top: pHtop, opacity:1}, 300);
+			jQuery(".tg-placeHolder div").fadeOut(200);
+			jQuery(".tg-placeHolder").CSSAnimate({width: pHwidth, height: pHheight, left: pHleft, top: pHtop, opacity:1}, 600, "cubic-bezier(0.19, 1, 0.22, 1)");
 			jQuery(".tg-overlay").delay(800).fadeTo(800,0, function () {
 				jQuery(".tg-overlay").remove();
 				jQuery(".tg-placeHolder").remove();

@@ -12,64 +12,60 @@
     <style>
         body, html {
             position: relative;
-            width: 100%;
-            height: 100%;
-            background: #252a3f; /* Old browsers */
-            background: linear-gradient(135deg, #101821 0%, #2c3d4d 100%); /* W3C */
+            min-width: 100%;
+            min-height: 100%;
+            margin: 0;
+            padding: 0;
+            /*background: linear-gradient(135deg, #ffaa02 0%,#febf01 100%); *//* W3C */
+            background: linear-gradient(135deg, #343b40 0%, #494e51 100%); /* W3C */
             font-family: Verdana, Arial, Helvetica, sans-serif;
+        }
+
+        #wrapper{
+            padding: 20px;
+        }
+
+        h1{
+            padding-top: 20px;
+            font-size: 50px;
+            font-weight: 300;
         }
 
         label{
             color: white;
         }
+
+        /*custom overlay gradient */
+        .tg-overlay {
+            background: linear-gradient(135deg, rgba(130, 130, 130, 0.9) 0%, rgba(119, 138, 150, 0.9) 100%);
+        }
+
+
     </style>
 </head>
 <body>
 
-<section class="content">
-    <div id="thumbGrid" class="" data-thumbgrid="true" data-effect="zoomIn" data-delay="60" data-timing="800" data-pagination="6" data-galleryeffectnext="zoomIn" data-galleryeffectprev="zoomOut">
+<article id="wrapper">
+<h1>mb.thumbGallery</h1>
 
-        <img src="img/1.jpg" alt="img04" data-highres="http://38.media.tumblr.com/d23deac40b06633b79520a8552f40b94/tumblr_nb1uhrRrge1st5lhmo1_1280.jpg"/>
-        <img src="img/2.jpg" alt="img02" data-highres="http://33.media.tumblr.com/d59fde7754e24629be674872632e7556/tumblr_nb1udanVmD1st5lhmo1_1280.jpg"/>
-        <img src="img/3.jpg" alt="img01" data-highres="http://33.media.tumblr.com/a9d77a1bb36010a7dc0fd69a41b027c7/tumblr_nb1uw0kE8K1st5lhmo1_1280.jpg"/>
-        <img src="img/4.jpg" alt="img03" data-highres="http://33.media.tumblr.com/71be5cd5728e22354fc9dc389d5ab85b/tumblr_nb1uqjWny11st5lhmo1_1280.jpg"/>
-        <img src="img/5.jpg" alt="img01" data-highres="http://38.media.tumblr.com/b0599573cbde31e8f8ec2ce4f211bfc1/tumblr_naj3a897XB1st5lhmo1_1280.jpg"/>
-        <img src="img/6.jpg" alt="img04" data-highres="http://31.media.tumblr.com/d77e21ed167c2125627b210b48e23f81/tumblr_na0kw25OtD1st5lhmo1_1280.jpg"/>
-        <img src="img/7.jpg" alt="img05" data-highres="http://33.media.tumblr.com/0de1b93512d7b2b6287c1e4b630212b6/tumblr_n8zlzedP0b1st5lhmo1_1280.jpg"/>
-        <img src="img/8.jpg" alt="img06" data-highres="http://38.media.tumblr.com/2aec5b8337c3f2677080ea93f88a59aa/tumblr_n8zm1wVHz11st5lhmo1_1280.jpg"/>
-        <img src="img/9.jpg" alt="img05" data-highres="http://38.media.tumblr.com/ef74704fbfda8581ba130c573779f924/tumblr_n8gybzbUB61st5lhmo1_1280.jpg"/>
-        <img src="img/10.jpg" alt="img05" data-highres="http://33.media.tumblr.com/47d8817227b81bc6cae25e59dc3804d7/tumblr_n8gyvzQtkD1st5lhmo1_1280.jpg"/>
-        <img src="img/11.jpg" alt="img06" data-highres="http://33.media.tumblr.com/ba7758a52675589e05dc931572be9688/tumblr_n7ygur3NV91st5lhmo1_1280.jpg"/>
-        <img src="img/12.jpg" alt="img03" data-highres="http://38.media.tumblr.com/ce044b7c552a59beeb778b38bc527a65/tumblr_n7yhe1sTa41st5lhmo1_1280.jpg"/>
-        <img src="img/13.jpg" alt="img05" data-highres="http://38.media.tumblr.com/09c8a485996628c6349e6afa376b2c42/tumblr_n7yh01HyPI1st5lhmo1_1280.jpg"/>
-        <img src="img/14.jpg" alt="img06" data-highres="http://31.media.tumblr.com/26f1db79797aaf8577a32e288c5afefd/tumblr_n7yhhvUQtx1st5lhmo1_1280.jpg"/>
-        <img src="img/15.jpg" alt="img05" data-highres="http://38.media.tumblr.com/4e9d8c075b15f5922682bfaa13a8125c/tumblr_n7yhezarqF1st5lhmo1_1280.jpg"/>
-        <img src="img/16.jpg" alt="img04" data-highres="http://33.media.tumblr.com/cd40dba26eabfc0901892be37f207cf6/tumblr_n7fgl3sQS61st5lhmo1_1280.jpg"/>
-        <img src="img/17.jpg" alt="img06" data-highres="http://31.media.tumblr.com/e096ee96140e7d11e185fc591175b242/tumblr_n7fgbrn1uX1st5lhmo1_1280.jpg"/>
-        <img src="img/18.jpg" alt="img05" data-highres="http://33.media.tumblr.com/f6c67ec2821a91051e4175f8a102e1e2/tumblr_n6rzpcsMk41st5lhmo1_1280.jpg"/>
-        <img src="img/19.jpg" alt="img03" data-highres="http://31.media.tumblr.com/99110b18afc6e8541ad7e9d5f5586d94/tumblr_n6rzlh5e4k1st5lhmo1_1280.jpg"/>
-        <img src="img/20.jpg" alt="img05" data-highres="http://33.media.tumblr.com/46230f3fb958daa21c01d53a7fdcb747/tumblr_n6rz3iGDUA1st5lhmo1_1280.jpg"/>
-        <img src="img/21.jpg" alt="img06" data-highres="http://38.media.tumblr.com/440d3426742dfc6158fc3a274e6a3497/tumblr_n6eso9JmB61st5lhmo1_1280.jpg"/>
-        <img src="img/22.jpg" alt="img05" data-highres="http://33.media.tumblr.com/e8f8e7d70ebbc9198e5f016393d03eb3/tumblr_n6esvjIrNg1st5lhmo1_1280.jpg"/>
-    </div>
-</section>
 <style>
     /******** DEMO SWITCHER *******/
     #customize {
-        display: inline-block;
-        margin-top: -30px;
-        position: absolute;
         color: white;
         text-align: right;
-        margin-left: 10px;
-    }
 
+        position: relative;
+        margin: auto;
+        width: 980px;
+
+        margin-bottom: 120px;
+    }
 
     #customize input, #customize select {
         font-size: 15px;
         margin: 3px;
         padding: 4px 4px 4px 8px;
-        border: 1px solid rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(38, 41, 43, 0.44);
         color:#fff;
         background-color: rgba(0, 0, 0, 0.2);
         border-radius: 4px;
@@ -77,21 +73,13 @@
 
     #customize select {
         margin: 0;
-        background-image: url(thumbgrid-font/font/downArrow.svg);
-        background-repeat: no-repeat;
-        background-position: right center;
-        padding-right: 25px;
         outline: none;
-        overflow: hidden;
-        text-indent: 0.01px;
-        text-overflow: '';
         -webkit-appearance: none;
         -moz-appearance: none;
         -ms-appearance: none;
         -o-appearance: none;
         appearance: none;
         vertical-align: middle;
-
     }
 
     #customize label {
@@ -118,36 +106,75 @@
         <option value="slideInverse">slideInverse</option>
         <option value="rotate">rotate</option>
     </select>
-        <br>
-        <label for="delay">transition delay (in ms)</label>
-        <input id="delay" value="500"/>
-        <br>
-        <label for="timing">transition timing (in ms)</label>
-        <input id="timing" value="800"/>
+    <br>
+    <label for="delay">transition delay (in ms)</label>
+    <input id="delay" value="500"/>
+    <br>
+    <label for="timing">transition timing (in ms)</label>
+    <input id="timing" value="800"/>
 
+    <script>
+
+        jQuery(function () {
+
+            if (self.location.href == top.location.href){
+                var logo=$("<a href='http://pupunzi.com/#mb.components/components.html' style='position:absolute;top:0;z-index:1000'><img id='logo' border='0' src='http://pupunzi.com/images/logo.png' alt='mb.ideas.repository'></a>");
+                $("body").prepend(logo);
+                $("#logo").fadeIn();
+            }
+
+
+            jQuery("[data-thumbgrid]").thumbGrid();
+
+            //    customize
+            jQuery("#effect").on("change",function(){
+                var x = $(this).val();
+                jQuery("#thumbGrid").data("effect", x);
+            });
+
+            jQuery("#delay").on("change",function(){
+                var x = parseFloat($(this).val());
+                jQuery("#thumbGrid").data("delay", x);
+            });
+
+            jQuery("#timing").on("change",function(){
+                var x = parseFloat($(this).val());
+                jQuery("#thumbGrid").data("timing", x);
+            });
+        });
+
+    </script>
 </div>
-<script>
 
-    jQuery(function () {
-        jQuery("[data-thumbgrid]").thumbGrid();
 
-//    customize
-        jQuery("#effect").on("change",function(){
-            var x = $(this).val();
-            jQuery("#thumbGrid").data("effect", x);
-        });
+<section class="content">
+    <div id="thumbGrid" class="" data-thumbgrid="true" data-effect="slideLeft" data-delay="60" data-timing="800" data-pagination="6" data-galleryeffectnext="slideLeft" data-galleryeffectprev="slideRight" data-cover="true">
+        <img src="img/LR/01.jpg" alt="img04" data-highres="img/HR/01.jpg" data-caption="Parturient Bibendum Malesuada Etiam"/>
+        <img src="img/LR/02.jpg" alt="img02" data-highres="img/HR/02.jpg" />
+        <img src="img/LR/03.jpg" alt="img01" data-highres="img/HR/03.jpg" data-caption="Adipiscing Inceptos Ornare Cursus"/>
+        <img src="img/LR/04.jpg" alt="img03" data-highres="img/HR/04.jpg" data-caption="Etiam Purus Sollicitudin Fusce"/>
+        <img src="img/LR/05.jpg" alt="img01" data-highres="img/HR/05.jpg" data-caption="Parturient Bibendum Malesuada Etiam"/>
+        <img src="img/LR/06.jpg" alt="img04" data-highres="img/HR/06.jpg" data-caption="Magna Pharetra Inceptos"/>
+        <img src="img/LR/07.jpg" alt="img05" data-highres="img/HR/07.jpg" data-caption="Lorem ipsum dolor sit amet, consectetur adipiscing elit"/>
+        <img src="img/LR/08.jpg" alt="img06" data-highres="img/HR/08.jpg" data-caption="Venenatis Purus Parturient"/>
+        <img src="img/LR/09.jpg" alt="img05" data-highres="img/HR/09.jpg" data-caption="Ipsum Pharetra Cras Elit"/>
+        <img src="img/LR/10.jpg" alt="img05" data-highres="img/HR/10.jpg" data-caption="Cras Mollis Tortor Bibendum"/>
+        <img src="img/LR/11.jpg" alt="img06" data-highres="img/HR/11.jpg" data-caption="Venenatis Sem Commodo Condimentum"/>
+        <img src="img/LR/12.jpg" alt="img03" data-highres="img/HR/12.jpg" data-caption="Condimentum Magna Sollicitudin"/>
+        <img src="img/LR/13.jpg" alt="img05" data-highres="img/HR/13.jpg" data-caption="Vestibulum Mollis Adipiscing Cursus Euismod"/>
+        <img src="img/LR/14.jpg" alt="img06" data-highres="img/HR/14.jpg" data-caption="Egestas Vulputate Fusce Mattis"/>
+        <img src="img/LR/15.jpg" alt="img05" data-highres="img/HR/15.jpg" data-caption="Pellentesque Etiam Vestibulum"/>
+        <img src="img/LR/16.jpg" alt="img04" data-highres="img/HR/16.jpg" data-caption="Mollis Purus Malesuada"/>
+        <img src="img/LR/17.jpg" alt="img06" data-highres="img/HR/17.jpg" data-caption="Magna Nullam Sollicitudin Tortor"/>
+        <img src="img/LR/18.jpg" alt="img05" data-highres="img/HR/18.jpg" data-caption="Cursus Justo Ridiculus Venenatis"/>
+        <img src="img/LR/19.jpg" alt="img03" data-highres="img/HR/19.jpg" data-caption="Cras Nullam Consectetur Adipiscing"/>
+        <img src="img/LR/20.jpg" alt="img05" data-highres="img/HR/20.jpg" data-caption="Lorem Sit Condimentum Dolor"/>
+        <img src="img/LR/21.jpg" alt="img06" data-highres="img/HR/21.jpg" data-caption="Aenean Dolor Etiam Porta"/>
+        <img src="img/LR/22.jpg" alt="img05" data-highres="img/HR/22.jpg" data-caption="Mollis Elit Ornare Sit Fringilla"/>
+    </div>
+</section>
 
-        jQuery("#delay").on("change",function(){
-            var x = parseFloat($(this).val());
-            jQuery("#thumbGrid").data("delay", x);
-        });
+</article>
 
-        jQuery("#timing").on("change",function(){
-            var x = parseFloat($(this).val());
-            jQuery("#thumbGrid").data("timing", x);
-        });
-    });
-
-</script>
 </body>
 </html>

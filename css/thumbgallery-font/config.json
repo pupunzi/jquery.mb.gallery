@@ -1,0 +1,82 @@
+{
+  "name": "thumbgallery",
+  "css_prefix_text": "icon-",
+  "css_use_suffix": false,
+  "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
+  "glyphs": [
+    {
+      "uid": "eefc7dae9c9d6d1fee64b9575cda4407",
+      "css": "close",
+      "code": 59404,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M538.7 500L838.7 800 800 838.7 500 538.7 200 838.7 161.3 800 461.3 500 161.3 200 200 161.3 500 461.3 800 161.3 838.7 200 538.7 500Z",
+        "width": 1000
+      },
+      "search": [
+        "close"
+      ]
+    },
+    {
+      "uid": "96a9171fc915a9105f3795631397aed9",
+      "css": "next",
+      "code": 59405,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M650 538.7L650 538.7 350 838.7 311.3 800 611.3 500 311.3 200 350 161.3 650 461.3 650 461.3 688.7 500 653.9 534.8 650 538.7Z",
+        "width": 1000
+      },
+      "search": [
+        "next"
+      ]
+    },
+    {
+      "uid": "458609b366fd19e435342e9b0ab24dad",
+      "css": "prev",
+      "code": 59406,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M350 461.3L350 461.3 650 161.3 688.7 200 388.7 500 688.7 800 650 838.7 350 538.7 350 538.7 311.3 500 346.1 465.2 350 461.3Z",
+        "width": 1000
+      },
+      "search": [
+        "prev"
+      ]
+    },
+    {
+      "uid": "7222571caa5c15f83dcfd447c58d68d9",
+      "css": "search",
+      "code": 59393,
+      "src": "entypo"
+    },
+    {
+      "uid": "7e4164950ffa4990961958b2d6318658",
+      "css": "info-circled",
+      "code": 59392,
+      "src": "entypo"
+    },
+    {
+      "uid": "221947bea81f49a11b863c686a7bd235",
+      "css": "search-1",
+      "code": 59396,
+      "src": "websymbols"
+    },
+    {
+      "uid": "2a3cd95de2621bd87479396f236fd2a4",
+      "css": "heart",
+      "code": 59395,
+      "src": "websymbols"
+    },
+    {
+      "uid": "1bcc6c6369c3d475fa27115f806ff2ad",
+      "css": "heart-empty",
+      "code": 59394,
+      "src": "websymbols"
+    }
+  ]
+}
