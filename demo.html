@@ -5,7 +5,8 @@
     <title>jquery.mb.thumbGrid</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script src="//mb.components.cdn.s3.amazonaws.com/jquery.mb.browser/latest/jquery.mb.browser.min.js"></script>
-    <script src="//mb.components.cdn.s3.amazonaws.com/jquery.mb.CSSAnimate/latest/jquery.mb.CSSAnimate.min.js"></script>
+    <!--<script src="//mb.components.cdn.s3.amazonaws.com/jquery.mb.CSSAnimate/latest/jquery.mb.CSSAnimate.min.js"></script>-->
+    <script src="inc/jquery.mb.CSSAnimate.js"></script>
     <script src="inc/jquery.mb.thumbGrid.js"></script>
     <link rel="stylesheet" type="text/css" href="css/thumbGrid.css"/>
 
@@ -21,8 +22,13 @@
             font-family: Verdana, Arial, Helvetica, sans-serif;
         }
 
+        .content{}
+
         #wrapper{
             padding: 20px;
+            max-width: 1024px;
+            width: 100%;
+            margin: auto;
         }
 
         h1{
@@ -56,7 +62,7 @@
 
         position: relative;
         margin: auto;
-        width: 980px;
+        width: 100%;
 
         margin-bottom: 120px;
     }

@@ -46,6 +46,8 @@
 				var grid = this;
 				var $grid = jQuery(grid);
 
+				$grid.addClass("tg-container");
+
 				$grid.hide();
 
 				grid.opt = opt;
@@ -412,9 +414,9 @@
 					$grid = jQuery(grid),
 					overlay = jQuery("<div/>").addClass("tg-overlay").css({opacity:0}),
 					placeHolder = jQuery("<div/>").addClass("tg-placeHolder"),
-					slideShowClose = jQuery("<div/>").addClass("tg-close").on("click", function(){jQuery.thumbGrid.closeSlideshow(el, idx)}),
-					slideShowNext = jQuery("<div/>").addClass("tg-next").on("click", function(){slideShow.next()}),
-					slideShowPrev = jQuery("<div/>").addClass("tg-prev").on("click", function(){slideShow.prev()}),
+					slideShowClose = jQuery("<div/>").addClass("tg-close tg-icon").on("click", function(){jQuery.thumbGrid.closeSlideshow(el, idx)}),
+					slideShowNext = jQuery("<div/>").addClass("tg-next tg-icon").on("click", function(){slideShow.next()}),
+					slideShowPrev = jQuery("<div/>").addClass("tg-prev tg-icon").on("click", function(){slideShow.prev()}),
 					spinnerPh = jQuery("<div/>").addClass("tg-spinner"),
 					origin = $grid.find("[data-globalindex="+idx+"]").parents("li"),
 					pHleft = origin.offset().left - jQuery(window).scrollLeft(),
@@ -430,6 +432,8 @@
 
 			placeHolder.css({position:"fixed", left:pHleft, top:pHtop, width:pHwidth, height:pHheight});
 			overlay.append(placeHolder).append(slideShowClose).append(spinnerPh).append(slideShowNext).append(slideShowPrev);
+
+			jQuery(".tg-icon", overlay).css({opacity:0});
 
 
 			var spinnerOpts = {
@@ -464,7 +468,7 @@
 				effectNext: $grid.data("galleryeffectnext") || grid.effect,
 				effectPrev: $grid.data("galleryeffectprev") || grid.effect,
 
-				init: function(el){
+				init: function(){
 					slideShow.goTo(false);
 					grid.isAnimating=false;
 				},
@@ -480,6 +484,8 @@
 							imageToShowURL = image.data("highres"),
 							imageCaption = image.data("caption");
 
+					placeHolder.prepend(imgWrapper);
+
 					var img = jQuery("<img/>");
 
 					var displayProperties = {top: 0, left: 0, opacity: 1, x:0, y:0, scale:1, rotate:0, skew:0, filter: " blur(0)"};
@@ -492,7 +498,6 @@
 						imgWrapper.css({opacity:0});
 					}
 
-
 					if(animate){
 						slideShow.spinner = setTimeout(function(){
 							spinner = new Spinner(spinnerOpts).spin(target);
@@ -500,40 +505,42 @@
 						},1000)
 					}
 
-					setTimeout(function(){
-						img.attr({src:imageToShowURL}).on("load", function(){
+					img.one("load", function(){
 
-							clearTimeout(slideShow.spinner);
-							spinnerPh.fadeOut(300,function(){spinnerPh.empty();});
 
-							imgWrapper.css({
-								backgroundImage:"url("+imageToShowURL+")",
-								backgroundSize: grid.cover ? "cover" : "contain",
-								backgroundPosition: "center center",
-								backgroundRepeat: "no-repeat"
-							});
+						if(this.loaded)
+							return;
 
-							var imageIndex = jQuery("<span/>").addClass("ss-img-index").html((idx+1)+"/"+imagesList.length);
-							var captionLabel = jQuery("<label/>").html(imageCaption).prepend(imageIndex);
+						this.loaded = true;
 
-							if(imageCaption)
-								imgWrapper.append(captionLabel);
+						clearTimeout(slideShow.spinner);
+						spinnerPh.fadeOut(300,function(){spinnerPh.empty();});
 
-							if(animate)
-								grid.isAnimating=true;
-
-							oldImgWrapper.CSSAnimate(jQuery.thumbGrid.normalizeCss(jQuery.thumbGrid.transitions[slideShow.effect].out), grid.timing, 300, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
-								grid.isAnimating = false;
-								oldImgWrapper.removeClass("in");
-								jQuery(".ss-img-wrapper", placeHolder).not(".in").remove();
-							});
-
-							imgWrapper.CSSAnimate(displayProperties, grid.timing, 300, "cubic-bezier(0.19, 1, 0.22, 1)");
+						imgWrapper.css({
+							backgroundImage:"url("+imageToShowURL+")",
+							backgroundSize: grid.cover ? "cover" : "contain",
+							backgroundPosition: "center center",
+							backgroundRepeat: "no-repeat"
 						});
 
-					},600);
+						var imageIndex = jQuery("<span/>").addClass("ss-img-index").html((idx+1)+"/"+imagesList.length);
+						var captionLabel = jQuery("<label/>").html(imageCaption).prepend(imageIndex);
 
-					placeHolder.prepend(imgWrapper);
+						if(imageCaption)
+							imgWrapper.append(captionLabel);
+
+						if(animate)
+							grid.isAnimating=true;
+
+						imgWrapper.CSSAnimate(displayProperties, grid.timing, 100, "cubic-bezier(0.19, 1, 0.22, 1)");
+
+						oldImgWrapper.CSSAnimate(jQuery.thumbGrid.normalizeCss(jQuery.thumbGrid.transitions[slideShow.effect].out), grid.timing, 300, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
+							grid.isAnimating = false;
+							oldImgWrapper.removeClass("in");
+							jQuery(".ss-img-wrapper", placeHolder).not(".in").remove();
+						});
+
+					}).attr({src:imageToShowURL});
 
 				},
 				next: function(){
@@ -573,6 +580,7 @@
 			overlay.fadeTo(700,1);
 			placeHolder.CSSAnimate({width: "100%", height: "100%", left: 0, top: 0, opacity:1}, 600, 800, "cubic-bezier(0.19, 1, 0.22, 1)",  function () {
 				slideShow.init(grid);
+				jQuery(".tg-icon", overlay).fadeTo(200,1);
 			})
 		},
 
@@ -590,6 +598,7 @@
 
 			jQuery(".tg-placeHolder div").fadeOut(200);
 			jQuery(".tg-placeHolder").CSSAnimate({width: pHwidth, height: pHheight, left: pHleft, top: pHtop, opacity:1}, 600, "cubic-bezier(0.19, 1, 0.22, 1)");
+			jQuery(".tg-icon").fadeTo(200,0);
 			jQuery(".tg-overlay").delay(800).fadeTo(800,0, function () {
 				jQuery(".tg-overlay").remove();
 				jQuery(".tg-placeHolder").remove();
