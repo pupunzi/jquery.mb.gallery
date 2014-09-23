@@ -25,15 +25,15 @@
 
 		},
 		transitions: {
-			fade: {in: {opacity:0}, out: {opacity:0}},
-			slideUp: {in: {y:200, opacity:0}, out: {y:-200, opacity:0}},
-			slideDown: {in: {y:-200, opacity:0}, out: {y:200, opacity:0}},
-			slideLeft: {in: {x:200, opacity:0}, out: {x:-200, opacity:0}},
-			slideRight: {in: {x:-200, opacity:0}, out: {x:200, opacity:0}},
-			slideInverse: {in: {y:200, opacity:0}, out: {y:200, opacity:0}},
-			zoomIn: {in: {scale:.5, opacity:0}, out: {scale:2, opacity:0}},
-			zoomOut: {in: {scale:2, opacity:0}, out: {scale:.1, opacity:0}},
-			rotate: {in: {rotate:(jQuery.browser.webkit ? 180 : 181), opacity:0}, out: {rotate: 179, opacity:0}}
+			fade: {"in": {opacity:0}, out: {opacity:0}},
+			slideUp: {"in": {opacity:0}, out: {y:-200, opacity:0}},
+			slideDown: {"in": {opacity:0}, out: {y:200, opacity:0}},
+			slideLeft: {"in": {opacity:0}, out: {x:-200, opacity:0}},
+			slideRight: {"in": {opacity:0}, out: {x:200, opacity:0}},
+			slideInverse: {"in": {y:200, opacity:0}, out: {y:200, opacity:0}},
+			zoomIn: {"in": {scale:.5, opacity:0}, out: {scale:2, opacity:0}},
+			zoomOut: {"in": {scale:2, opacity:0}, out: {scale:.1, opacity:0}},
+			rotate: {"in": { opacity:0}, out: {rotate: 179, opacity:0}}
 		},
 
 		init: function (options) {
@@ -93,6 +93,10 @@
 		},
 
 		normalizeCss:function(opt){
+
+			if(jQuery.browser.msie && jQuery.browser.version <= 9)
+				return opt;
+
 			var newOpt = jQuery.extend(true, {}, opt);
 			var sfx = "";
 			var transitionEnd = "transitionEnd";
@@ -327,8 +331,8 @@
 
 			setTimeout(function(){
 
+//				var displayProperties = jQuery.thumbGrid.normalizeCss({top: 0, left: 0, opacity: 1, x:0, y:0, scale:1, rotate:0, skew:0, filter: " blur(0)"});
 				var displayProperties = {top: 0, left: 0, opacity: 1, x:0, y:0, scale:1, rotate:0, skew:0, filter: " blur(0)"};
-				displayProperties = jQuery.thumbGrid.normalizeCss(displayProperties);
 
 				var delayIn = grid.delay;
 				for( var i = 0; i < jQuery(".in .thumbWrapper", $grid).length; i++){
@@ -341,7 +345,7 @@
 				var delayOut = grid.delay;
 				for( var ii = 0; ii < jQuery(".out .thumbWrapper", $grid).length; ii++){
 					var elOut = jQuery(".out .thumbWrapper", $grid).eq(ii);
-					var transitionOut = jQuery.thumbGrid.normalizeCss(jQuery.thumbGrid.transitions[grid.effect].out);
+					var transitionOut = jQuery.thumbGrid.transitions[grid.effect].out;
 
 					elOut.CSSAnimate(transitionOut, grid.timing, delayOut, "cubic-bezier(0.19, 1, 0.22, 1)", function(el){
 						if(el.index() == jQuery(".out .thumbWrapper", $grid).length-1)
@@ -486,14 +490,16 @@
 
 					placeHolder.prepend(imgWrapper);
 
+					console.debug(idx);
+
 					var img = jQuery("<img/>");
 
 					var displayProperties = {top: 0, left: 0, opacity: 1, x:0, y:0, scale:1, rotate:0, skew:0, filter: " blur(0)"};
-					displayProperties = jQuery.thumbGrid.normalizeCss(displayProperties);
 
 					if(animate)
 						imgWrapper.css(jQuery.thumbGrid.normalizeCss(jQuery.thumbGrid.transitions[slideShow.effect].in));
 					else{
+						displayProperties = jQuery.thumbGrid.normalizeCss(displayProperties);
 						imgWrapper.css(displayProperties);
 						imgWrapper.css({opacity:0});
 					}
@@ -534,7 +540,7 @@
 
 						imgWrapper.CSSAnimate(displayProperties, grid.timing*2, 100, "cubic-bezier(0.19, 1, 0.22, 1)");
 
-						oldImgWrapper.CSSAnimate(jQuery.thumbGrid.normalizeCss(jQuery.thumbGrid.transitions[slideShow.effect].out), grid.timing*2, 300, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
+						oldImgWrapper.CSSAnimate(jQuery.thumbGrid.transitions[slideShow.effect].out, grid.timing*2, 300, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
 							grid.isAnimating = false;
 							oldImgWrapper.removeClass("in");
 							jQuery(".ss-img-wrapper", placeHolder).not(".in").remove();
@@ -546,10 +552,10 @@
 				next: function(){
 
 					slideShow.effect = slideShow.effectNext;
-					/*
-					 if(grid.isAnimating)
+
+					 if(grid.isAnimating && jQuery.browser.msie)
 					 return;
-					 */
+
 					var imagesList = grid.elements;
 					++grid.slideShowIdx;
 					if(grid.slideShowIdx == $(imagesList).length){
@@ -561,10 +567,8 @@
 
 					slideShow.effect = slideShow.effectPrev;
 
-					/*
-					 if(grid.isAnimating)
+					 if(grid.isAnimating && jQuery.browser.msie)
 					 return;
-					 */
 
 					var imagesList = grid.elements;
 					--grid.slideShowIdx;
