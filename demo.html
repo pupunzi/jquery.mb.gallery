@@ -2,6 +2,8 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
     <title>jquery.mb.thumbGrid</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script src="http://mb.components.cdn.s3.amazonaws.com/jquery.mb.browser/latest/jquery.mb.browser.min.js"></script>
@@ -101,103 +103,103 @@
 <body>
 
 <article id="wrapper">
-<h1>mb.thumbGallery</h1>
-<div id="customize">
-    <label for="effect">transition effect</label>
-    <select id="effect">
-        <option value="zoomIn">zoomIn</option>
-        <option value="zoomOut">zoomOut</option>
-        <option value="fade">fade</option>
-        <option value="slideUp">slideUp</option>
-        <option value="slideDown">slideDown</option>
-        <option value="slideLeft">slideLeft</option>
-        <option value="slideRight">slideRight</option>
-        <option value="slideInverse">slideInverse</option>
-        <option value="rotate">rotate</option>
-    </select>
-    <br>
-    <label for="delay">transition delay (in ms)</label>
-    <input id="delay" value="500"/>
-    <br>
-    <label for="timing">transition timing (in ms)</label>
-    <input id="timing" value="800"/>
+    <h1>mb.thumbGallery</h1>
+    <div id="customize">
+        <label for="effect">transition effect</label>
+        <select id="effect">
+            <option value="zoomIn">zoomIn</option>
+            <option value="zoomOut">zoomOut</option>
+            <option value="fade">fade</option>
+            <option value="slideUp">slideUp</option>
+            <option value="slideDown">slideDown</option>
+            <option value="slideLeft">slideLeft</option>
+            <option value="slideRight">slideRight</option>
+            <option value="slideInverse">slideInverse</option>
+            <option value="rotate">rotate</option>
+        </select>
+        <br>
+        <label for="delay">transition delay (in ms)</label>
+        <input id="delay" value="500"/>
+        <br>
+        <label for="timing">transition timing (in ms)</label>
+        <input id="timing" value="800"/>
 
-    <script>
+        <script>
 
-        jQuery(function () {
+            jQuery(function () {
 
 
 //           jQuery.thumbGrid.transitions.slideLeft = {in: {x:"100%", opacity:0}, out: {x:"-100%", opacity:0}};
 //            jQuery.thumbGrid.transitions.slideRight = {in: {x:"-100%", opacity:0}, out: {x:"100%", opacity:0}};
 
 
-            if (self.location.href == top.location.href){
-                var logo=$("<a href='http://pupunzi.com/#mb.components/components.html' style='position:absolute;top:0;z-index:1000'><img id='logo' border='0' src='http://pupunzi.com/images/logo.png' alt='mb.ideas.repository'></a>");
-                $("body").prepend(logo);
-                $("#logo").fadeIn();
-            }
+                if (self.location.href == top.location.href){
+                    var logo=$("<a href='http://pupunzi.com/#mb.components/components.html' style='position:absolute;top:0;z-index:1000'><img id='logo' border='0' src='http://pupunzi.com/images/logo.png' alt='mb.ideas.repository'></a>");
+                    $("body").prepend(logo);
+                    $("#logo").fadeIn();
+                }
 
 
-            jQuery("[data-thumbgrid]").thumbGrid();
+                jQuery("[data-thumbgrid]").thumbGrid();
 
-            //    customize
-            jQuery("#effect").on("change",function(){
-                var x = $(this).val();
-                jQuery("#thumbGrid").data("effect", x);
+                //    customize
+                jQuery("#effect").on("change",function(){
+                    var x = $(this).val();
+                    jQuery("#thumbGrid").data("effect", x);
+                });
+
+                jQuery("#delay").on("change",function(){
+                    var x = parseFloat($(this).val());
+                    jQuery("#thumbGrid").data("delay", x);
+                });
+
+                jQuery("#timing").on("change",function(){
+                    var x = parseFloat($(this).val());
+                    jQuery("#thumbGrid").data("timing", x);
+                });
             });
 
-            jQuery("#delay").on("change",function(){
-                var x = parseFloat($(this).val());
-                jQuery("#thumbGrid").data("delay", x);
-            });
-
-            jQuery("#timing").on("change",function(){
-                var x = parseFloat($(this).val());
-                jQuery("#thumbGrid").data("timing", x);
-            });
-        });
-
-    </script>
-</div>
-
-
-<section class="content">
-
-    <div id="thumbGrid" class=""
-         data-thumbgrid="true"
-         data-effect="slideLeft"
-         data-delay="60"
-         data-timing="800"
-         data-pagination="6"
-         data-galleryeffectnext="slideLeft"
-         data-galleryeffectprev="slideRight"
-         data-cover="true">
-
-        <img src="img/LR/01.jpg" alt="img04" data-highres="img/HR/01.jpg" data-caption="Parturient Bibendum Malesuada Etiam"/>
-        <img src="img/LR/02.jpg" alt="img02" data-highres="img/HR/02.jpg" />
-        <img src="img/LR/03.jpg" alt="img01" data-highres="img/HR/03.jpg" data-caption="Adipiscing Inceptos Ornare Cursus"/>
-        <img src="img/LR/04.jpg" alt="img03" data-highres="img/HR/04.jpg" data-caption="Etiam Purus Sollicitudin Fusce"/>
-        <img src="img/LR/05.jpg" alt="img01" data-highres="img/HR/05.jpg" data-caption="Parturient Bibendum Malesuada Etiam"/>
-        <img src="img/LR/06.jpg" alt="img04" data-highres="img/HR/06.jpg" data-caption="Magna Pharetra Inceptos"/>
-        <img src="img/LR/07.jpg" alt="img05" data-highres="img/HR/07.jpg" data-caption="Lorem ipsum dolor sit amet, consectetur adipiscing elit"/>
-        <img src="img/LR/08.jpg" alt="img06" data-highres="img/HR/08.jpg" data-caption="Venenatis Purus Parturient"/>
-        <img src="img/LR/09.jpg" alt="img05" data-highres="img/HR/09.jpg" data-caption="Ipsum Pharetra Cras Elit"/>
-        <img src="img/LR/10.jpg" alt="img05" data-highres="img/HR/10.jpg" data-caption="Cras Mollis Tortor Bibendum"/>
-        <img src="img/LR/11.jpg" alt="img06" data-highres="img/HR/11.jpg" data-caption="Venenatis Sem Commodo Condimentum"/>
-        <img src="img/LR/12.jpg" alt="img03" data-highres="img/HR/12.jpg" data-caption="Condimentum Magna Sollicitudin"/>
-        <img src="img/LR/13.jpg" alt="img05" data-highres="img/HR/13.jpg" data-caption="Vestibulum Mollis Adipiscing Cursus Euismod"/>
-        <img src="img/LR/14.jpg" alt="img06" data-highres="img/HR/14.jpg" data-caption="Egestas Vulputate Fusce Mattis"/>
-        <img src="img/LR/15.jpg" alt="img05" data-highres="img/HR/15.jpg" data-caption="Pellentesque Etiam Vestibulum"/>
-        <img src="img/LR/16.jpg" alt="img04" data-highres="img/HR/16.jpg" data-caption="Mollis Purus Malesuada"/>
-        <img src="img/LR/17.jpg" alt="img06" data-highres="img/HR/17.jpg" data-caption="Magna Nullam Sollicitudin Tortor"/>
-        <img src="img/LR/18.jpg" alt="img05" data-highres="img/HR/18.jpg" data-caption="Cursus Justo Ridiculus Venenatis"/>
-        <img src="img/LR/19.jpg" alt="img03" data-highres="img/HR/19.jpg" data-caption="Cras Nullam Consectetur Adipiscing"/>
-        <img src="img/LR/20.jpg" alt="img05" data-highres="img/HR/20.jpg" data-caption="Lorem Sit Condimentum Dolor"/>
-        <img src="img/LR/21.jpg" alt="img06" data-highres="img/HR/21.jpg" data-caption="Aenean Dolor Etiam Porta"/>
-        <img src="img/LR/22.jpg" alt="img05" data-highres="img/HR/22.jpg" data-caption="Mollis Elit Ornare Sit Fringilla"/>
-
+        </script>
     </div>
-</section>
+
+
+    <section class="content">
+
+        <div id="thumbGrid" class=""
+             data-thumbgrid="true"
+             data-effect="slideLeft"
+             data-delay="60"
+             data-timing="800"
+             data-pagination="6"
+             data-galleryeffectnext="slideLeft"
+             data-galleryeffectprev="slideRight"
+             data-cover="true">
+
+            <img src="img/LR/01.jpg" alt="img04" data-highres="img/HR/01.jpg" data-caption="Parturient Bibendum Malesuada Etiam"/>
+            <img src="img/LR/02.jpg" alt="img02" data-highres="img/HR/02.jpg" />
+            <img src="img/LR/03.jpg" alt="img01" data-highres="img/HR/03.jpg" data-caption="Adipiscing Inceptos Ornare Cursus"/>
+            <img src="img/LR/04.jpg" alt="img03" data-highres="img/HR/04.jpg" data-caption="Etiam Purus Sollicitudin Fusce"/>
+            <img src="img/LR/05.jpg" alt="img01" data-highres="img/HR/05.jpg" data-caption="Parturient Bibendum Malesuada Etiam"/>
+            <img src="img/LR/06.jpg" alt="img04" data-highres="img/HR/06.jpg" data-caption="Magna Pharetra Inceptos"/>
+            <img src="img/LR/07.jpg" alt="img05" data-highres="img/HR/07.jpg" data-caption="Lorem ipsum dolor sit amet, consectetur adipiscing elit"/>
+            <img src="img/LR/08.jpg" alt="img06" data-highres="img/HR/08.jpg" data-caption="Venenatis Purus Parturient"/>
+            <img src="img/LR/09.jpg" alt="img05" data-highres="img/HR/09.jpg" data-caption="Ipsum Pharetra Cras Elit"/>
+            <img src="img/LR/10.jpg" alt="img05" data-highres="img/HR/10.jpg" data-caption="Cras Mollis Tortor Bibendum"/>
+            <img src="img/LR/11.jpg" alt="img06" data-highres="img/HR/11.jpg" data-caption="Venenatis Sem Commodo Condimentum"/>
+            <img src="img/LR/12.jpg" alt="img03" data-highres="img/HR/12.jpg" data-caption="Condimentum Magna Sollicitudin"/>
+            <img src="img/LR/13.jpg" alt="img05" data-highres="img/HR/13.jpg" data-caption="Vestibulum Mollis Adipiscing Cursus Euismod"/>
+            <img src="img/LR/14.jpg" alt="img06" data-highres="img/HR/14.jpg" data-caption="Egestas Vulputate Fusce Mattis"/>
+            <img src="img/LR/15.jpg" alt="img05" data-highres="img/HR/15.jpg" data-caption="Pellentesque Etiam Vestibulum"/>
+            <img src="img/LR/16.jpg" alt="img04" data-highres="img/HR/16.jpg" data-caption="Mollis Purus Malesuada"/>
+            <img src="img/LR/17.jpg" alt="img06" data-highres="img/HR/17.jpg" data-caption="Magna Nullam Sollicitudin Tortor"/>
+            <img src="img/LR/18.jpg" alt="img05" data-highres="img/HR/18.jpg" data-caption="Cursus Justo Ridiculus Venenatis"/>
+            <img src="img/LR/19.jpg" alt="img03" data-highres="img/HR/19.jpg" data-caption="Cras Nullam Consectetur Adipiscing"/>
+            <img src="img/LR/20.jpg" alt="img05" data-highres="img/HR/20.jpg" data-caption="Lorem Sit Condimentum Dolor"/>
+            <img src="img/LR/21.jpg" alt="img06" data-highres="img/HR/21.jpg" data-caption="Aenean Dolor Etiam Porta"/>
+            <img src="img/LR/22.jpg" alt="img05" data-highres="img/HR/22.jpg" data-caption="Mollis Elit Ornare Sit Fringilla"/>
+
+        </div>
+    </section>
 
 </article>
 

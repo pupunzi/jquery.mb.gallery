@@ -347,8 +347,8 @@
 					var elOut = jQuery(".out .thumbWrapper", $grid).eq(ii);
 					var transitionOut = jQuery.thumbGrid.transitions[grid.effect].out;
 
-					elOut.CSSAnimate(transitionOut, grid.timing, delayOut, "cubic-bezier(0.19, 1, 0.22, 1)", function(el){
-						if(el.index() == jQuery(".out .thumbWrapper", $grid).length-1)
+					elOut.CSSAnimate(transitionOut, grid.timing, delayOut, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
+						if($grid.index() == jQuery(".out .thumbWrapper", $grid).length-1)
 							jQuery(".out", $grid).remove();
 						grid.isAnimating = false;
 					});
