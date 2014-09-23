@@ -5,8 +5,8 @@
     <title>jquery.mb.thumbGrid</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script src="//mb.components.cdn.s3.amazonaws.com/jquery.mb.browser/latest/jquery.mb.browser.min.js"></script>
-    <!--<script src="//mb.components.cdn.s3.amazonaws.com/jquery.mb.CSSAnimate/latest/jquery.mb.CSSAnimate.min.js"></script>-->
-    <script src="inc/jquery.mb.CSSAnimate.js"></script>
+    <script src="//mb.components.cdn.s3.amazonaws.com/jquery.mb.CSSAnimate/latest/jquery.mb.CSSAnimate.min.js"></script>
+    <!--<script src="inc/jquery.mb.CSSAnimate.js"></script>-->
     <script src="inc/jquery.mb.thumbGrid.js"></script>
     <link rel="stylesheet" type="text/css" href="css/thumbGrid.css"/>
 
@@ -18,7 +18,7 @@
             margin: 0;
             padding: 0;
             /*background: linear-gradient(135deg, #ffaa02 0%,#febf01 100%); *//* W3C */
-            background: linear-gradient(135deg, #343b40 0%, #494e51 100%); /* W3C */
+            background: linear-gradient(135deg, #343b40 0%, #494e51 100%);
             font-family: Verdana, Arial, Helvetica, sans-serif;
         }
 
@@ -42,10 +42,59 @@
         }
 
         /*custom overlay gradient */
-        .tg-overlay {
-            background: linear-gradient(135deg, rgba(130, 130, 130, 0.9) 0%, rgba(119, 138, 150, 0.9) 100%);
+
+        .tg-placeHolder{
+            background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
+            /*background: linear-gradient(135deg, #343b40 0%, #494e51 100%);*/
         }
 
+        .tg-overlay {
+            /*background: linear-gradient(135deg, rgba(130, 130, 130, 0.9) 0%, rgba(119, 138, 150, 0.9) 100%);*/
+        }
+
+        /******** DEMO SWITCHER *******/
+        #customize {
+            color: white;
+            text-align: right;
+
+            position: relative;
+            margin: auto;
+            width: 100%;
+
+            margin-bottom: 120px;
+        }
+
+        #customize input, #customize select {
+            font-size: 15px;
+            margin: 3px;
+            padding: 4px 4px 4px 8px;
+            border: 1px solid rgba(38, 41, 43, 0.44);
+            color:#fff;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        #customize select {
+            margin: 0;
+            outline: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            -ms-appearance: none;
+            -o-appearance: none;
+            appearance: none;
+            vertical-align: middle;
+        }
+
+        #customize label {
+            font-size: 13px;
+            margin: 3px 0;
+            padding: 3px 10px 3px 0;
+            /*width: 160px;*/
+            display: inline-block;
+            text-align: left;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
 
     </style>
 </head>
@@ -53,52 +102,6 @@
 
 <article id="wrapper">
 <h1>mb.thumbGallery</h1>
-
-<style>
-    /******** DEMO SWITCHER *******/
-    #customize {
-        color: white;
-        text-align: right;
-
-        position: relative;
-        margin: auto;
-        width: 100%;
-
-        margin-bottom: 120px;
-    }
-
-    #customize input, #customize select {
-        font-size: 15px;
-        margin: 3px;
-        padding: 4px 4px 4px 8px;
-        border: 1px solid rgba(38, 41, 43, 0.44);
-        color:#fff;
-        background-color: rgba(0, 0, 0, 0.2);
-        border-radius: 4px;
-    }
-
-    #customize select {
-        margin: 0;
-        outline: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        -ms-appearance: none;
-        -o-appearance: none;
-        appearance: none;
-        vertical-align: middle;
-    }
-
-    #customize label {
-        font-size: 13px;
-        margin: 3px 0;
-        padding: 3px 10px 3px 0;
-        /*width: 160px;*/
-        display: inline-block;
-        text-align: left;
-        text-transform: uppercase;
-        font-weight: 500;
-    }
-</style>
 <div id="customize">
     <label for="effect">transition effect</label>
     <select id="effect">
@@ -122,6 +125,11 @@
     <script>
 
         jQuery(function () {
+
+
+//           jQuery.thumbGrid.transitions.slideLeft = {in: {x:"100%", opacity:0}, out: {x:"-100%", opacity:0}};
+//            jQuery.thumbGrid.transitions.slideRight = {in: {x:"-100%", opacity:0}, out: {x:"100%", opacity:0}};
+
 
             if (self.location.href == top.location.href){
                 var logo=$("<a href='http://pupunzi.com/#mb.components/components.html' style='position:absolute;top:0;z-index:1000'><img id='logo' border='0' src='http://pupunzi.com/images/logo.png' alt='mb.ideas.repository'></a>");
@@ -154,7 +162,17 @@
 
 
 <section class="content">
-    <div id="thumbGrid" class="" data-thumbgrid="true" data-effect="slideLeft" data-delay="60" data-timing="800" data-pagination="6" data-galleryeffectnext="slideLeft" data-galleryeffectprev="slideRight" data-cover="true">
+
+    <div id="thumbGrid" class=""
+         data-thumbgrid="true"
+         data-effect="slideLeft"
+         data-delay="60"
+         data-timing="800"
+         data-pagination="6"
+         data-galleryeffectnext="slideLeft"
+         data-galleryeffectprev="slideRight"
+         data-cover="true">
+
         <img src="img/LR/01.jpg" alt="img04" data-highres="img/HR/01.jpg" data-caption="Parturient Bibendum Malesuada Etiam"/>
         <img src="img/LR/02.jpg" alt="img02" data-highres="img/HR/02.jpg" />
         <img src="img/LR/03.jpg" alt="img01" data-highres="img/HR/03.jpg" data-caption="Adipiscing Inceptos Ornare Cursus"/>
@@ -177,6 +195,7 @@
         <img src="img/LR/20.jpg" alt="img05" data-highres="img/HR/20.jpg" data-caption="Lorem Sit Condimentum Dolor"/>
         <img src="img/LR/21.jpg" alt="img06" data-highres="img/HR/21.jpg" data-caption="Aenean Dolor Etiam Porta"/>
         <img src="img/LR/22.jpg" alt="img05" data-highres="img/HR/22.jpg" data-caption="Mollis Elit Ornare Sit Fringilla"/>
+
     </div>
 </section>
 

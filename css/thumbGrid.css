@@ -164,14 +164,19 @@ nav.thumbGridNav a.sel {
 }
 
 .tg-overlay {
+  transition:All 2s ease;
+  -webkit-transition:All .3s ease;
+  -moz-transition:All .3s ease;
+  -o-transition:All .3s ease;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, .95);
+  background: transparent;
   z-index: 10000;
 }
+
 
 .tg-placeHolder {
   background: rgb(30, 33, 35);

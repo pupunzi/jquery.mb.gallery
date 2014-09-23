@@ -418,11 +418,11 @@
 					slideShowNext = jQuery("<div/>").addClass("tg-next tg-icon").on("click", function(){slideShow.next()}),
 					slideShowPrev = jQuery("<div/>").addClass("tg-prev tg-icon").on("click", function(){slideShow.prev()}),
 					spinnerPh = jQuery("<div/>").addClass("tg-spinner"),
-					origin = $grid.find("[data-globalindex="+idx+"]").parents("li"),
-					pHleft = origin.offset().left - jQuery(window).scrollLeft(),
-					pHtop = origin.offset().top - jQuery(window).scrollTop(),
-					pHwidth = origin.width(),
-					pHheight = origin.height();
+					$origin = $grid.find("[data-globalindex="+idx+"]").parents("li"),
+					pHleft = $origin.offset().left - jQuery(window).scrollLeft(),
+					pHtop = $origin.offset().top - jQuery(window).scrollTop(),
+					pHwidth = $origin.outerWidth(),
+					pHheight = $origin.outerHeight();
 
 			grid.effect = $grid.data("effect") || "fade";
 			grid.delay = $grid.data("delay") || 500;
@@ -532,9 +532,9 @@
 						if(animate)
 							grid.isAnimating=true;
 
-						imgWrapper.CSSAnimate(displayProperties, grid.timing, 100, "cubic-bezier(0.19, 1, 0.22, 1)");
+						imgWrapper.CSSAnimate(displayProperties, grid.timing*2, 100, "cubic-bezier(0.19, 1, 0.22, 1)");
 
-						oldImgWrapper.CSSAnimate(jQuery.thumbGrid.normalizeCss(jQuery.thumbGrid.transitions[slideShow.effect].out), grid.timing, 300, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
+						oldImgWrapper.CSSAnimate(jQuery.thumbGrid.normalizeCss(jQuery.thumbGrid.transitions[slideShow.effect].out), grid.timing*2, 300, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
 							grid.isAnimating = false;
 							oldImgWrapper.removeClass("in");
 							jQuery(".ss-img-wrapper", placeHolder).not(".in").remove();
@@ -577,8 +577,9 @@
 			};
 
 			jQuery("body").append(overlay);
-			overlay.fadeTo(700,1);
-			placeHolder.CSSAnimate({width: "100%", height: "100%", left: 0, top: 0, opacity:1}, 600, 800, "cubic-bezier(0.19, 1, 0.22, 1)",  function () {
+			overlay.fadeTo(100,1);
+
+			placeHolder.CSSAnimate({width: "100%", height: "100%", left: 0, top: 0, opacity:1}, 300, 800, "cubic-bezier(.8,.07,.98,.06)",  function () {
 				slideShow.init(grid);
 				jQuery(".tg-icon", overlay).fadeTo(200,1);
 			})
@@ -593,13 +594,13 @@
 					origin = $grid.find("[data-globalindex="+idx+"]").parents("li"),
 					pHleft = origin.offset().left - jQuery(window).scrollLeft(),
 					pHtop = origin.offset().top - jQuery(window).scrollTop(),
-					pHwidth = origin.width(),
-					pHheight = origin.height();
+					pHwidth = origin.outerWidth(),
+					pHheight = origin.outerHeight();
 
 			jQuery(".tg-placeHolder div").fadeOut(200);
 			jQuery(".tg-placeHolder").CSSAnimate({width: pHwidth, height: pHheight, left: pHleft, top: pHtop, opacity:1}, 600, "cubic-bezier(0.19, 1, 0.22, 1)");
 			jQuery(".tg-icon").fadeTo(200,0);
-			jQuery(".tg-overlay").delay(800).fadeTo(800,0, function () {
+			jQuery(".tg-placeHolder").delay(800).fadeTo(800,0, function () {
 				jQuery(".tg-overlay").remove();
 				jQuery(".tg-placeHolder").remove();
 				jQuery("body").css({overflow:"auto"});
