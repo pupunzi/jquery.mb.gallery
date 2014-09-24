@@ -64,6 +64,7 @@
 
 .thumb-grid img {
   opacity: 0;
+  -webkit-backface-visibility: hidden;
 }
 
 .thumb-grid.active img {
@@ -73,7 +74,6 @@
 
 .thumb-grid li {
   position: relative;
-  display: inline-block !important;
   margin: 5px;
   width: 300px;
   height: 200px;
@@ -81,6 +81,7 @@
   border: 1px solid rgba(0, 0, 0, 0.2);
   background-color: rgba(0, 0, 0, 0.2);
   box-shadow: 0 0 5px rgba(0,0,0,0.3);
+  float: left;
 }
 
 .thumb-grid li:hover:after {

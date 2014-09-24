@@ -331,7 +331,6 @@
 
 			setTimeout(function(){
 
-//				var displayProperties = jQuery.thumbGrid.normalizeCss({top: 0, left: 0, opacity: 1, x:0, y:0, scale:1, rotate:0, skew:0, filter: " blur(0)"});
 				var displayProperties = {top: 0, left: 0, opacity: 1, x:0, y:0, scale:1, rotate:0, skew:0, filter: " blur(0)"};
 
 				var delayIn = grid.delay;
@@ -348,9 +347,11 @@
 					var transitionOut = jQuery.thumbGrid.transitions[grid.effect].out;
 
 					elOut.CSSAnimate(transitionOut, grid.timing, delayOut, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
-						if($grid.index() == jQuery(".out .thumbWrapper", $grid).length-1)
+
+						if($(this).index() == jQuery(".out .thumbWrapper", $grid).length-1){
 							jQuery(".out", $grid).remove();
-						grid.isAnimating = false;
+							grid.isAnimating = false;
+						}
 					});
 					delayOut += grid.delay;
 				}
@@ -490,8 +491,6 @@
 
 					placeHolder.prepend(imgWrapper);
 
-					console.debug(idx);
-
 					var img = jQuery("<img/>");
 
 					var displayProperties = {top: 0, left: 0, opacity: 1, x:0, y:0, scale:1, rotate:0, skew:0, filter: " blur(0)"};
@@ -553,8 +552,8 @@
 
 					slideShow.effect = slideShow.effectNext;
 
-					 if(grid.isAnimating && jQuery.browser.msie)
-					 return;
+					if(grid.isAnimating && jQuery.browser.msie)
+						return;
 
 					var imagesList = grid.elements;
 					++grid.slideShowIdx;
@@ -567,8 +566,8 @@
 
 					slideShow.effect = slideShow.effectPrev;
 
-					 if(grid.isAnimating && jQuery.browser.msie)
-					 return;
+					if(grid.isAnimating && jQuery.browser.msie)
+						return;
 
 					var imagesList = grid.elements;
 					--grid.slideShowIdx;
