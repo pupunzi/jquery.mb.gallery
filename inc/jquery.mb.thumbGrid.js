@@ -22,7 +22,6 @@
 			galleryeffectnext:"slideRight",
 			galleryeffectprev: "slideLeft",
 			cover:true
-
 		},
 		transitions: {
 			fade: {"in": {opacity:0}, out: {opacity:0}},
@@ -537,9 +536,9 @@
 						if(animate)
 							grid.isAnimating=true;
 
-						imgWrapper.CSSAnimate(displayProperties, grid.timing*2, 100, "cubic-bezier(0.19, 1, 0.22, 1)");
+						imgWrapper.CSSAnimate(displayProperties, grid.timing*1.4, 100, "cubic-bezier(0.19, 1, 0.22, 1)");
 
-						oldImgWrapper.CSSAnimate(jQuery.thumbGrid.transitions[slideShow.effect].out, grid.timing*2, 300, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
+						oldImgWrapper.CSSAnimate(jQuery.thumbGrid.transitions[slideShow.effect].out, grid.timing*1.4, 300, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
 							grid.isAnimating = false;
 							oldImgWrapper.removeClass("in");
 							jQuery(".ss-img-wrapper", placeHolder).not(".in").remove();
