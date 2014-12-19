@@ -24,8 +24,6 @@
             font-family: Verdana, Arial, Helvetica, sans-serif;
         }
 
-        .content{}
-
         #wrapper{
             padding: 20px;
             max-width: 1024px;
@@ -51,18 +49,16 @@
         }
 
         .tg-overlay {
-            /*background: linear-gradient(135deg, rgba(130, 130, 130, 0.9) 0%, rgba(119, 138, 150, 0.9) 100%);*/
+            background: linear-gradient(135deg, rgba(130, 130, 130, 0.9) 0%, rgba(119, 138, 150, 0.9) 100%);
         }
 
         /******** DEMO SWITCHER *******/
         #customize {
             color: white;
             text-align: right;
-
             position: relative;
             margin: auto;
             width: 100%;
-
             margin-bottom: 120px;
         }
 
@@ -128,11 +124,6 @@
 
             jQuery(function () {
 
-
-           jQuery.thumbGrid.transitions.slideLeft = {in: {x:"0%", opacity:1}, out: {x:"-100%", opacity:1}};
-            jQuery.thumbGrid.transitions.slideRight = {in: {x:"0%", opacity:1}, out: {x:"100%", opacity:1}};
-
-
                 if (self.location.href == top.location.href){
                     var logo=$("<a href='http://pupunzi.com/#mb.components/components.html' style='position:absolute;top:0;z-index:1000'>" +
                             "<img id='logo' border='0' src='http://pupunzi.com/images/logo.png' alt='mb.ideas.repository'></a>");
@@ -140,6 +131,8 @@
                     $("#logo").fadeIn();
                 }
 
+                jQuery.thumbGrid.transitions.slideLeft = {in: {x:"0%", opacity:0}, out: {x:"-100%", opacity:0}};
+                jQuery.thumbGrid.transitions.slideRight = {in: {x:"0%", opacity:0}, out: {x:"100%", opacity:0}};
 
                 jQuery("[data-thumbgrid]").thumbGrid();
 
@@ -162,7 +155,6 @@
 
         </script>
     </div>
-
 
     <section class="content">
 
