@@ -7,7 +7,8 @@
     <title>jquery.mb.thumbGrid</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script src="http://mb.components.cdn.s3.amazonaws.com/jquery.mb.browser/latest/jquery.mb.browser.min.js"></script>
-    <script src="http://mb.components.cdn.s3.amazonaws.com/jquery.mb.CSSAnimate/latest/jquery.mb.CSSAnimate.min.js"></script>
+    <!--<script src="http://mb.components.cdn.s3.amazonaws.com/jquery.mb.CSSAnimate/latest/jquery.mb.CSSAnimate.min.js"></script>-->
+    <script src="inc/jquery.mb.CSSAnimate.js"></script>
     <!--<script src="inc/jquery.mb.CSSAnimate.js"></script>-->
     <script src="inc/jquery.mb.thumbGrid.js"></script>
     <link rel="stylesheet" type="text/css" href="css/thumbGrid.css"/>
@@ -44,8 +45,8 @@
         /*custom overlay gradient */
 
         .tg-placeHolder{
-            background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
-            /*background: linear-gradient(135deg, #343b40 0%, #494e51 100%);*/
+            /*background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);*/
+            background: linear-gradient(135deg, #13171a 0%, #383d40 100%);
         }
 
         .tg-overlay {
@@ -100,6 +101,7 @@
 
 <article id="wrapper">
     <h1>mb.thumbGallery</h1>
+
     <div id="customize">
         <label for="effect">transition effect</label>
         <select id="effect">
@@ -131,8 +133,12 @@
                     $("#logo").fadeIn();
                 }
 
-                jQuery.thumbGrid.transitions.slideLeft = {in: {x:"0%", opacity:0}, out: {x:"-100%", opacity:0}};
-                jQuery.thumbGrid.transitions.slideRight = {in: {x:"0%", opacity:0}, out: {x:"100%", opacity:0}};
+                jQuery.thumbGrid.transitions.slideLeft = {in: {x:"0", opacity:.1, scale:1.5}, out: {x:"0", opacity:0}};
+                jQuery.thumbGrid.transitions.slideRight = {in: {x:"0", opacity:.1, scale:0.7}, out: {x:"0", opacity:0}};
+/*
+                jQuery.thumbGrid.transitions.slideLeft = {in: {x:"0%", opacity:0, scale:1.5}, out: {x:"-100%", opacity:0}};
+                jQuery.thumbGrid.transitions.slideRight = {in: {x:"0%", opacity:0, scale:1.5}, out: {x:"100%", opacity:0}};
+*/
 
                 jQuery("[data-thumbgrid]").thumbGrid();
 
@@ -158,7 +164,8 @@
 
     <section class="content">
 
-        <div id="thumbGrid" class=""
+        <div id="thumbGrid"
+             class=""
              data-thumbgrid="true"
              data-effect="slideInverse"
              data-delay="60"

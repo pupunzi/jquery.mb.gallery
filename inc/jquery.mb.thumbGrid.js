@@ -11,6 +11,7 @@
 
 (function ($) {
 	jQuery.thumbGrid = {
+
 		name: "jquery.mb.thumbGrid",
 		version: "1.0",
 		author: "Matteo Bicocchi",
@@ -23,16 +24,17 @@
 			galleryeffectprev: "slideLeft",
 			cover:true
 		},
+
 		transitions: {
-			fade: {"in": {opacity:0}, out: {opacity:0}},
-			slideUp: {"in": {opacity:0}, out: {y:-200, opacity:0}},
-			slideDown: {"in": {opacity:0}, out: {y:200, opacity:0}},
-			slideLeft: {"in": {opacity:0}, out: {x:-200, opacity:0}},
-			slideRight: {"in": {opacity:0}, out: {x:200, opacity:0}},
-			slideInverse: {"in": {y:200, opacity:0}, out: {y:200, opacity:0}},
-			zoomIn: {"in": {scale:.5, opacity:0}, out: {scale:2, opacity:0}},
-			zoomOut: {"in": {scale:2, opacity:0}, out: {scale:.1, opacity:0}},
-			rotate: {"in": { opacity:0}, out: {rotate: 179, opacity:0}}
+			fade: {in: {opacity:0}, out: {opacity:0}},
+			slideUp: {in: {opacity:0}, out: {y:-200, opacity:0}},
+			slideDown: {in: {opacity:0}, out: {y:200, opacity:0}},
+			slideLeft: {in: {opacity:0}, out: {x:-200, opacity:0}},
+			slideRight: {in: {opacity:0}, out: {x:200, opacity:0}},
+			slideInverse: {in: {y:200, opacity:0}, out: {y:200, opacity:0}},
+			zoomIn: {in: {scale:.5, opacity:0}, out: {scale:2, opacity:0}},
+			zoomOut: {in: {scale:2, opacity:0}, out: {scale:.1, opacity:0}},
+			rotate: {in: { opacity:0}, out: {rotate: 179, opacity:0}}
 		},
 
 		init: function (options) {
@@ -291,7 +293,7 @@
 			var page = jQuery("<ul/>").addClass("thumb-grid");
 
 			for (var x = 0; x < grid.pagination; x++) {
-				var thumb = $(pageElements[x]).clone();
+				var thumb = $(pageElements[x]).clone().removeClass("in");
 				if (jQuery(thumb).length) {
 					var thumbWrapper = jQuery("<li/>").addClass("thumbWrapper").append(thumb);
 					thumbWrapper.data("idx",x);
@@ -300,7 +302,7 @@
 
 						var idx = $("img",this).data("globalindex");
 
-						jQuery.thumbGrid.drawSlideshow(grid, idx);
+						jQuery.thumbGrid.drawSlideShow(grid, idx);
 
 					});
 
@@ -351,6 +353,7 @@
 							jQuery(".out", $grid).remove();
 							grid.isAnimating = false;
 						}
+
 					});
 					delayOut += grid.delay;
 				}
@@ -409,16 +412,16 @@
 
 		},
 
-		drawSlideshow: function(el, idx){
+		drawSlideShow: function(el, idx){
 
-			jQuery("body").trigger("drawSlideshow");
+			jQuery("body").trigger("drawSlideShow");
 			jQuery("body").css({overflow:"hidden"});
 
 			var grid = el,
 					$grid = jQuery(grid),
 					overlay = jQuery("<div/>").addClass("tg-overlay").css({opacity:0}),
 					placeHolder = jQuery("<div/>").addClass("tg-placeHolder"),
-					slideShowClose = jQuery("<div/>").addClass("tg-close tg-icon").on("click", function(){jQuery.thumbGrid.closeSlideshow(el, idx)}),
+					slideShowClose = jQuery("<div/>").addClass("tg-close tg-icon").on("click", function(){jQuery.thumbGrid.closeSlideShow(el, idx)}),
 					slideShowNext = jQuery("<div/>").addClass("tg-next tg-icon").on("click", function(){slideShow.next()}),
 					slideShowPrev = jQuery("<div/>").addClass("tg-prev tg-icon").on("click", function(){slideShow.prev()}),
 					spinnerPh = jQuery("<div/>").addClass("tg-spinner"),
@@ -438,7 +441,6 @@
 			overlay.append(placeHolder).append(slideShowClose).append(spinnerPh).append(slideShowNext).append(slideShowPrev);
 
 			jQuery(".tg-icon", overlay).css({opacity:0});
-
 
 			var spinnerOpts = {
 				lines: 11, // The number of lines to draw
@@ -467,7 +469,6 @@
 			spinnerPh.delay(800).fadeIn(1000);
 
 			var slideShow = {
-
 				effect: grid.effect,
 				effectNext: $grid.data("galleryeffectnext") || grid.effect,
 				effectPrev: $grid.data("galleryeffectprev") || grid.effect,
@@ -511,7 +512,6 @@
 
 					img.one("load", function(){
 
-
 						if(this.loaded)
 							return;
 
@@ -547,6 +547,7 @@
 					}).attr({src:imageToShowURL});
 
 				},
+
 				next: function(){
 
 					slideShow.effect = slideShow.effectNext;
@@ -561,6 +562,7 @@
 					}
 					slideShow.goTo(true);
 				},
+
 				prev: function(){
 
 					slideShow.effect = slideShow.effectPrev;
@@ -581,15 +583,15 @@
 			jQuery("body").append(overlay);
 			overlay.fadeTo(100,1);
 
-			placeHolder.CSSAnimate({width: "100%", height: "100%", left: 0, top: 0, opacity:1}, 300, 800, "cubic-bezier(.8,.07,.98,.06)",  function () {
+			placeHolder.CSSAnimate({width: "100%", height: "100%", left: 0, top: 0, opacity:1}, 300, 300, "cubic-bezier(.8,.07,.98,.06)",  function () {
 				slideShow.init(grid);
 				jQuery(".tg-icon", overlay).fadeTo(200,1);
 			})
 		},
 
-		closeSlideshow: function(el, idx){
+		closeSlideShow: function(el, idx){
 
-			jQuery("body").trigger("closeSlideshow");
+			jQuery("body").trigger("closeSlideShow");
 
 			var grid = el,
 					$grid = jQuery(grid),
@@ -599,14 +601,22 @@
 					pHwidth = origin.outerWidth(),
 					pHheight = origin.outerHeight();
 
-			jQuery(".tg-placeHolder div").fadeOut(200);
-			jQuery(".tg-placeHolder").CSSAnimate({width: pHwidth, height: pHheight, left: pHleft, top: pHtop, opacity:1}, 600, "cubic-bezier(0.19, 1, 0.22, 1)");
 			jQuery(".tg-icon").fadeTo(200,0);
-			jQuery(".tg-placeHolder").delay(800).fadeTo(800,0, function () {
-				jQuery(".tg-overlay").remove();
-				jQuery(".tg-placeHolder").remove();
-				jQuery("body").css({overflow:"auto"});
+			jQuery(".tg-placeHolder div").fadeOut(500);
+			jQuery(".tg-placeHolder").CSSAnimate({width: pHwidth, height: pHheight, left: pHleft, top: pHtop, opacity:1}, 800, 500, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
+				jQuery(".tg-overlay").CSSAnimate({opacity:0}, 1200, function(){
+					$(this).remove();
+					jQuery("body").css({overflow:"auto"});
+				});
+
 			});
+			/*
+			jQuery(".tg-placeHolder").delay(800).fadeTo(800,0, function () {
+			});
+*/
+
+
+
 
 		}
 	};
