@@ -133,12 +133,12 @@
                     $("#logo").fadeIn();
                 }
 
+/*
                 jQuery.thumbGrid.transitions.slideLeft = {in: {x:"0", opacity:.1, scale:1.5}, out: {x:"0", opacity:0}};
                 jQuery.thumbGrid.transitions.slideRight = {in: {x:"0", opacity:.1, scale:0.7}, out: {x:"0", opacity:0}};
-/*
-                jQuery.thumbGrid.transitions.slideLeft = {in: {x:"0%", opacity:0, scale:1.5}, out: {x:"-100%", opacity:0}};
-                jQuery.thumbGrid.transitions.slideRight = {in: {x:"0%", opacity:0, scale:1.5}, out: {x:"100%", opacity:0}};
 */
+                jQuery.thumbGrid.transitions.slideLeft = {in: {x:$(window).width(), opacity:0}, out: {x:-($(window).width()), opacity:0}};
+                jQuery.thumbGrid.transitions.slideRight = {in: {x:-($(window).width()), opacity:0}, out: {x:$(window).width(), opacity:0}};
 
                 jQuery("[data-thumbgrid]").thumbGrid();
 
@@ -166,6 +166,7 @@
 
         <div id="thumbGrid"
              class=""
+
              data-thumbgrid="true"
              data-effect="slideInverse"
              data-delay="60"

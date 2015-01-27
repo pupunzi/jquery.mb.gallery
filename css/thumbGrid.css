@@ -143,11 +143,14 @@ nav.thumbGridNav a.sel {
   height: 100%;
   background: transparent;
   z-index: 10000;
+  -webkit-perspective: 1000;
+  -webkit-backface-visibility: hidden;
 }
 
 .tg-placeHolder {
   background: rgb(30, 33, 35);
   box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+  -webkit-perspective: 1000;
   -webkit-backface-visibility: hidden;
 }
 
@@ -219,7 +222,7 @@ nav.thumbGridNav a.sel {
   font-size: 38px;
   font-weight: 300;
   padding-right: 0;
-  line-height: 1;
+  line-height: 42px;
 }
 
 .tg-prev:after {
@@ -228,7 +231,7 @@ nav.thumbGridNav a.sel {
   font-size: 38px;
   font-weight: 300;
   padding-left: 0;
-  line-height: 1;
+  line-height: 42px;
 }
 
 .tg-prev:hover, .tg-next:hover{
