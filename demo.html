@@ -7,10 +7,9 @@
     <title>jquery.mb.thumbGrid</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script src="http://mb.components.cdn.s3.amazonaws.com/jquery.mb.browser/latest/jquery.mb.browser.min.js"></script>
-    <!--<script src="http://mb.components.cdn.s3.amazonaws.com/jquery.mb.CSSAnimate/latest/jquery.mb.CSSAnimate.min.js"></script>-->
     <script src="inc/jquery.mb.CSSAnimate.js"></script>
     <!--<script src="inc/jquery.mb.CSSAnimate.js"></script>-->
-    <script src="inc/jquery.mb.thumbGrid.js"></script>
+    <script src="inc/jquery.mb.thumbGallery.js"></script>
     <link rel="stylesheet" type="text/css" href="css/thumbGrid.css"/>
 
     <style>
@@ -133,16 +132,16 @@
                     $("#logo").fadeIn();
                 }
 
+                jQuery.thumbGrid.transitions.fadeIn = {in: {x:"0", opacity:.1, scale:1.5}, out: {x:"0", opacity:0}};
+                jQuery.thumbGrid.transitions.fadeOut = {in: {x:"0", opacity:.1, scale:0.7}, out: {x:"0", opacity:0}};
 /*
-                jQuery.thumbGrid.transitions.slideLeft = {in: {x:"0", opacity:.1, scale:1.5}, out: {x:"0", opacity:0}};
-                jQuery.thumbGrid.transitions.slideRight = {in: {x:"0", opacity:.1, scale:0.7}, out: {x:"0", opacity:0}};
-*/
                 jQuery.thumbGrid.transitions.slideLeft = {in: {x:$(window).width(), opacity:0}, out: {x:-($(window).width()), opacity:0}};
                 jQuery.thumbGrid.transitions.slideRight = {in: {x:-($(window).width()), opacity:0}, out: {x:$(window).width(), opacity:0}};
+*/
 
-                jQuery("[data-thumbgrid]").thumbGrid();
+                jQuery("#thumbGrid").thumbGrid();
 
-                //    customize
+                //    customizer
                 jQuery("#effect").on("change",function(){
                     var x = $(this).val();
                     jQuery("#thumbGrid").data("effect", x);
@@ -165,15 +164,15 @@
     <section class="content">
 
         <div id="thumbGrid"
-             class=""
+             class="thumbGrid"
 
              data-thumbgrid="true"
              data-effect="slideInverse"
              data-delay="60"
              data-timing="800"
              data-pagination="6"
-             data-galleryeffectnext="slideLeft"
-             data-galleryeffectprev="slideRight"
+             data-galleryeffectnext="fadeIn"
+             data-galleryeffectprev="fadeOut"
              data-cover="true">
 
             <img src="img/LR/01.jpg" alt="img04" data-highres="img/HR/01.jpg" data-caption="Parturient Bibendum Malesuada Etiam"/>
@@ -200,6 +199,7 @@
             <img src="img/LR/22.jpg" alt="img05" data-highres="img/HR/22.jpg" data-caption="Mollis Elit Ornare Sit Fringilla"/>
 
         </div>
+        
     </section>
 
 </article>

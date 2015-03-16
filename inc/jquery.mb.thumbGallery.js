@@ -64,7 +64,7 @@
 				grid.cover = opt.cover;
 
 				grid.elements = $grid.children().clone();
-				$grid.children().remove();
+				$grid.children().hide();
 
 				grid.elements.each(function(i){
 					jQuery(this).attr("data-globalindex", i);
@@ -425,17 +425,19 @@
 					slideShowNext = jQuery("<div/>").addClass("tg-next tg-icon").on("click", function(){slideShow.next()}),
 					slideShowPrev = jQuery("<div/>").addClass("tg-prev tg-icon").on("click", function(){slideShow.prev()}),
 					spinnerPh = jQuery("<div/>").addClass("tg-spinner"),
-					$origin = $grid.find("[data-globalindex="+idx+"]").parents("li"),
+					$origin = $grid.find("[data-globalindex="+idx+"]").parent("li"),
 					pHleft = $origin.offset().left - jQuery(window).scrollLeft(),
 					pHtop = $origin.offset().top - jQuery(window).scrollTop(),
 					pHwidth = $origin.outerWidth(),
 					pHheight = $origin.outerHeight();
+
 
 			grid.effect = $grid.data("effect") || "fade";
 			grid.delay = $grid.data("delay") || 500;
 			grid.timing = $grid.data("timing") || 1000;
 
 			grid.slideShowIdx = idx;
+
 
 			placeHolder.css({position:"fixed", left:pHleft, top:pHtop, width:pHwidth, height:pHheight});
 			overlay.append(placeHolder).append(slideShowClose).append(spinnerPh).append(slideShowNext).append(slideShowPrev);
@@ -466,7 +468,7 @@
 
 			spinner = new Spinner(spinnerOpts).spin(target);
 			spinnerPh.hide();
-			spinnerPh.delay(800).fadeIn(1000);
+			//spinnerPh.delay(800).fadeIn(1000);
 
 			var slideShow = {
 				effect: grid.effect,
@@ -475,8 +477,43 @@
 
 				init: function(){
 					slideShow.goTo(false);
+					slideShow.keyboard(true);
 					grid.isAnimating=false;
 				},
+
+				keyboard: function(on){
+
+					if(on){
+						jQuery(document).on("keydown.thumbGallery", function(e){
+
+							switch(e.keyCode){
+
+								case 32:
+									jQuery.thumbGrid.closeSlideShow(el, idx);
+									e.preventDefault();
+									break;
+
+								case 39: //arrow right
+									slideShow.next();
+									e.preventDefault();
+									break;
+
+								case 37: //arrow left
+									slideShow.prev();
+									e.preventDefault();
+									break;
+							}
+						});
+
+						jQuery("body").on("closeSlideShow", function(){slideShow.keyboard(false);});
+
+					}else{
+
+						jQuery(document).off("keydown.thumbGallery");
+
+					}
+				},
+
 
 				goTo: function(animate){
 
@@ -495,19 +532,16 @@
 
 					var displayProperties = {top: 0, left: 0, opacity: 1, x:0, y:0, scale:1, rotate:0, skew:0, filter: " blur(0)"};
 
-					if(animate)
+					if(animate) {
 						imgWrapper.css(jQuery.thumbGrid.normalizeCss(jQuery.thumbGrid.transitions[slideShow.effect].in));
-					else{
-						displayProperties = jQuery.thumbGrid.normalizeCss(displayProperties);
-						imgWrapper.css(displayProperties);
-						imgWrapper.css({opacity:0});
-					}
-
-					if(animate){
 						slideShow.spinner = setTimeout(function(){
 							spinner = new Spinner(spinnerOpts).spin(target);
 							spinnerPh.fadeIn(300);
 						},1000)
+					}else{
+						displayProperties = jQuery.thumbGrid.normalizeCss(displayProperties);
+						imgWrapper.css(displayProperties);
+						imgWrapper.css({opacity:0});
 					}
 
 					img.one("load", function(){
@@ -592,7 +626,7 @@
 		closeSlideShow: function(el, idx){
 
 			jQuery("body").trigger("closeSlideShow");
-
+			
 			var grid = el,
 					$grid = jQuery(grid),
 					origin = $grid.find("[data-globalindex="+idx+"]").parents("li"),
@@ -608,16 +642,7 @@
 					$(this).remove();
 					jQuery("body").css({overflow:"auto"});
 				});
-
 			});
-			/*
-			jQuery(".tg-placeHolder").delay(800).fadeTo(800,0, function () {
-			});
-*/
-
-
-
-
 		}
 	};
 
