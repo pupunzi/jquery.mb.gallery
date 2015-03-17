@@ -255,7 +255,7 @@ nav.thumbGridNav a.sel {
   height: 100%;
 }
 
-.ss-img-wrapper {
+.tg-img-wrapper {
   position: absolute;
   top: 0;
   left: 0;
@@ -268,7 +268,7 @@ nav.thumbGridNav a.sel {
   -webkit-backface-visibility: hidden;
 }
 
-.ss-img-wrapper label{
+.tg-img-wrapper label{
   display: block;
   position: absolute;
   bottom: 0;
@@ -278,7 +278,7 @@ nav.thumbGridNav a.sel {
   padding: 10px;
 }
 
-.ss-img-wrapper label .ss-img-index{
+.tg-img-wrapper label .ss-img-index{
   display: inline-block;
   color: rgba(255,255,255,0.5);
   padding: 0 10px 5px 0;

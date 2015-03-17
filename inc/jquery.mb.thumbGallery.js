@@ -22,7 +22,9 @@
 			pagination: 6,
 			galleryeffectnext:"slideRight",
 			galleryeffectprev: "slideLeft",
-			cover:true
+			cover:true,
+			fullscreenw: "100%",
+			fullscreenh: "100%"
 		},
 
 		transitions: {
@@ -54,14 +56,18 @@
 				grid.opt = opt;
 				grid.isAnimating = false;
 				grid.pageIndex = 0;
-				grid.effect = $grid.data("effect") || opt.effect;
-				grid.delay = $grid.data("delay") || opt.delay;
-				grid.timing = $grid.data("timing") || opt.timing;
-				grid.pagination = $grid.data("pagination") || opt.pagination;
+				grid.effect = $grid.data("nav_effect") || opt.effect;
+				grid.delay = $grid.data("nav_delay") || opt.delay;
+				grid.timing = $grid.data("nav_timing") || opt.timing;
+				grid.pagination = $grid.data("nav_pagination") || opt.pagination;
+				grid.fullscreenw = $grid.data("gallery_fullscreenw") || opt.fullscreenw;
+				grid.fullscreenh = $grid.data("gallery_fullscreenh") || opt.fullscreenh;
+				grid.cover =  $grid.data("gallery_cover") || opt.cover;
+				grid.effectNext = $grid.data("gallery_effectnext") || grid.effect;
+				grid.effectPrev = $grid.data("gallery_effectprev") || grid.effect;
 
 				jQuery.extend(opt, $grid.data());
 
-				grid.cover = opt.cover;
 
 				grid.elements = $grid.children().clone();
 				$grid.children().hide();
@@ -472,8 +478,8 @@
 
 			var slideShow = {
 				effect: grid.effect,
-				effectNext: $grid.data("galleryeffectnext") || grid.effect,
-				effectPrev: $grid.data("galleryeffectprev") || grid.effect,
+				effectNext: grid.effectNext || grid.effect,
+				effectPrev: grid.effectPrev || grid.effect,
 
 				init: function(){
 					slideShow.goTo(false);
@@ -514,17 +520,19 @@
 					}
 				},
 
-
 				goTo: function(animate){
 
-					var oldImgWrapper = jQuery(".ss-img-wrapper",placeHolder).eq(0);
+					var oldImgWrapper = jQuery(".tg-img-wrapper",placeHolder).eq(0);
 
 					var idx = grid.slideShowIdx,
-							imgWrapper = jQuery("<div/>").addClass("ss-img-wrapper").addClass("in"),
 							imagesList = grid.elements,
 							image = $(imagesList[idx]),
+							imgWrapper = jQuery("<div/>").addClass("tg-img-wrapper").addClass("in"),
 							imageToShowURL = image.data("highres"),
-							imageCaption = image.data("caption");
+							imageCaption = image.data("caption"),
+							imgContainer = jQuery("<div/>").addClass("tg-img-container");
+					imgContainer.css({position:"absolute", top: 0, left: 0, bottom: 0, right: 0, verticalAlign:"middle", width:grid.fullscreenw, height:grid.fullscreenh, margin:"auto"});
+					imgWrapper.append(imgContainer);
 
 					placeHolder.prepend(imgWrapper);
 
@@ -554,18 +562,18 @@
 						clearTimeout(slideShow.spinner);
 						spinnerPh.fadeOut(300,function(){spinnerPh.empty();});
 
-						imgWrapper.css({
+						imgContainer.css({
 							backgroundImage:"url("+imageToShowURL+")",
 							backgroundSize: grid.cover ? "cover" : "contain",
 							backgroundPosition: "center center",
 							backgroundRepeat: "no-repeat"
 						});
 
-						var imageIndex = jQuery("<span/>").addClass("ss-img-index").html((idx+1)+"/"+imagesList.length);
+						var imageIndex = jQuery("<span/>").addClass("tg-img-index").html((idx+1)+"/"+imagesList.length);
 						var captionLabel = jQuery("<label/>").html(imageCaption).prepend(imageIndex);
 
 						if(imageCaption)
-							imgWrapper.append(captionLabel);
+							imgContainer.append(captionLabel);
 
 						if(animate)
 							grid.isAnimating=true;
@@ -575,7 +583,7 @@
 						oldImgWrapper.CSSAnimate(jQuery.thumbGrid.transitions[slideShow.effect].out, grid.timing*1.4, 300, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
 							grid.isAnimating = false;
 							oldImgWrapper.removeClass("in");
-							jQuery(".ss-img-wrapper", placeHolder).not(".in").remove();
+							jQuery(".tg-img-wrapper", placeHolder).not(".in").remove();
 						});
 
 					}).attr({src:imageToShowURL});
@@ -626,7 +634,7 @@
 		closeSlideShow: function(el, idx){
 
 			jQuery("body").trigger("closeSlideShow");
-			
+
 			var grid = el,
 					$grid = jQuery(grid),
 					origin = $grid.find("[data-globalindex="+idx+"]").parents("li"),
@@ -636,9 +644,9 @@
 					pHheight = origin.outerHeight();
 
 			jQuery(".tg-icon").fadeTo(200,0);
-			jQuery(".tg-placeHolder div").fadeOut(500);
+			jQuery(".tg-placeHolder > div").fadeOut(500);
 			jQuery(".tg-placeHolder").CSSAnimate({width: pHwidth, height: pHheight, left: pHleft, top: pHtop, opacity:1}, 800, 500, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
-				jQuery(".tg-overlay").CSSAnimate({opacity:0}, 1200, function(){
+				jQuery(".tg-overlay").CSSAnimate({opacity:0}, 200, function(){
 					$(this).remove();
 					jQuery("body").css({overflow:"auto"});
 				});

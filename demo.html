@@ -5,10 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 
     <title>jquery.mb.thumbGrid</title>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    <script src="http://mb.components.cdn.s3.amazonaws.com/jquery.mb.browser/latest/jquery.mb.browser.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="inc/jquery.mb.CSSAnimate.js"></script>
-    <!--<script src="inc/jquery.mb.CSSAnimate.js"></script>-->
     <script src="inc/jquery.mb.thumbGallery.js"></script>
     <link rel="stylesheet" type="text/css" href="css/thumbGrid.css"/>
 
@@ -45,12 +43,23 @@
 
         .tg-placeHolder{
             /*background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);*/
+            background: #000;
+        }
+
+        .tg-overlay {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.60) 100%);
+        }
+
+        /*
+        .tg-placeHolder{
             background: linear-gradient(135deg, #13171a 0%, #383d40 100%);
         }
 
         .tg-overlay {
             background: linear-gradient(135deg, rgba(130, 130, 130, 0.9) 0%, rgba(119, 138, 150, 0.9) 100%);
         }
+*/
+
 
         /******** DEMO SWITCHER *******/
         #customize {
@@ -132,16 +141,19 @@
                     $("#logo").fadeIn();
                 }
 
-                jQuery.thumbGrid.transitions.fadeIn = {in: {x:"0", opacity:.1, scale:1.5}, out: {x:"0", opacity:0}};
-                jQuery.thumbGrid.transitions.fadeOut = {in: {x:"0", opacity:.1, scale:0.7}, out: {x:"0", opacity:0}};
-/*
-                jQuery.thumbGrid.transitions.slideLeft = {in: {x:$(window).width(), opacity:0}, out: {x:-($(window).width()), opacity:0}};
-                jQuery.thumbGrid.transitions.slideRight = {in: {x:-($(window).width()), opacity:0}, out: {x:$(window).width(), opacity:0}};
-*/
+                /* Extend or modify effects */
+                jQuery.thumbGrid.transitions.fadeIn = {in: {x:"0", opacity:0, scale:0.6}, out: {x:0, opacity:0}};
+                jQuery.thumbGrid.transitions.fadeOut = {in: {x:"0", opacity:0}, out: {x:0, scale:0.6, opacity:0}};
+                
+                jQuery.thumbGrid.transitions.slideLeft = {in: {x:$(window).width(), opacity:0}, out: {x:0, opacity:0}};
+                jQuery.thumbGrid.transitions.slideRight = {in: {x:0, opacity:0}, out: {x:$(window).width(), opacity:0}};
 
+                /* Initialize the gallery */
                 jQuery("#thumbGrid").thumbGrid();
 
-                //    customizer
+                
+                
+                /* customizer */
                 jQuery("#effect").on("change",function(){
                     var x = $(this).val();
                     jQuery("#thumbGrid").data("effect", x);
@@ -167,13 +179,15 @@
              class="thumbGrid"
 
              data-thumbgrid="true"
-             data-effect="slideInverse"
-             data-delay="60"
-             data-timing="800"
-             data-pagination="6"
-             data-galleryeffectnext="fadeIn"
-             data-galleryeffectprev="fadeOut"
-             data-cover="true">
+             data-nav_effect="slideInverse"
+             data-nav_delay="60"
+             data-nav_timing="800"
+             data-nav_pagination="6"
+             data-gallery_effectnext="fadeIn"
+             data-gallery_effectprev="fadeOut"
+             data-gallery_fullscreenw="90%"
+             data-gallery_fullscreenh="90%"
+             data-gallery_cover="true">
 
             <img src="img/LR/01.jpg" alt="img04" data-highres="img/HR/01.jpg" data-caption="Parturient Bibendum Malesuada Etiam"/>
             <img src="img/LR/02.jpg" alt="img02" data-highres="img/HR/02.jpg" />
