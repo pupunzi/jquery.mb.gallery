@@ -375,7 +375,7 @@
 						grid.nav.show();
 				}
 
-			},500);
+			},10);
 
 			jQuery(window).on("resize.thumbGrid", function(){
 				grid.height = page.height();
@@ -492,10 +492,17 @@
 					if(on){
 						jQuery(document).on("keydown.thumbGallery", function(e){
 
+//							console.debug(e.keyCode, e.key) e.key is not supported by Webkit
+
 							switch(e.keyCode){
 
-								case 32:
+								case 27: //Esc
 									jQuery.thumbGrid.closeSlideShow(el, idx);
+									e.preventDefault();
+									break;
+
+								case 32: //space
+//									jQuery.thumbGrid.closeSlideShow(el, idx);
 									e.preventDefault();
 									break;
 
@@ -522,12 +529,17 @@
 
 				goTo: function(animate){
 
+/*
+					if(animate && grid.isAnimating)
+						return;
+*/
+
 					var oldImgWrapper = jQuery(".tg-img-wrapper",placeHolder).eq(0);
 
 					var idx = grid.slideShowIdx,
 							imagesList = grid.elements,
 							image = $(imagesList[idx]),
-							imgWrapper = jQuery("<div/>").addClass("tg-img-wrapper").addClass("in"),
+							imgWrapper = jQuery("<div/>").addClass("tg-img-wrapper"),
 							imageToShowURL = image.data("highres"),
 							imageCaption = image.data("caption"),
 							imgContainer = jQuery("<div/>").addClass("tg-img-container");
@@ -559,6 +571,16 @@
 
 						this.loaded = true;
 
+						if(animate) {
+							imgWrapper.css(jQuery.thumbGrid.normalizeCss(jQuery.thumbGrid.transitions[slideShow.effect].in));
+						}else{
+							displayProperties = jQuery.thumbGrid.normalizeCss(displayProperties);
+							imgWrapper.css(displayProperties);
+							imgWrapper.css({opacity:0});
+						}
+
+						imgWrapper.addClass("in");
+
 						clearTimeout(slideShow.spinner);
 						spinnerPh.fadeOut(300,function(){spinnerPh.empty();});
 
@@ -578,9 +600,11 @@
 						if(animate)
 							grid.isAnimating=true;
 
-						imgWrapper.CSSAnimate(displayProperties, grid.timing*1.4, 100, "cubic-bezier(0.19, 1, 0.22, 1)");
+						imgWrapper.CSSAnimate(displayProperties, grid.timing*1.4, 50, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
+//							grid.isAnimating = false;
+						});
 
-						oldImgWrapper.CSSAnimate(jQuery.thumbGrid.transitions[slideShow.effect].out, grid.timing*1.4, 300, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
+						oldImgWrapper.CSSAnimate(jQuery.thumbGrid.transitions[slideShow.effect].out, grid.timing*1.4, 50, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
 							grid.isAnimating = false;
 							oldImgWrapper.removeClass("in");
 							jQuery(".tg-img-wrapper", placeHolder).not(".in").remove();
