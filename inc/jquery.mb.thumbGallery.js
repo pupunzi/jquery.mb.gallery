@@ -16,15 +16,15 @@
 		version: "1.0",
 		author: "Matteo Bicocchi",
 		defaults: {
-			effect:"slideLeft",
-			delay: 60,
-			timing: 800,
-			pagination: 6,
-			galleryeffectnext:"slideRight",
-			galleryeffectprev: "slideLeft",
-			cover:true,
-			fullscreenw: "100%",
-			fullscreenh: "100%"
+			nav_effect:"slideLeft",
+			nav_delay: 60,
+			nav_timing: 800,
+			nav_pagination: 6,
+			gallery_galleryeffectnext:"slideRight",
+			gallery_galleryeffectprev: "slideLeft",
+			gallery_cover:true,
+			gallery_fullscreenw: "100%",
+			gallery_fullscreenh: "100%"
 		},
 
 		transitions: {
@@ -53,22 +53,23 @@
 
 				$grid.hide();
 
-				grid.opt = opt;
 				grid.isAnimating = false;
 				grid.pageIndex = 0;
-				grid.effect = $grid.data("nav_effect") || opt.effect;
-				grid.delay = $grid.data("nav_delay") || opt.delay;
-				grid.timing = $grid.data("nav_timing") || opt.timing;
-				grid.pagination = $grid.data("nav_pagination") || opt.pagination;
-				grid.fullscreenw = $grid.data("gallery_fullscreenw") || opt.fullscreenw;
-				grid.fullscreenh = $grid.data("gallery_fullscreenh") || opt.fullscreenh;
-				grid.cover =  $grid.data("gallery_cover") || opt.cover;
-				grid.effectNext = $grid.data("gallery_effectnext") || grid.effect;
-				grid.effectPrev = $grid.data("gallery_effectprev") || grid.effect;
+				
+				grid.nav_effect = $grid.data("nav_effect") || opt.nav_effect;
+				grid.nav_delay = $grid.data("nav_delay") || opt.nav_delay;
+				grid.nav_timing = $grid.data("nav_timing") || opt.nav_timing;
+				grid.nav_pagination = $grid.data("nav_pagination") || opt.nav_pagination;
+				grid.gallery_fullscreenw = $grid.data("gallery_fullscreenw") || opt.gallery_fullscreenw;
+				grid.gallery_fullscreenh = $grid.data("gallery_fullscreenh") || opt.gallery_fullscreenh;
+				grid.gallery_cover =  $grid.data("gallery_cover") || opt.gallery_cover;
+				grid.gallery_effectnext = $grid.data("gallery_effectnext") || grid.nav_effect;
+				grid.gallery_effectprev = $grid.data("gallery_effectprev") || grid.nav_effect;
 
 				jQuery.extend(opt, $grid.data());
 
-
+				grid.opt = opt;
+				
 				grid.elements = $grid.children().clone();
 				$grid.children().hide();
 
@@ -77,13 +78,13 @@
 				});
 
 				grid.pages = [];
-				grid.totPages = Math.ceil(grid.elements.size() / grid.pagination);
+				grid.totPages = Math.ceil(grid.elements.size() / grid.nav_pagination);
 
 				var thumbIdx = 0;
 
 				for (var p = 0; p < grid.totPages; p++) {
 					var page = [];
-					for (var x = 0; x < grid.pagination; x++) {
+					for (var x = 0; x < grid.nav_pagination; x++) {
 
 						if (!grid.elements[thumbIdx])
 							break;
@@ -286,35 +287,29 @@
 			var grid = el;
 			var $grid = jQuery(grid);
 
-			grid.effect = $grid.data("effect") || "fade";
-			grid.delay = $grid.data("delay") || 500;
-			grid.timing = $grid.data("timing") || 1000;
-
-			if(grid.isAnimating && !applyEffect)
-				return;
+			grid.nav_effect = $grid.data("nav_effect") || "fade";
+			grid.nav_delay = $grid.data("nav_delay") || 100;
+			grid.nav_timing = $grid.data("nav_timing") || 1000;
 
 			grid.isAnimating = true;
 
 			var pageElements = grid.pages[pageIdx];
 			var page = jQuery("<ul/>").addClass("thumb-grid");
-
-			for (var x = 0; x < grid.pagination; x++) {
+			
+			for (var x = 0; x < grid.nav_pagination; x++) {
 				var thumb = $(pageElements[x]).clone().removeClass("in");
 				if (jQuery(thumb).length) {
 					var thumbWrapper = jQuery("<li/>").addClass("thumbWrapper").append(thumb);
 					thumbWrapper.data("idx",x);
 
 					thumbWrapper.on("click", function(){
-
 						var idx = $("img",this).data("globalindex");
-
 						jQuery.thumbGrid.drawSlideShow(grid, idx);
-
 					});
 
 					if (applyEffect){
 						thumbWrapper.css({opacity:0});
-						var transitionIn = jQuery.thumbGrid.normalizeCss(jQuery.thumbGrid.transitions[grid.effect].in);
+						var transitionIn = jQuery.thumbGrid.normalizeCss(jQuery.thumbGrid.transitions[grid.nav_effect].in);
 						thumbWrapper.css(transitionIn);
 					}else{
 						var displayProperties = jQuery.thumbGrid.normalizeCss({top: 0, left: 0, opacity: 1, x:0, y:0, scale:1, rotate:0, skew:0, filter: " blur(0)"});
@@ -340,20 +335,20 @@
 
 				var displayProperties = {top: 0, left: 0, opacity: 1, x:0, y:0, scale:1, rotate:0, skew:0, filter: " blur(0)"};
 
-				var delayIn = grid.delay;
+				var delayIn = grid.nav_delay;
 				for( var i = 0; i < jQuery(".in .thumbWrapper", $grid).length; i++){
 					var elIn = jQuery(".in .thumbWrapper", $grid).eq(i);
 
-					elIn.CSSAnimate(displayProperties, grid.timing, delayIn, "cubic-bezier(0.19, 1, 0.22, 1)",function(){});
-					delayIn += grid.delay;
+					elIn.CSSAnimate(displayProperties, grid.nav_timing, delayIn, "cubic-bezier(0.19, 1, 0.22, 1)",function(){});
+					delayIn += grid.nav_delay;
 				}
 
-				var delayOut = grid.delay;
+				var delayOut = grid.nav_delay;
 				for( var ii = 0; ii < jQuery(".out .thumbWrapper", $grid).length; ii++){
 					var elOut = jQuery(".out .thumbWrapper", $grid).eq(ii);
-					var transitionOut = jQuery.thumbGrid.transitions[grid.effect].out;
+					var transitionOut = jQuery.thumbGrid.transitions[grid.nav_effect].out;
 
-					elOut.CSSAnimate(transitionOut, grid.timing, delayOut, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
+					elOut.CSSAnimate(transitionOut, grid.nav_timing, delayOut, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
 
 						if($(this).index() == jQuery(".out .thumbWrapper", $grid).length-1){
 							jQuery(".out", $grid).remove();
@@ -361,7 +356,7 @@
 						}
 
 					});
-					delayOut += grid.delay;
+					delayOut += grid.nav_delay;
 				}
 
 				$grid.fadeIn();
@@ -438,12 +433,11 @@
 					pHheight = $origin.outerHeight();
 
 
-			grid.effect = $grid.data("effect") || "fade";
-			grid.delay = $grid.data("delay") || 500;
-			grid.timing = $grid.data("timing") || 1000;
+			grid.nav_effect = $grid.data("nav_effect") || "fade";
+			grid.nav_delay = $grid.data("nav_delay") || 500;
+			grid.nav_timing = $grid.data("nav_timing") || 1000;
 
 			grid.slideShowIdx = idx;
-
 
 			placeHolder.css({position:"fixed", left:pHleft, top:pHtop, width:pHwidth, height:pHheight});
 			overlay.append(placeHolder).append(slideShowClose).append(spinnerPh).append(slideShowNext).append(slideShowPrev);
@@ -477,9 +471,9 @@
 			//spinnerPh.delay(800).fadeIn(1000);
 
 			var slideShow = {
-				effect: grid.effect,
-				effectNext: grid.effectNext || grid.effect,
-				effectPrev: grid.effectPrev || grid.effect,
+				effect: grid.nav_effect,
+				effectNext: grid.gallery_effectnext || grid.nav_effect,
+				effectPrev: grid.gallery_effectprev || grid.nav_effect,
 
 				init: function(){
 					slideShow.goTo(false);
@@ -529,11 +523,6 @@
 
 				goTo: function(animate){
 
-/*
-					if(animate && grid.isAnimating)
-						return;
-*/
-
 					var oldImgWrapper = jQuery(".tg-img-wrapper",placeHolder).eq(0);
 
 					var idx = grid.slideShowIdx,
@@ -543,14 +532,14 @@
 							imageToShowURL = image.data("highres"),
 							imageCaption = image.data("caption"),
 							imgContainer = jQuery("<div/>").addClass("tg-img-container");
-					imgContainer.css({position:"absolute", top: 0, left: 0, bottom: 0, right: 0, verticalAlign:"middle", width:grid.fullscreenw, height:grid.fullscreenh, margin:"auto"});
+					imgContainer.css({position:"absolute", top: 0, left: 0, bottom: 0, right: 0, width:grid.gallery_fullscreenw, height:grid.gallery_fullscreenh, margin:"auto"});
 					imgWrapper.append(imgContainer);
 
 					placeHolder.prepend(imgWrapper);
 
 					var img = jQuery("<img/>");
 
-					var displayProperties = {top: 0, left: 0, opacity: 1, x:0, y:0, scale:1, rotate:0, skew:0, filter: " blur(0)"};
+					var displayProperties = {top: 0, left: 0, opacity: 1, x:0, y:0, scale:1, rotate:0, skew:0, filter: "blur(0)"};
 
 					if(animate) {
 						imgWrapper.css(jQuery.thumbGrid.normalizeCss(jQuery.thumbGrid.transitions[slideShow.effect].in));
@@ -586,7 +575,7 @@
 
 						imgContainer.css({
 							backgroundImage:"url("+imageToShowURL+")",
-							backgroundSize: grid.cover ? "cover" : "contain",
+							backgroundSize: grid.gallery_cover ? "cover" : "contain",
 							backgroundPosition: "center center",
 							backgroundRepeat: "no-repeat"
 						});
@@ -598,20 +587,15 @@
 							imgContainer.append(captionLabel);
 
 						if(animate)
-							grid.isAnimating=true;
+							grid.isAnimating = true;
 
-						imgWrapper.CSSAnimate(displayProperties, grid.timing*1.4, 50, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
-//							grid.isAnimating = false;
-						});
-
-						oldImgWrapper.CSSAnimate(jQuery.thumbGrid.transitions[slideShow.effect].out, grid.timing*1.4, 50, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
+						imgWrapper.CSSAnimate(displayProperties, grid.nav_timing * 1.4, 50, "cubic-bezier(0.19, 1, 0.22, 1)", function(){});
+						oldImgWrapper.CSSAnimate(jQuery.thumbGrid.transitions[slideShow.effect].out, grid.nav_timing * 1.4, 50, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
 							grid.isAnimating = false;
 							oldImgWrapper.removeClass("in");
 							jQuery(".tg-img-wrapper", placeHolder).not(".in").remove();
 						});
-
-					}).attr({src:imageToShowURL});
-
+					}).attr({src: imageToShowURL});
 				},
 
 				next: function(){
@@ -647,12 +631,15 @@
 			};
 
 			jQuery("body").append(overlay);
-			overlay.fadeTo(100,1);
+			overlay.CSSAnimate({opacity:1}, 600, 0, function(){
 
-			placeHolder.CSSAnimate({width: "100%", height: "100%", left: 0, top: 0, opacity:1}, 300, 300, "cubic-bezier(.8,.07,.98,.06)",  function () {
-				slideShow.init(grid);
-				jQuery(".tg-icon", overlay).fadeTo(200,1);
-			})
+				placeHolder.CSSAnimate({width: "100%", height: "100%", left: 0, top: 0, opacity:1}, 400, 0, "cubic-bezier(.8,.07,.98,.06)",  function () {
+					slideShow.init(grid);
+					jQuery(".tg-icon", overlay).fadeTo(200,1);
+				})
+
+			});
+
 		},
 
 		closeSlideShow: function(el, idx){
@@ -669,8 +656,8 @@
 
 			jQuery(".tg-icon").fadeTo(200,0);
 			jQuery(".tg-placeHolder > div").fadeOut(500);
-			jQuery(".tg-placeHolder").CSSAnimate({width: pHwidth, height: pHheight, left: pHleft, top: pHtop, opacity:1}, 800, 500, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
-				jQuery(".tg-overlay").CSSAnimate({opacity:0}, 200, function(){
+			jQuery(".tg-placeHolder").CSSAnimate({width: pHwidth, height: pHheight, left: pHleft, top: pHtop, opacity:1}, 800, 400, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
+				jQuery(".tg-overlay").CSSAnimate({opacity:0}, 600, function(){
 					$(this).remove();
 					jQuery("body").css({overflow:"auto"});
 				});

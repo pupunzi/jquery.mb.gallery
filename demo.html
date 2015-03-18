@@ -125,10 +125,10 @@
         </select>
         <br>
         <label for="delay">transition delay (in ms)</label>
-        <input id="delay" value="500"/>
+        <input id="delay" value="100"/>
         <br>
         <label for="timing">transition timing (in ms)</label>
-        <input id="timing" value="800"/>
+        <input id="timing" value="1000"/>
 
         <script>
 
@@ -156,17 +156,17 @@
                 /* customizer */
                 jQuery("#effect").on("change",function(){
                     var x = $(this).val();
-                    jQuery("#thumbGrid").data("effect", x);
+                    jQuery("#thumbGrid").data("nav_effect", x);
                 });
 
                 jQuery("#delay").on("change",function(){
                     var x = parseFloat($(this).val());
-                    jQuery("#thumbGrid").data("delay", x);
+                    jQuery("#thumbGrid").data("nav_delay", x);
                 });
 
                 jQuery("#timing").on("change",function(){
                     var x = parseFloat($(this).val());
-                    jQuery("#thumbGrid").data("timing", x);
+                    jQuery("#thumbGrid").data("nav_timing", x);
                 });
             });
 
@@ -181,7 +181,7 @@
              data-thumbgrid="true"
              data-nav_effect="slideInverse"
              data-nav_delay="60"
-             data-nav_timing="800"
+             data-nav_timing="1000"
              data-nav_pagination="6"
              data-gallery_effectnext="fadeIn"
              data-gallery_effectprev="fadeOut"
