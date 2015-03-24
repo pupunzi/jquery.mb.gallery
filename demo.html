@@ -105,6 +105,7 @@
 
     </style>
 </head>
+
 <body>
 
 <article id="wrapper">
@@ -129,48 +130,6 @@
         <br>
         <label for="timing">transition timing (in ms)</label>
         <input id="timing" value="1000"/>
-
-        <script>
-
-            jQuery(function () {
-
-                if (self.location.href == top.location.href){
-                    var logo=$("<a href='http://pupunzi.com/#mb.components/components.html' style='position:absolute;top:0;z-index:1000'>" +
-                            "<img id='logo' border='0' src='http://pupunzi.com/images/logo.png' alt='mb.ideas.repository'></a>");
-                    $("body").prepend(logo);
-                    $("#logo").fadeIn();
-                }
-
-                /* Extend or modify effects */
-                jQuery.thumbGrid.transitions.fadeIn = {in: {x:"0", opacity:0, scale:0.9}, out: {x:0, opacity:0}};
-                jQuery.thumbGrid.transitions.fadeOut = {in: {x:"0", opacity:0}, out: {x:0, scale:0.9, opacity:0}};
-                
-                jQuery.thumbGrid.transitions.slideLeft = {in: {x:$(window).width(), opacity:0}, out: {x:0, opacity:0}};
-                jQuery.thumbGrid.transitions.slideRight = {in: {x:0, opacity:0}, out: {x:$(window).width(), opacity:0}};
-
-                /* Initialize the gallery */
-                jQuery("#thumbGrid").thumbGrid();
-
-                
-                
-                /* customizer */
-                jQuery("#effect").on("change",function(){
-                    var x = $(this).val();
-                    jQuery("#thumbGrid").data("nav_effect", x);
-                });
-
-                jQuery("#delay").on("change",function(){
-                    var x = parseFloat($(this).val());
-                    jQuery("#thumbGrid").data("nav_delay", x);
-                });
-
-                jQuery("#timing").on("change",function(){
-                    var x = parseFloat($(this).val());
-                    jQuery("#thumbGrid").data("nav_timing", x);
-                });
-            });
-
-        </script>
     </div>
 
     <section class="content">
@@ -217,6 +176,46 @@
     </section>
 
 </article>
+<script>
 
+    jQuery(function () {
+
+        if (self.location.href == top.location.href){
+            var logo=$("<a href='http://pupunzi.com/#mb.components/components.html' style='position:absolute;top:0;z-index:1000'>" +
+                    "<img id='logo' border='0' src='http://pupunzi.com/images/logo.png' alt='mb.ideas.repository'></a>");
+            $("body").prepend(logo);
+            $("#logo").fadeIn();
+        }
+
+        /* Extend or modify effects */
+        jQuery.thumbGrid.transitions.fadeIn = {in: {x:"0", opacity:0, scale:0.9}, out: {x:0, opacity:0}};
+        jQuery.thumbGrid.transitions.fadeOut = {in: {x:"0", opacity:0}, out: {x:0, scale:0.9, opacity:0}};
+
+        jQuery.thumbGrid.transitions.slideLeft = {in: {x:$(window).width(), opacity:0}, out: {x:0, opacity:0}};
+        jQuery.thumbGrid.transitions.slideRight = {in: {x:0, opacity:0}, out: {x:$(window).width(), opacity:0}};
+
+        /* Initialize the gallery */
+        jQuery("#thumbGrid").thumbGrid();
+
+
+
+        /* customizer */
+        jQuery("#effect").on("change",function(){
+            var x = $(this).val();
+            jQuery("#thumbGrid").data("nav_effect", x);
+        });
+
+        jQuery("#delay").on("change",function(){
+            var x = parseFloat($(this).val());
+            jQuery("#thumbGrid").data("nav_delay", x);
+        });
+
+        jQuery("#timing").on("change",function(){
+            var x = parseFloat($(this).val());
+            jQuery("#thumbGrid").data("nav_timing", x);
+        });
+    });
+
+</script>
 </body>
 </html>

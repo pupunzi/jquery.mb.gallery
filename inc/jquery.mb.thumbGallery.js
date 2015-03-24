@@ -55,7 +55,7 @@
 
 				grid.isAnimating = false;
 				grid.pageIndex = 0;
-				
+
 				grid.nav_effect = $grid.data("nav_effect") || opt.nav_effect;
 				grid.nav_delay = $grid.data("nav_delay") || opt.nav_delay;
 				grid.nav_timing = $grid.data("nav_timing") || opt.nav_timing;
@@ -69,7 +69,7 @@
 				jQuery.extend(opt, $grid.data());
 
 				grid.opt = opt;
-				
+
 				grid.elements = $grid.children().clone();
 				$grid.children().hide();
 
@@ -295,7 +295,7 @@
 
 			var pageElements = grid.pages[pageIdx];
 			var page = jQuery("<ul/>").addClass("thumb-grid");
-			
+
 			for (var x = 0; x < grid.nav_pagination; x++) {
 				var thumb = $(pageElements[x]).clone().removeClass("in");
 				if (jQuery(thumb).length) {
@@ -482,7 +482,6 @@
 				},
 
 				keyboard: function(on){
-
 					if(on){
 						jQuery(document).on("keydown.thumbGallery", function(e){
 
@@ -515,9 +514,7 @@
 						jQuery("body").on("closeSlideShow", function(){slideShow.keyboard(false);});
 
 					}else{
-
 						jQuery(document).off("keydown.thumbGallery");
-
 					}
 				},
 
@@ -536,6 +533,8 @@
 					imgWrapper.append(imgContainer);
 
 					placeHolder.prepend(imgWrapper);
+
+					imgWrapper.addClass("in");
 
 					var img = jQuery("<img/>");
 
@@ -568,8 +567,6 @@
 							imgWrapper.css({opacity:0});
 						}
 
-						imgWrapper.addClass("in");
-
 						clearTimeout(slideShow.spinner);
 						spinnerPh.fadeOut(300,function(){spinnerPh.empty();});
 
@@ -588,13 +585,16 @@
 
 						if(animate)
 							grid.isAnimating = true;
+												
+						setTimeout(function(){
+							imgWrapper.CSSAnimate(displayProperties, grid.nav_timing * 1.4, 50, "cubic-bezier(0.19, 1, 0.22, 1)", function(){});
+							oldImgWrapper.CSSAnimate(jQuery.thumbGrid.transitions[slideShow.effect].out, grid.nav_timing * 1.4, 80, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
+								grid.isAnimating = false;
+								oldImgWrapper.removeClass("in");
+								jQuery(".tg-img-wrapper", placeHolder).not(".in").remove();
+							});
+						},100);
 
-						imgWrapper.CSSAnimate(displayProperties, grid.nav_timing * 1.4, 50, "cubic-bezier(0.19, 1, 0.22, 1)", function(){});
-						oldImgWrapper.CSSAnimate(jQuery.thumbGrid.transitions[slideShow.effect].out, grid.nav_timing * 1.4, 50, "cubic-bezier(0.19, 1, 0.22, 1)", function(){
-							grid.isAnimating = false;
-							oldImgWrapper.removeClass("in");
-							jQuery(".tg-img-wrapper", placeHolder).not(".in").remove();
-						});
 					}).attr({src: imageToShowURL});
 				},
 
