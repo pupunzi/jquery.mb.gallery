@@ -115,8 +115,8 @@ nav.thumbGridNav a {
   background: #fff;
   cursor: pointer;
   opacity: 0.7;
-  -webkit-transition: all 0.2s;
-  transition: all 0.2s;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
 
   overflow: hidden;
   text-indent: -1000px;
@@ -130,6 +130,17 @@ nav.thumbGridNav a.sel {
   opacity: 1;
   box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.4);
 }
+
+nav.thumbGridNav.waiting a.sel {
+  opacity: 1;
+  box-shadow: 0 0 0 1px rgb(248, 248, 248);
+}
+nav.thumbGridNav.waiting a:not(.sel) {
+  opacity: .3;
+  cursor: default;
+}
+
+
 
 .tg-overlay {
   transition:All 2s ease;

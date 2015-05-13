@@ -296,12 +296,13 @@
 			grid.isAnimating = true;
 
 			var pageElements = grid.pages[pageIdx];
-			var page = jQuery("<ul/>").addClass("thumb-grid");
+			var $page = jQuery("<ul/>").addClass("thumb-grid");
 
 			for (var x = 0; x < grid.nav_pagination; x++) {
 				var thumb = $(pageElements[x]).clone().removeClass("in");
-				if (jQuery(thumb).length) {
+				if (thumb.length) {
 					var thumbWrapper = jQuery("<li/>").addClass("thumbWrapper").append(thumb);
+
 					thumbWrapper.data("idx", x);
 
 					thumbWrapper.on("click", function () {
@@ -318,8 +319,8 @@
 						thumbWrapper.css(displayProperties).show();
 					}
 
-					page.append(thumbWrapper);
-					page.addClass("active");
+					$page.append(thumbWrapper);
+					$page.addClass("active");
 
 				} else {
 					break;
@@ -327,11 +328,11 @@
 			}
 
 			if (applyEffect)
-				page.addClass("in");
+				$page.addClass("in");
 
 			$grid.find(".thumb-grid").addClass("out").removeClass("in");
 
-			$grid.prepend(page);
+			$grid.prepend($page);
 
 			setTimeout(function () {
 
@@ -343,6 +344,7 @@
 
 					elIn.CSSAnimate(displayProperties, grid.nav_timing, delayIn, "cubic-bezier(0.19, 1, 0.22, 1)", function () {});
 					delayIn += grid.nav_delay;
+
 				}
 
 				var delayOut = grid.nav_delay;
@@ -350,11 +352,14 @@
 					var elOut = jQuery(".out .thumbWrapper", $grid).eq(ii);
 					var transitionOut = jQuery.thumbGrid.transitions[grid.nav_effect].out;
 
+					grid.nav.addClass("waiting");
+
 					elOut.CSSAnimate(transitionOut, grid.nav_timing, delayOut, "cubic-bezier(0.19, 1, 0.22, 1)", function () {
 
 						if ($(this).index() == jQuery(".out .thumbWrapper", $grid).length - 1) {
 							jQuery(".out", $grid).remove();
 							grid.isAnimating = false;
+							grid.nav.removeClass("waiting");
 						}
 
 					});
@@ -364,9 +369,10 @@
 				$grid.fadeIn();
 
 				if (!applyEffect) {
-					grid.height = page.height();
+					grid.height = $page.height();
 					$grid.height(grid.height);
 					jQuery.thumbGrid.buildIndex(grid);
+					grid.isAnimating = false;
 
 					if (typeof grid.nav != "undefined")
 						grid.nav.show();
@@ -375,7 +381,7 @@
 			}, 10);
 
 			jQuery(window).on("resize.thumbGrid", function () {
-				grid.height = page.height();
+				grid.height = $page.height();
 				$grid.height(grid.height);
 			});
 		},
@@ -393,7 +399,7 @@
 				idxPlaceHolder.addClass("indexEl");
 				idxPlaceHolder.on("click", function () {
 
-					if (grid.pageIndex == jQuery(this).attr("idx"))
+					if (grid.isAnimating || grid.pageIndex == jQuery(this).attr("idx"))
 						return;
 
 					grid.pageIndex = jQuery(this).attr("idx");
