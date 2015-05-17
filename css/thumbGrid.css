@@ -102,10 +102,6 @@ nav.thumbGridNav {
 
 }
 
-nav.thumbGridNav .indexEl {
-  cursor: pointer;
-}
-
 nav.thumbGridNav a {
   display: inline-block;
   margin: 0 8px;
@@ -120,6 +116,7 @@ nav.thumbGridNav a {
 
   overflow: hidden;
   text-indent: -1000px;
+  cursor: pointer;
 }
 
 nav.thumbGridNav a:hover {
@@ -127,16 +124,19 @@ nav.thumbGridNav a:hover {
 }
 
 nav.thumbGridNav a.sel {
-  opacity: 1;
-  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.4);
+  opacity: .2;
+  width: 18px;
+  height: 18px;
+
 }
 
 nav.thumbGridNav.waiting a.sel {
+  background: rgba(239, 239, 239, 0.5);
   opacity: 1;
-  box-shadow: 0 0 0 1px rgb(248, 248, 248);
+  border: 0;
 }
 nav.thumbGridNav.waiting a:not(.sel) {
-  opacity: .3;
+  opacity: .1;
   cursor: default;
 }
 

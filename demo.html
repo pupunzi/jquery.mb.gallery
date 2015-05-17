@@ -47,18 +47,8 @@
         }
 
         .tg-overlay {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.60) 100%);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.78) 0%, rgba(23, 23, 23, 0.60) 100%);
         }
-
-        /*
-        .tg-placeHolder{
-            background: linear-gradient(135deg, #13171a 0%, #383d40 100%);
-        }
-
-        .tg-overlay {
-            background: linear-gradient(135deg, rgba(130, 130, 130, 0.9) 0%, rgba(119, 138, 150, 0.9) 100%);
-        }
-*/
 
 
         /******** DEMO SWITCHER *******/
@@ -101,6 +91,10 @@
             text-align: left;
             text-transform: uppercase;
             font-weight: 500;
+        }
+
+        .thumbGrid {
+            display: none;
         }
 
     </style>
@@ -176,7 +170,7 @@
 </article>
 <script>
 
-    jQuery(function () {
+ //   jQuery(function () {
 
         if (self.location.href == top.location.href){
             var logo=$("<a href='http://pupunzi.com/#mb.components/components.html' style='position:absolute;top:0;z-index:1000'>" +
@@ -188,14 +182,11 @@
         /* Extend or modify effects */
         jQuery.thumbGrid.transitions.fadeIn = {in: {x:"0", opacity:0, scale:0.9}, out: {x:0, opacity:0}};
         jQuery.thumbGrid.transitions.fadeOut = {in: {x:"0", opacity:0}, out: {x:0, scale:0.9, opacity:0}};
-
         jQuery.thumbGrid.transitions.slideLeft = {in: {x:$(window).width(), opacity:0}, out: {x:0, opacity:0}};
         jQuery.thumbGrid.transitions.slideRight = {in: {x:0, opacity:0}, out: {x:$(window).width(), opacity:0}};
 
         /* Initialize the gallery */
         jQuery("#thumbGrid").thumbGrid();
-
-
 
         /* customizer */
         jQuery("#effect").on("change",function(){
@@ -212,7 +203,14 @@
             var x = parseFloat($(this).val());
             jQuery("#thumbGrid").data("nav_timing", x);
         });
-    });
+
+/*
+        setTimeout(function(){
+            $(".thumbGrid").fadeTo(800,1)
+        },1000)
+*/
+
+ //   });
 
 </script>
 </body>
