@@ -1,0 +1,29 @@
+{
+  "name": "jquery.mb.thumbgallery",
+  "version": "1.3.0",
+  "homepage": "https://github.com/pupunzi/jquery.mb.thumbGallery",
+  "authors": [
+    "pupunzi <matteo@open-lab.com>"
+  ],
+  "description": "This plugin let you create a thumbnail gallery with beautiful transition effects and an overlay slideshow.",
+  "main": "/inc/jquery.mb.thumbGallery.js",
+  "keywords": [
+    "jquery-plugin",
+    "images",
+    "slide",
+    "show",
+    "html5",
+    "overlay"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "moduleType": [
+    "globals"
+  ]
+}

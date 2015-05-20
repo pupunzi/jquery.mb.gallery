@@ -13,7 +13,7 @@
 	jQuery.thumbGrid = {
 
 		name    : "jquery.mb.thumbGrid",
-		version : "1.0",
+		version : "1.3.0",
 		author  : "Matteo Bicocchi",
 		defaults: {
 			nav_effect         : "slideLeft",
