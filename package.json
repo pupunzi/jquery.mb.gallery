@@ -1,5 +1,5 @@
 {
-  "name": "jquery.mb.thumbgallery",
+  "name": "jquery.mb.thumbGallery",
   "title": "jquery.mb.thumbGallery",
   "description": "This plugin let you create a thumbnail gallery with beautiful transition effects and an overlay slideshow.",
   "keywords": [
@@ -35,7 +35,7 @@
   "dependencies": {
     "jquery": ">=1.8"
   },
-  "main": "inc/jquery.mb.thumbGallery.js",
+  "main": "src/jquery.mb.thumbGallery.src.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

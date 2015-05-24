@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'thumbgrid';
-  src: url('thumbgallery-font/font/thumbgallery.eot?44954952');
-  src: url('thumbgallery-font/font/thumbgallery.eot?44954952#iefix') format('embedded-opentype'),
-  url('thumbgallery-font/font/thumbgallery.woff?44954952') format('woff'),
-  url('thumbgallery-font/font/thumbgallery.ttf?44954952') format('truetype'),
-  url('thumbgallery-font/font/thumbgallery.svg?44954952#thumbgrid') format('svg');
+  src: url('font/thumbgallery.eot?44954952');
+  src: url('font/thumbgallery.eot?44954952#iefix') format('embedded-opentype'),
+  url('font/thumbgallery.woff?44954952') format('woff'),
+  url('font/thumbgallery.ttf?44954952') format('truetype'),
+  url('font/thumbgallery.svg?44954952#thumbgrid') format('svg');
   font-weight: normal;
   font-style: normal;
 }
