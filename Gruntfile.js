@@ -44,14 +44,14 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				src: [ 'src/*.js','src/dep/*.js'],
-				dest: 'dist/<%= pkg.name %>.js'
+				dest: 'dist/<%= pkg.title %>.js'
 			}
 		},
 
 		uglify: {
 			options: {
 				banner: '/*' +
-						' <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %>\n' +
+						' <%= pkg.title %> <%= grunt.template.today("dd-mm-yyyy") %>\n' +
 						' _ jquery.mb.components                                                                                                                             _\n' +
 						' _ email: matteo@open-lab.com                                                                                                                       _\n' +
 						' _ Copyright (c) 2001-<%= grunt.template.today("yyyy") %>. Matteo Bicocchi (Pupunzi);                                                                                              _\n' +
@@ -62,7 +62,7 @@ module.exports = function(grunt) {
 
 			dist: {
 				files: {
-					'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
+					'dist/<%= pkg.title %>.min.js': ['<%= concat.dist.dest %>']
 				}
 			}
 		},
