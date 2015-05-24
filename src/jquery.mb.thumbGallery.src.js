@@ -50,6 +50,11 @@
 			rotate      : {in: { opacity: 0}, out: {rotate: 179, opacity: 0}}
 		},
 
+		/**
+		 *
+		 * @param options
+		 * @returns {*}
+		 */
 		init: function (options) {
 
 			var opt = {};
@@ -113,6 +118,12 @@
 			})
 		},
 
+		/**
+		 *
+		 * @param el
+		 * @param pageIdx
+		 * @param applyEffect
+		 */
 		drawPage: function (el, pageIdx, applyEffect) {
 
 			if (typeof applyEffect === "undefined")
@@ -218,6 +229,10 @@
 			});
 		},
 
+		/**
+		 *
+		 * @param el
+		 */
 		buildIndex: function (el) {
 			var grid = el;
 			var $grid = jQuery(grid);
@@ -253,6 +268,11 @@
 
 		},
 
+		/**
+		 *
+		 * @param el
+		 * @param idx
+		 */
 		drawSlideShow: function (el, idx) {
 
 			jQuery("body").trigger("drawSlideShow");
@@ -321,6 +341,10 @@
 					grid.isAnimating = false;
 				},
 
+				/**
+				 *
+				 * @param on
+				 */
 				keyboard: function (on) {
 
 					if (on) {
@@ -357,6 +381,10 @@
 					}
 				},
 
+				/**
+				 *
+				 * @param animate
+				 */
 				goTo: function (animate) {
 
 					var oldImgWrapper = jQuery(".tg-img-wrapper", placeHolder).eq(0);
@@ -437,6 +465,9 @@
 					}).attr({src: imageToShowURL});
 				},
 
+				/**
+				 *
+				 */
 				next: function () {
 
 					slideShow.effect = slideShow.effectNext;
@@ -452,6 +483,9 @@
 					slideShow.goTo(true);
 				},
 
+				/**
+				 *
+				 */
 				prev: function () {
 
 					slideShow.effect = slideShow.effectPrev;
@@ -481,6 +515,11 @@
 
 		},
 
+		/**
+		 *
+		 * @param el
+		 * @param idx
+		 */
 		closeSlideShow: function (el, idx) {
 
 			jQuery("body").trigger("closeSlideShow");
