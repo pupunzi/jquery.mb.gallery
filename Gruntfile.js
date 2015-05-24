@@ -79,19 +79,37 @@ module.exports = function(grunt) {
 			}
 		},
 
+		includereplace: {
+			dist: {
+				options: {
+					prefix: '{{ ',
+					suffix: ' }}',
+					globals: {
+						version: '<%= pkg.version %>'
+					}
+				},
+				files: [
+					{src: 'dist/*.js', expand: true},
+					{src: 'dist/*.html', expand: true},
+					{src: 'dist/css/*.css', expand: true}
+				]
+			}
+		},
+
 		watch: {
 			files: ['src/css/*.css','src/*.js','src/*.tmpl', 'Gruntfile.js'],
-			tasks: ['copy','concat', 'uglify', 'cssmin']
+			tasks: ['copy','concat', 'uglify', 'cssmin', 'includereplace']
 		}
 
 	});
 
+	grunt.loadNpmTasks('grunt-include-replace');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
-	grunt.registerTask('default', ['copy','concat', 'uglify', 'cssmin']);
+	grunt.registerTask('default', ['copy','concat', 'uglify', 'cssmin', 'includereplace']);
 
 };
