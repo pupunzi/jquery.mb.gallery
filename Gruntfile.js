@@ -96,6 +96,27 @@ module.exports = function(grunt) {
 			}
 		},
 
+		imagemin: {
+			dynamic: {
+				options: {
+					optimizationLevel: 3,
+					svgoPlugins: [{ removeViewBox: false }]
+				},
+				files: [{
+					expand: true,
+					cwd: 'assets/HR/',
+					src: ['*.{png,jpg,gif}'],
+					dest: 'dist/img/HR'
+				},{
+					expand: true,
+					cwd: 'assets/LR/',
+					src: ['*.{png,jpg,gif}'],
+					dest: 'dist/img/LR'
+				}
+				]
+			}
+		},
+
 		watch: {
 			files: ['src/css/*.css','src/*.js','src/*.tmpl', 'Gruntfile.js'],
 			tasks: ['copy','concat', 'uglify', 'cssmin', 'includereplace']
@@ -104,12 +125,13 @@ module.exports = function(grunt) {
 	});
 
 	grunt.loadNpmTasks('grunt-include-replace');
+	grunt.loadNpmTasks('grunt-contrib-imagemin');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
-	grunt.registerTask('default', ['copy','concat', 'uglify', 'cssmin', 'includereplace']);
+	grunt.registerTask('default', ['copy','concat', 'uglify', 'cssmin', 'includereplace', 'imagemin']);
 
 };
