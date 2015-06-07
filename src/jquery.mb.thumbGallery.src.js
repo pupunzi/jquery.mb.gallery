@@ -574,7 +574,7 @@
 
 						imgContainer.css({
 							backgroundImage   : "url(" + imageToShowURL + ")",
-							backgroundSize    : grid.gallery_cover ? "cover" : "contain",
+							backgroundSize    : grid.gallery_cover && !jQuery.isMobile ? "cover" : "contain",
 							backgroundPosition: "center center",
 							backgroundRepeat  : "no-repeat"
 						});

@@ -24,7 +24,7 @@
 
 		name    : "jquery.mb.thumbGrid",
 		version : "1.3.1",
-		build : "531",
+		build : "533",
 		author  : "Matteo Bicocchi",
 		defaults: {
 			nav_effect         : "slideLeft",
@@ -574,7 +574,7 @@
 
 						imgContainer.css({
 							backgroundImage   : "url(" + imageToShowURL + ")",
-							backgroundSize    : grid.gallery_cover ? "cover" : "contain",
+							backgroundSize    : grid.gallery_cover && !jQuery.isMobile ? "cover" : "contain",
 							backgroundPosition: "center center",
 							backgroundRepeat  : "no-repeat"
 						});
