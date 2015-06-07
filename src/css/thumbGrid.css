@@ -333,6 +333,18 @@ nav.thumbGridNav.waiting a:not(.sel) {
     background-color: transparent;
   }
 
+  .tg-prev, .tg-next{
+    background-color: rgba(255,255,255,0);
+    color: rgba(255,255,255,1);
+  }
+
+  .tg-prev:hover, .tg-next:hover{
+    background-color: rgba(255,255,255,0);
+    color: rgba(255,255,255,1);
+  }
+
+
+
 }
 
 @media (max-width: 480px) {

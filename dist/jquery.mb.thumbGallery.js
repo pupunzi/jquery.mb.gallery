@@ -24,7 +24,7 @@
 
 		name    : "jquery.mb.thumbGrid",
 		version : "1.3.1",
-		build : "533",
+		build : "536",
 		author  : "Matteo Bicocchi",
 		defaults: {
 			nav_effect         : "slideLeft",
@@ -54,6 +54,12 @@
 			mobSlideLeft   : {in: {opacity: 0}, out: {x: -200, opacity: 0}, ease:"cubic-bezier(0,.01,1,1)"},
 			mobSlideRight  : {in: {opacity: 0}, out: {x: 200, opacity: 0}, ease:"cubic-bezier(0,.01,1,1)"}
 
+		},
+
+		events: {
+			start: jQuery.isMobile ? "touchstart" : "mousedown",
+			move: jQuery.isMobile ? "touchmove" : "mousemove",
+			end: jQuery.isMobile ? "touchend" : "mouseup"
 		},
 
 		/**
@@ -194,7 +200,7 @@
 
 					thumbWrapper.data("idx", x);
 
-					thumbWrapper.on("click", function () {
+					thumbWrapper.on(jQuery.thumbGrid.events.end, function () {
 						var idx = jQuery(".thumb_box", this).data("globalindex");
 						jQuery.thumbGrid.drawSlideShow(grid, idx);
 					});
@@ -370,7 +376,7 @@
 			for (var x = 1; x <= grid.totPages; x++) {
 				var idxPlaceHolder = jQuery("<a/>").html(x).attr({idx: (x - 1)});
 				idxPlaceHolder.addClass("indexEl");
-				idxPlaceHolder.on("click", function () {
+				idxPlaceHolder.on(jQuery.thumbGrid.events.end, function () {
 
 					var pageIndex = jQuery(this).attr("idx");
 
@@ -417,9 +423,9 @@
 					$grid = jQuery(grid),
 					overlay = jQuery("<div/>").addClass("tg-overlay").css({opacity: 0}),
 					placeHolder = jQuery("<div/>").addClass("tg-placeHolder"),
-					slideShowClose = jQuery("<div/>").addClass("tg-close tg-icon").on("click", function () {jQuery.thumbGrid.closeSlideShow(el, idx)}),
-					slideShowNext = jQuery("<div/>").addClass("tg-next tg-icon").on("click", function () {slideShow.next()}),
-					slideShowPrev = jQuery("<div/>").addClass("tg-prev tg-icon").on("click", function () {slideShow.prev()}),
+					slideShowClose = jQuery("<div/>").addClass("tg-close tg-icon").on(jQuery.thumbGrid.events.end, function () {jQuery.thumbGrid.closeSlideShow(el, idx)}),
+					slideShowNext = jQuery("<div/>").addClass("tg-next tg-icon").on(jQuery.thumbGrid.events.end, function () {slideShow.next()}),
+					slideShowPrev = jQuery("<div/>").addClass("tg-prev tg-icon").on(jQuery.thumbGrid.events.end, function () {slideShow.prev()}),
 					spinnerPh = jQuery("<div/>").addClass("tg-spinner"),
 					$origin = $grid.find("[data-globalindex=" + idx + "]").parent("li"),
 					pHleft = $origin.offset().left - jQuery(window).scrollLeft(),
