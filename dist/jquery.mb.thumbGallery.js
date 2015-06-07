@@ -24,7 +24,7 @@
 
 		name    : "jquery.mb.thumbGrid",
 		version : "1.3.1",
-		build : "536",
+		build : "537",
 		author  : "Matteo Bicocchi",
 		defaults: {
 			nav_effect         : "slideLeft",
