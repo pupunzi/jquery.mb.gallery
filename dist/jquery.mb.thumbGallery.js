@@ -24,6 +24,7 @@
 
 		name    : "jquery.mb.thumbGrid",
 		version : "1.3.1",
+		build : "531",
 		author  : "Matteo Bicocchi",
 		defaults: {
 			nav_effect         : "slideLeft",
@@ -33,21 +34,26 @@
 			gallery_effectnext : "slideRight",
 			gallery_effectprev : "slideLeft",
 			gallery_timing     : 500,
-			gallery_cover      : true,
+			gallery_cover      : false,
 			gallery_fullscreenw: "100%",
-			gallery_fullscreenh: "100%"
+			gallery_fullscreenh: "100%",
+			ease               : "cubic-bezier(0.19, 1, 0.22, 1)"
 		},
 
 		transitions: {
 			fade        : {in: {opacity: 0}, out: {opacity: 0}},
 			slideUp     : {in: {opacity: 0}, out: {y: -200, opacity: 0}},
 			slideDown   : {in: {opacity: 0}, out: {y: 200, opacity: 0}},
-			slideLeft   : {in: {opacity: 0}, out: {x: -200, opacity: 0}},
-			slideRight  : {in: {opacity: 0}, out: {x: 200, opacity: 0}},
+			slideLeft   : {in: {opacity: 0}, out: {x: -200, opacity: 0}, ease:"cubic-bezier(0,.01,1,1)"},
+			slideRight  : {in: {opacity: 0}, out: {x: 200, opacity: 0}, ease:"cubic-bezier(0,.01,1,1)"},
 			slideInverse: {in: {y: 200, opacity: 0}, out: {y: 200, opacity: 0}},
 			zoomIn      : {in: {scale: .5, opacity: 0}, out: {scale: 2, opacity: 0}},
 			zoomOut     : {in: {scale: 2, opacity: 0}, out: {scale: .1, opacity: 0}},
-			rotate      : {in: { opacity: 0}, out: {rotate: 179, opacity: 0}}
+			rotate      : {in: { opacity: 0}, out: {rotate: 179, opacity: 0}},
+
+			mobSlideLeft   : {in: {opacity: 0}, out: {x: -200, opacity: 0}, ease:"cubic-bezier(0,.01,1,1)"},
+			mobSlideRight  : {in: {opacity: 0}, out: {x: 200, opacity: 0}, ease:"cubic-bezier(0,.01,1,1)"}
+
 		},
 
 		/**
@@ -77,12 +83,13 @@
 				grid.nav_delay = $grid.data("nav_delay") || opt.nav_delay;
 				grid.nav_timing = $grid.data("nav_timing") || opt.nav_timing;
 				grid.nav_pagination = $grid.data("nav_pagination") || opt.nav_pagination;
+				grid.nav_pagination = jQuery.isMobile && !jQuery.isTablet ? 1 : grid.nav_pagination;
 				grid.gallery_fullscreenw = $grid.data("gallery_fullscreenw") || opt.gallery_fullscreenw;
 				grid.gallery_fullscreenh = $grid.data("gallery_fullscreenh") || opt.gallery_fullscreenh;
 				grid.gallery_cover = $grid.data("gallery_cover") || opt.gallery_cover;
 				grid.gallery_effectnext = $grid.data("gallery_effectnext") || grid.nav_effect;
 				grid.gallery_effectprev = $grid.data("gallery_effectprev") || grid.nav_effect;
-				grid.gallery_timing = $grid.data("gallery_timing") || grid.nav_effect;
+				grid.gallery_timing = $grid.data("gallery_timing") || 1000;
 
 				jQuery.extend(opt, $grid.data());
 
@@ -96,6 +103,7 @@
 				});
 
 				grid.pages = [];
+
 				grid.totPages = Math.ceil(grid.elements.size() / grid.nav_pagination);
 
 				var thumbIdx = 0;
@@ -115,6 +123,7 @@
 				}
 
 				jQuery.thumbGrid.drawPage(grid, grid.pageIndex, false);
+				jQuery(window).resize();
 			})
 		},
 
@@ -132,24 +141,61 @@
 			var grid = el;
 			var $grid = jQuery(grid);
 
-			grid.nav_effect = $grid.data("nav_effect") || "fade";
+			if(!jQuery.isMobile)
+				grid.nav_effect = $grid.data("nav_effect") || "fade";
+
 			grid.nav_delay = $grid.data("nav_delay") || 100;
 			grid.nav_timing = $grid.data("nav_timing") || 1000;
-
 			grid.isAnimating = true;
 
 			var pageElements = grid.pages[pageIdx];
 			var $page = jQuery("<ul/>").addClass("thumb-grid");
 
+			grid.setThumbsize = function(el){
+
+				if(!$grid.is(":visible")){
+					$grid.css({opacity:0}).show();
+					grid.width = $grid.outerWidth();
+					$grid.hide().css({opacity:1});
+				}else{
+					grid.width = $grid.outerWidth();
+				}
+
+				var w = (grid.width/grid.nav_pagination)- (grid.nav_pagination == 1 ? 0 : 10);
+
+				if(grid.nav_pagination > 4)
+					w = ((grid.width*2)/grid.nav_pagination)-10;
+
+				if(grid.width < 600 && grid.nav_pagination > 3)
+					w = ($grid.outerWidth()/2.1) - 10;
+
+				var h = w/1.5;
+
+				el.each(function(){
+					jQuery(this).css({width:w, height:h});
+				});
+				return {w:w, h:h};
+			};
+
 			for (var x = 0; x < grid.nav_pagination; x++) {
-				var thumb = $(pageElements[x]).clone().removeClass("in");
+
+				var thumb_box = jQuery("<div/>").addClass("thumb_box");
+				var thumb = jQuery(pageElements[x]);
+				var thumb_src = jQuery(pageElements[x]).attr("src");
+
+				thumb_box.css({width:"100%",height:"100%",backgroundImage:"url("+thumb_src+")", backgroundSize:"cover", backgroundRepeat: "no-repeat", backgroundPosition: "center center"});
+				thumb_box.attr({
+					"data-highres": thumb.data("highres"),
+					"data-globalindex": thumb.data("globalindex")
+				});
+
 				if (thumb.length) {
-					var thumbWrapper = jQuery("<li/>").addClass("thumbWrapper").append(thumb);
+					var thumbWrapper = jQuery("<li/>").addClass("thumbWrapper").append(thumb_box);
 
 					thumbWrapper.data("idx", x);
 
 					thumbWrapper.on("click", function () {
-						var idx = $("img", this).data("globalindex");
+						var idx = jQuery(".thumb_box", this).data("globalindex");
 						jQuery.thumbGrid.drawSlideShow(grid, idx);
 					});
 
@@ -170,12 +216,50 @@
 				}
 			}
 
+			grid.setThumbsize(jQuery(".thumbWrapper", $page));
+			jQuery(window).off("resize.thumbgallery").on("resize.thumbgallery", function(){
+				grid.setThumbsize(jQuery(".thumbWrapper", $page));
+			});
+
 			if (applyEffect)
 				$page.addClass("in");
 
 			$grid.find(".thumb-grid").addClass("out").removeClass("in");
 
 			$grid.prepend($page);
+
+			if(jQuery.isMobile){
+
+				var distanceForSwipe = 120;
+				$page.swipe({
+
+					allowPageScroll:"auto",
+					threshold: 120,
+					triggerOnTouchEnd:false,
+
+					swipeStatus: function(event, phase, direction, distance){
+
+							if(grid.isAnimating)
+								return;
+
+							if (phase == "end") {
+
+								if (direction == "left") {
+									grid.nav_effect = "mobSlideLeft";
+									jQuery.thumbGrid.nextPage(grid);
+								} else if (direction == "right") {
+									grid.nav_effect = "mobSlideRight";
+									jQuery.thumbGrid.prevPage(grid);
+								}
+							}
+
+					}
+//					swipe:function(event, direction, distance, duration, fingerCount, fingerData) {}
+				});
+
+			}
+
+			var ease = jQuery.thumbGrid.transitions[grid.nav_effect].ease || grid.opt.ease;
 
 			setTimeout(function () {
 
@@ -185,7 +269,7 @@
 				for (var i = 0; i < jQuery(".in .thumbWrapper", $grid).length; i++) {
 					var elIn = jQuery(".in .thumbWrapper", $grid).eq(i);
 
-					elIn.CSSAnimate(displayProperties, grid.nav_timing, delayIn, "cubic-bezier(0.19, 1, 0.22, 1)", function () {});
+					elIn.CSSAnimate(displayProperties, grid.nav_timing, delayIn, ease, function () {});
 					delayIn += grid.nav_delay;
 
 				}
@@ -197,7 +281,7 @@
 
 					grid.nav.addClass("waiting");
 
-					elOut.CSSAnimate(transitionOut, grid.nav_timing, delayOut, "cubic-bezier(0.19, 1, 0.22, 1)", function () {
+					elOut.CSSAnimate(transitionOut, grid.nav_timing, delayOut, ease, function () {
 
 						if ($(this).index() == jQuery(".out .thumbWrapper", $grid).length - 1) {
 							jQuery(".out", $grid).remove();
@@ -221,12 +305,54 @@
 						grid.nav.show();
 				}
 
-			}, 100);
+			}, 50);
 
 			jQuery(window).on("resize.thumbGrid", function () {
 				grid.height = $page.height();
 				$grid.height(grid.height);
 			});
+		},
+
+		/**
+		 *
+		 * @param grid
+		 */
+		nextPage: function(grid){
+
+			++grid.pageIndex;
+
+			if (grid.pageIndex > grid.totPages - 1)
+				grid.pageIndex = 0;
+
+			jQuery.thumbGrid.drawPage(grid, grid.pageIndex, true);
+
+			if(!grid.nav.length)
+				return;
+
+			jQuery(".indexEl", grid.nav).removeClass("sel");
+			jQuery(".indexEl", grid.nav).eq(grid.pageIndex).addClass("sel");
+
+		},
+
+		/**
+		 *
+		 * @param grid
+		 */
+		prevPage: function(grid){
+
+			--grid.pageIndex;
+
+			if (grid.pageIndex < 0)
+				grid.pageIndex = grid.totPages-1;
+
+			jQuery.thumbGrid.drawPage(grid, grid.pageIndex, true);
+
+			if(!grid.nav.length)
+				return;
+
+			jQuery(".indexEl", grid.nav).removeClass("sel");
+			jQuery(".indexEl", grid.nav).eq(grid.pageIndex).addClass("sel");
+
 		},
 
 		/**
@@ -246,10 +372,19 @@
 				idxPlaceHolder.addClass("indexEl");
 				idxPlaceHolder.on("click", function () {
 
-					if (grid.isAnimating || grid.pageIndex == jQuery(this).attr("idx"))
+					var pageIndex = jQuery(this).attr("idx");
+
+					if (grid.isAnimating || grid.pageIndex == pageIndex)
 						return;
 
-					grid.pageIndex = jQuery(this).attr("idx");
+					if(jQuery.isMobile) {
+						if (pageIndex < grid.pageIndex)
+							grid.nav_effect = "mobSlideLeft";
+						else
+							grid.nav_effect = "mobSlideRight";
+					}
+
+					grid.pageIndex = pageIndex;
 					jQuery.thumbGrid.drawPage(grid, grid.pageIndex);
 
 					jQuery(".indexEl", nav).removeClass("sel");
@@ -454,8 +589,8 @@
 							grid.isAnimating = true;
 
 						setTimeout(function () {
-							imgWrapper.CSSAnimate(displayProperties, grid.opt.gallery_timing, 50, "cubic-bezier(0.19, 1, 0.22, 1)", function () {});
-							oldImgWrapper.CSSAnimate(jQuery.thumbGrid.transitions[slideShow.effect].out, grid.opt.gallery_timing, 80, "cubic-bezier(0.19, 1, 0.22, 1)", function () {
+							imgWrapper.CSSAnimate(displayProperties, grid.opt.gallery_timing, 50, grid.opt.ease, function () {});
+							oldImgWrapper.CSSAnimate(jQuery.thumbGrid.transitions[slideShow.effect].out, grid.opt.gallery_timing, 80, grid.opt.ease, function () {
 								grid.isAnimating = false;
 								oldImgWrapper.removeClass("in");
 								jQuery(".tg-img-wrapper", placeHolder).not(".in").remove();
@@ -503,10 +638,41 @@
 
 			};
 
+			if(jQuery.isMobile){
+				slideShow.effectNext = "mobSlideLeft";
+				slideShow.effectPrev = "mobSlideRight";
+
+				overlay.swipe({
+					allowPageScroll:"auto",
+					threshold: 120,
+					triggerOnTouchEnd:false,
+
+					swipeStatus: function(event, phase, direction, distance){
+
+							if(grid.isAnimating)
+								return;
+
+						if (phase == "end") {
+
+							if (direction == "left") {
+								slideShow.next();
+							} else {
+								slideShow.prev();
+							}
+						}
+
+					},
+					swipe:function(event, direction, distance, duration, fingerCount, fingerData) {}
+
+				});
+
+			}
+
+
 			jQuery("body").append(overlay);
 			overlay.CSSAnimate({opacity: 1}, 600, 0, function () {
 
-				placeHolder.CSSAnimate({width: "100%", height: "100%", left: 0, top: 0, opacity: 1}, 400, 0, "cubic-bezier(.8,.07,.98,.06)", function () {
+				placeHolder.CSSAnimate({width: "100%", height: "100%", left: 0, top: 0, opacity: 1}, 400, 0, grid.opt.ease, function () {
 					slideShow.init(grid);
 					jQuery(".tg-icon", overlay).fadeTo(200, 1);
 				})
@@ -534,7 +700,7 @@
 
 			jQuery(".tg-icon").fadeTo(200, 0);
 			jQuery(".tg-placeHolder > div").fadeOut(500);
-			jQuery(".tg-placeHolder").CSSAnimate({width: pHwidth, height: pHheight, left: pHleft, top: pHtop, opacity: 1}, 800, 400, "cubic-bezier(0.19, 1, 0.22, 1)", function () {
+			jQuery(".tg-placeHolder").CSSAnimate({width: pHwidth, height: pHheight, left: pHleft, top: pHtop, opacity: 1}, 800, 400, grid.opt.ease, function () {
 				jQuery(".tg-overlay").CSSAnimate({opacity: 0}, 600, function () {
 					$(this).remove();
 					jQuery("body").css({overflow: "auto"});
@@ -591,4 +757,18 @@
  *  *****************************************************************************
  */
 
-var nAgt=navigator.userAgent; if(!jQuery.browser){jQuery.browser={};jQuery.browser.mozilla=!1;jQuery.browser.webkit=!1;jQuery.browser.opera=!1;jQuery.browser.safari=!1;jQuery.browser.chrome=!1;jQuery.browser.msie=!1;jQuery.browser.ua=nAgt;jQuery.browser.name=navigator.appName;jQuery.browser.fullVersion=""+parseFloat(navigator.appVersion);jQuery.browser.majorVersion=parseInt(navigator.appVersion,10);var nameOffset,verOffset,ix;if(-1!=(verOffset=nAgt.indexOf("Opera")))jQuery.browser.opera=!0,jQuery.browser.name="Opera",jQuery.browser.fullVersion= nAgt.substring(verOffset+6),-1!=(verOffset=nAgt.indexOf("Version"))&&(jQuery.browser.fullVersion=nAgt.substring(verOffset+8));else if(-1!=(verOffset=nAgt.indexOf("OPR")))jQuery.browser.opera=!0,jQuery.browser.name="Opera",jQuery.browser.fullVersion=nAgt.substring(verOffset+4);else if(-1!=(verOffset=nAgt.indexOf("MSIE")))jQuery.browser.msie=!0,jQuery.browser.name="Microsoft Internet Explorer",jQuery.browser.fullVersion=nAgt.substring(verOffset+5);else if(-1!=nAgt.indexOf("Trident")){jQuery.browser.msie= !0;jQuery.browser.name="Microsoft Internet Explorer";var start=nAgt.indexOf("rv:")+3,end=start+4;jQuery.browser.fullVersion=nAgt.substring(start,end)}else-1!=(verOffset=nAgt.indexOf("Chrome"))?(jQuery.browser.webkit=!0,jQuery.browser.chrome=!0,jQuery.browser.name="Chrome",jQuery.browser.fullVersion=nAgt.substring(verOffset+7)):-1!=(verOffset=nAgt.indexOf("Safari"))?(jQuery.browser.webkit=!0,jQuery.browser.safari=!0,jQuery.browser.name="Safari",jQuery.browser.fullVersion=nAgt.substring(verOffset+7), -1!=(verOffset=nAgt.indexOf("Version"))&&(jQuery.browser.fullVersion=nAgt.substring(verOffset+8))):-1!=(verOffset=nAgt.indexOf("AppleWebkit"))?(jQuery.browser.webkit=!0,jQuery.browser.name="Safari",jQuery.browser.fullVersion=nAgt.substring(verOffset+7),-1!=(verOffset=nAgt.indexOf("Version"))&&(jQuery.browser.fullVersion=nAgt.substring(verOffset+8))):-1!=(verOffset=nAgt.indexOf("Firefox"))?(jQuery.browser.mozilla=!0,jQuery.browser.name="Firefox",jQuery.browser.fullVersion=nAgt.substring(verOffset+ 8)):(nameOffset=nAgt.lastIndexOf(" ")+1)<(verOffset=nAgt.lastIndexOf("/"))&&(jQuery.browser.name=nAgt.substring(nameOffset,verOffset),jQuery.browser.fullVersion=nAgt.substring(verOffset+1),jQuery.browser.name.toLowerCase()==jQuery.browser.name.toUpperCase()&&(jQuery.browser.name=navigator.appName));-1!=(ix=jQuery.browser.fullVersion.indexOf(";"))&&(jQuery.browser.fullVersion=jQuery.browser.fullVersion.substring(0,ix));-1!=(ix=jQuery.browser.fullVersion.indexOf(" "))&&(jQuery.browser.fullVersion=jQuery.browser.fullVersion.substring(0, ix));jQuery.browser.majorVersion=parseInt(""+jQuery.browser.fullVersion,10);isNaN(jQuery.browser.majorVersion)&&(jQuery.browser.fullVersion=""+parseFloat(navigator.appVersion),jQuery.browser.majorVersion=parseInt(navigator.appVersion,10));jQuery.browser.version=jQuery.browser.majorVersion}jQuery.browser.android=/Android/i.test(nAgt);jQuery.browser.blackberry=/BlackBerry|BB|PlayBook/i.test(nAgt);jQuery.browser.ios=/iPhone|iPad|iPod|webOS/i.test(nAgt);jQuery.browser.operaMobile=/Opera Mini/i.test(nAgt); jQuery.browser.windowsMobile=/IEMobile|Windows Phone/i.test(nAgt);jQuery.browser.kindle=/Kindle|Silk/i.test(nAgt);jQuery.browser.mobile=jQuery.browser.android||jQuery.browser.blackberry||jQuery.browser.ios||jQuery.browser.windowsMobile||jQuery.browser.operaMobile||jQuery.browser.kindle;
+var nAgt=navigator.userAgent;if(!jQuery.browser){jQuery.browser={},jQuery.browser.mozilla=!1,jQuery.browser.webkit=!1,jQuery.browser.opera=!1,jQuery.browser.safari=!1,jQuery.browser.chrome=!1,jQuery.browser.msie=!1,jQuery.browser.ua=nAgt,jQuery.browser.name=navigator.appName,jQuery.browser.fullVersion=""+parseFloat(navigator.appVersion),jQuery.browser.majorVersion=parseInt(navigator.appVersion,10);var nameOffset,verOffset,ix;if(-1!=(verOffset=nAgt.indexOf("Opera")))jQuery.browser.opera=!0,jQuery.browser.name="Opera",jQuery.browser.fullVersion=nAgt.substring(verOffset+6),-1!=(verOffset=nAgt.indexOf("Version"))&&(jQuery.browser.fullVersion=nAgt.substring(verOffset+8));else if(-1!=(verOffset=nAgt.indexOf("OPR")))jQuery.browser.opera=!0,jQuery.browser.name="Opera",jQuery.browser.fullVersion=nAgt.substring(verOffset+4);else if(-1!=(verOffset=nAgt.indexOf("MSIE")))jQuery.browser.msie=!0,jQuery.browser.name="Microsoft Internet Explorer",jQuery.browser.fullVersion=nAgt.substring(verOffset+5);else if(-1!=nAgt.indexOf("Trident")){jQuery.browser.msie=!0,jQuery.browser.name="Microsoft Internet Explorer";var start=nAgt.indexOf("rv:")+3,end=start+4;jQuery.browser.fullVersion=nAgt.substring(start,end)}else-1!=(verOffset=nAgt.indexOf("Chrome"))?(jQuery.browser.webkit=!0,jQuery.browser.chrome=!0,jQuery.browser.name="Chrome",jQuery.browser.fullVersion=nAgt.substring(verOffset+7)):-1!=(verOffset=nAgt.indexOf("Safari"))?(jQuery.browser.webkit=!0,jQuery.browser.safari=!0,jQuery.browser.name="Safari",jQuery.browser.fullVersion=nAgt.substring(verOffset+7),-1!=(verOffset=nAgt.indexOf("Version"))&&(jQuery.browser.fullVersion=nAgt.substring(verOffset+8))):-1!=(verOffset=nAgt.indexOf("AppleWebkit"))?(jQuery.browser.webkit=!0,jQuery.browser.name="Safari",jQuery.browser.fullVersion=nAgt.substring(verOffset+7),-1!=(verOffset=nAgt.indexOf("Version"))&&(jQuery.browser.fullVersion=nAgt.substring(verOffset+8))):-1!=(verOffset=nAgt.indexOf("Firefox"))?(jQuery.browser.mozilla=!0,jQuery.browser.name="Firefox",jQuery.browser.fullVersion=nAgt.substring(verOffset+8)):(nameOffset=nAgt.lastIndexOf(" ")+1)<(verOffset=nAgt.lastIndexOf("/"))&&(jQuery.browser.name=nAgt.substring(nameOffset,verOffset),jQuery.browser.fullVersion=nAgt.substring(verOffset+1),jQuery.browser.name.toLowerCase()==jQuery.browser.name.toUpperCase()&&(jQuery.browser.name=navigator.appName));-1!=(ix=jQuery.browser.fullVersion.indexOf(";"))&&(jQuery.browser.fullVersion=jQuery.browser.fullVersion.substring(0,ix)),-1!=(ix=jQuery.browser.fullVersion.indexOf(" "))&&(jQuery.browser.fullVersion=jQuery.browser.fullVersion.substring(0,ix)),jQuery.browser.majorVersion=parseInt(""+jQuery.browser.fullVersion,10),isNaN(jQuery.browser.majorVersion)&&(jQuery.browser.fullVersion=""+parseFloat(navigator.appVersion),jQuery.browser.majorVersion=parseInt(navigator.appVersion,10)),jQuery.browser.version=jQuery.browser.majorVersion}jQuery.browser.android=/Android/i.test(nAgt),jQuery.browser.blackberry=/BlackBerry|BB|PlayBook/i.test(nAgt),jQuery.browser.ios=/iPhone|iPad|iPod|webOS/i.test(nAgt),jQuery.browser.operaMobile=/Opera Mini/i.test(nAgt),jQuery.browser.windowsMobile=/IEMobile|Windows Phone/i.test(nAgt),jQuery.browser.kindle=/Kindle|Silk/i.test(nAgt),jQuery.browser.mobile=jQuery.browser.android||jQuery.browser.blackberry||jQuery.browser.ios||jQuery.browser.windowsMobile||jQuery.browser.operaMobile||jQuery.browser.kindle,jQuery.isMobile=jQuery.browser.mobile,jQuery.isTablet=jQuery.browser.mobile&&jQuery(window).width()>765,jQuery.isAndroidDefault=jQuery.browser.android&&!/chrome/i.test(nAgt);
+;/*
+ * @fileOverview TouchSwipe - jQuery Plugin
+ * @version 1.6.6
+ *
+ * @author Matt Bryson http://www.github.com/mattbryson
+ * @see https://github.com/mattbryson/TouchSwipe-Jquery-Plugin
+ * @see http://labs.rampinteractive.co.uk/touchSwipe/
+ * @see http://plugins.jquery.com/project/touchSwipe
+ *
+ * Copyright (c) 2010-2015 Matt Bryson
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ *
+ */
+(function(a){if(typeof define==="function"&&define.amd&&define.amd.jQuery){define(["jquery"],a)}else{a(jQuery)}}(function(f){var p="left",o="right",e="up",x="down",c="in",z="out",m="none",s="auto",l="swipe",t="pinch",A="tap",j="doubletap",b="longtap",y="hold",D="horizontal",u="vertical",i="all",r=10,g="start",k="move",h="end",q="cancel",a="ontouchstart" in window,v=window.navigator.msPointerEnabled&&!window.navigator.pointerEnabled,d=window.navigator.pointerEnabled||window.navigator.msPointerEnabled,B="TouchSwipe";var n={fingers:1,threshold:75,cancelThreshold:null,pinchThreshold:20,maxTimeThreshold:null,fingerReleaseThreshold:250,longTapThreshold:500,doubleTapThreshold:200,swipe:null,swipeLeft:null,swipeRight:null,swipeUp:null,swipeDown:null,swipeStatus:null,pinchIn:null,pinchOut:null,pinchStatus:null,click:null,tap:null,doubleTap:null,longTap:null,hold:null,triggerOnTouchEnd:true,triggerOnTouchLeave:false,allowPageScroll:"auto",fallbackToMouseEvents:true,excludedElements:"label, button, input, select, textarea, a, .noSwipe",preventDefaultEvents:true};f.fn.swipe=function(G){var F=f(this),E=F.data(B);if(E&&typeof G==="string"){if(E[G]){return E[G].apply(this,Array.prototype.slice.call(arguments,1))}else{f.error("Method "+G+" does not exist on jQuery.swipe")}}else{if(!E&&(typeof G==="object"||!G)){return w.apply(this,arguments)}}return F};f.fn.swipe.defaults=n;f.fn.swipe.phases={PHASE_START:g,PHASE_MOVE:k,PHASE_END:h,PHASE_CANCEL:q};f.fn.swipe.directions={LEFT:p,RIGHT:o,UP:e,DOWN:x,IN:c,OUT:z};f.fn.swipe.pageScroll={NONE:m,HORIZONTAL:D,VERTICAL:u,AUTO:s};f.fn.swipe.fingers={ONE:1,TWO:2,THREE:3,ALL:i};function w(E){if(E&&(E.allowPageScroll===undefined&&(E.swipe!==undefined||E.swipeStatus!==undefined))){E.allowPageScroll=m}if(E.click!==undefined&&E.tap===undefined){E.tap=E.click}if(!E){E={}}E=f.extend({},f.fn.swipe.defaults,E);return this.each(function(){var G=f(this);var F=G.data(B);if(!F){F=new C(this,E);G.data(B,F)}})}function C(a4,av){var az=(a||d||!av.fallbackToMouseEvents),J=az?(d?(v?"MSPointerDown":"pointerdown"):"touchstart"):"mousedown",ay=az?(d?(v?"MSPointerMove":"pointermove"):"touchmove"):"mousemove",U=az?(d?(v?"MSPointerUp":"pointerup"):"touchend"):"mouseup",S=az?null:"mouseleave",aD=(d?(v?"MSPointerCancel":"pointercancel"):"touchcancel");var ag=0,aP=null,ab=0,a1=0,aZ=0,G=1,aq=0,aJ=0,M=null;var aR=f(a4);var Z="start";var W=0;var aQ=null;var T=0,a2=0,a5=0,ad=0,N=0;var aW=null,af=null;try{aR.bind(J,aN);aR.bind(aD,a9)}catch(ak){f.error("events not supported "+J+","+aD+" on jQuery.swipe")}this.enable=function(){aR.bind(J,aN);aR.bind(aD,a9);return aR};this.disable=function(){aK();return aR};this.destroy=function(){aK();aR.data(B,null);aR=null};this.option=function(bc,bb){if(av[bc]!==undefined){if(bb===undefined){return av[bc]}else{av[bc]=bb}}else{f.error("Option "+bc+" does not exist on jQuery.swipe.options")}return null};function aN(bd){if(aB()){return}if(f(bd.target).closest(av.excludedElements,aR).length>0){return}var be=bd.originalEvent?bd.originalEvent:bd;var bc,bb=a?be.touches[0]:be;Z=g;if(a){W=be.touches.length}else{bd.preventDefault()}ag=0;aP=null;aJ=null;ab=0;a1=0;aZ=0;G=1;aq=0;aQ=aj();M=aa();R();if(!a||(W===av.fingers||av.fingers===i)||aX()){ai(0,bb);T=at();if(W==2){ai(1,be.touches[1]);a1=aZ=au(aQ[0].start,aQ[1].start)}if(av.swipeStatus||av.pinchStatus){bc=O(be,Z)}}else{bc=false}if(bc===false){Z=q;O(be,Z);return bc}else{if(av.hold){af=setTimeout(f.proxy(function(){aR.trigger("hold",[be.target]);if(av.hold){bc=av.hold.call(aR,be,be.target)}},this),av.longTapThreshold)}ao(true)}return null}function a3(be){var bh=be.originalEvent?be.originalEvent:be;if(Z===h||Z===q||am()){return}var bd,bc=a?bh.touches[0]:bh;var bf=aH(bc);a2=at();if(a){W=bh.touches.length}if(av.hold){clearTimeout(af)}Z=k;if(W==2){if(a1==0){ai(1,bh.touches[1]);a1=aZ=au(aQ[0].start,aQ[1].start)}else{aH(bh.touches[1]);aZ=au(aQ[0].end,aQ[1].end);aJ=ar(aQ[0].end,aQ[1].end)}G=a7(a1,aZ);aq=Math.abs(a1-aZ)}if((W===av.fingers||av.fingers===i)||!a||aX()){aP=aL(bf.start,bf.end);al(be,aP);ag=aS(bf.start,bf.end);ab=aM();aI(aP,ag);if(av.swipeStatus||av.pinchStatus){bd=O(bh,Z)}if(!av.triggerOnTouchEnd||av.triggerOnTouchLeave){var bb=true;if(av.triggerOnTouchLeave){var bg=aY(this);bb=E(bf.end,bg)}if(!av.triggerOnTouchEnd&&bb){Z=aC(k)}else{if(av.triggerOnTouchLeave&&!bb){Z=aC(h)}}if(Z==q||Z==h){O(bh,Z)}}}else{Z=q;O(bh,Z)}if(bd===false){Z=q;O(bh,Z)}}function L(bb){var bc=bb.originalEvent;if(a){if(bc.touches.length>0){F();return true}}if(am()){W=ad}a2=at();ab=aM();if(ba()||!an()){Z=q;O(bc,Z)}else{if(av.triggerOnTouchEnd||(av.triggerOnTouchEnd==false&&Z===k)){bb.preventDefault();Z=h;O(bc,Z)}else{if(!av.triggerOnTouchEnd&&a6()){Z=h;aF(bc,Z,A)}else{if(Z===k){Z=q;O(bc,Z)}}}}ao(false);return null}function a9(){W=0;a2=0;T=0;a1=0;aZ=0;G=1;R();ao(false)}function K(bb){var bc=bb.originalEvent;if(av.triggerOnTouchLeave){Z=aC(h);O(bc,Z)}}function aK(){aR.unbind(J,aN);aR.unbind(aD,a9);aR.unbind(ay,a3);aR.unbind(U,L);if(S){aR.unbind(S,K)}ao(false)}function aC(bf){var be=bf;var bd=aA();var bc=an();var bb=ba();if(!bd||bb){be=q}else{if(bc&&bf==k&&(!av.triggerOnTouchEnd||av.triggerOnTouchLeave)){be=h}else{if(!bc&&bf==h&&av.triggerOnTouchLeave){be=q}}}return be}function O(bd,bb){var bc=undefined;if((I()||V())||(P()||aX())){if(I()||V()){bc=aF(bd,bb,l)}if((P()||aX())&&bc!==false){bc=aF(bd,bb,t)}}else{if(aG()&&bc!==false){bc=aF(bd,bb,j)}else{if(ap()&&bc!==false){bc=aF(bd,bb,b)}else{if(ah()&&bc!==false){bc=aF(bd,bb,A)}}}}if(bb===q){a9(bd)}if(bb===h){if(a){if(bd.touches.length==0){a9(bd)}}else{a9(bd)}}return bc}function aF(be,bb,bd){var bc=undefined;if(bd==l){aR.trigger("swipeStatus",[bb,aP||null,ag||0,ab||0,W,aQ]);if(av.swipeStatus){bc=av.swipeStatus.call(aR,be,bb,aP||null,ag||0,ab||0,W,aQ);if(bc===false){return false}}if(bb==h&&aV()){aR.trigger("swipe",[aP,ag,ab,W,aQ]);if(av.swipe){bc=av.swipe.call(aR,be,aP,ag,ab,W,aQ);if(bc===false){return false}}switch(aP){case p:aR.trigger("swipeLeft",[aP,ag,ab,W,aQ]);if(av.swipeLeft){bc=av.swipeLeft.call(aR,be,aP,ag,ab,W,aQ)}break;case o:aR.trigger("swipeRight",[aP,ag,ab,W,aQ]);if(av.swipeRight){bc=av.swipeRight.call(aR,be,aP,ag,ab,W,aQ)}break;case e:aR.trigger("swipeUp",[aP,ag,ab,W,aQ]);if(av.swipeUp){bc=av.swipeUp.call(aR,be,aP,ag,ab,W,aQ)}break;case x:aR.trigger("swipeDown",[aP,ag,ab,W,aQ]);if(av.swipeDown){bc=av.swipeDown.call(aR,be,aP,ag,ab,W,aQ)}break}}}if(bd==t){aR.trigger("pinchStatus",[bb,aJ||null,aq||0,ab||0,W,G,aQ]);if(av.pinchStatus){bc=av.pinchStatus.call(aR,be,bb,aJ||null,aq||0,ab||0,W,G,aQ);if(bc===false){return false}}if(bb==h&&a8()){switch(aJ){case c:aR.trigger("pinchIn",[aJ||null,aq||0,ab||0,W,G,aQ]);if(av.pinchIn){bc=av.pinchIn.call(aR,be,aJ||null,aq||0,ab||0,W,G,aQ)}break;case z:aR.trigger("pinchOut",[aJ||null,aq||0,ab||0,W,G,aQ]);if(av.pinchOut){bc=av.pinchOut.call(aR,be,aJ||null,aq||0,ab||0,W,G,aQ)}break}}}if(bd==A){if(bb===q||bb===h){clearTimeout(aW);clearTimeout(af);if(Y()&&!H()){N=at();aW=setTimeout(f.proxy(function(){N=null;aR.trigger("tap",[be.target]);if(av.tap){bc=av.tap.call(aR,be,be.target)}},this),av.doubleTapThreshold)}else{N=null;aR.trigger("tap",[be.target]);if(av.tap){bc=av.tap.call(aR,be,be.target)}}}}else{if(bd==j){if(bb===q||bb===h){clearTimeout(aW);N=null;aR.trigger("doubletap",[be.target]);if(av.doubleTap){bc=av.doubleTap.call(aR,be,be.target)}}}else{if(bd==b){if(bb===q||bb===h){clearTimeout(aW);N=null;aR.trigger("longtap",[be.target]);if(av.longTap){bc=av.longTap.call(aR,be,be.target)}}}}}return bc}function an(){var bb=true;if(av.threshold!==null){bb=ag>=av.threshold}return bb}function ba(){var bb=false;if(av.cancelThreshold!==null&&aP!==null){bb=(aT(aP)-ag)>=av.cancelThreshold}return bb}function ae(){if(av.pinchThreshold!==null){return aq>=av.pinchThreshold}return true}function aA(){var bb;if(av.maxTimeThreshold){if(ab>=av.maxTimeThreshold){bb=false}else{bb=true}}else{bb=true}return bb}function al(bb,bc){if(av.preventDefaultEvents===false){return}if(av.allowPageScroll===m){bb.preventDefault()}else{var bd=av.allowPageScroll===s;switch(bc){case p:if((av.swipeLeft&&bd)||(!bd&&av.allowPageScroll!=D)){bb.preventDefault()}break;case o:if((av.swipeRight&&bd)||(!bd&&av.allowPageScroll!=D)){bb.preventDefault()}break;case e:if((av.swipeUp&&bd)||(!bd&&av.allowPageScroll!=u)){bb.preventDefault()}break;case x:if((av.swipeDown&&bd)||(!bd&&av.allowPageScroll!=u)){bb.preventDefault()}break}}}function a8(){var bc=aO();var bb=X();var bd=ae();return bc&&bb&&bd}function aX(){return !!(av.pinchStatus||av.pinchIn||av.pinchOut)}function P(){return !!(a8()&&aX())}function aV(){var be=aA();var bg=an();var bd=aO();var bb=X();var bc=ba();var bf=!bc&&bb&&bd&&bg&&be;return bf}function V(){return !!(av.swipe||av.swipeStatus||av.swipeLeft||av.swipeRight||av.swipeUp||av.swipeDown)}function I(){return !!(aV()&&V())}function aO(){return((W===av.fingers||av.fingers===i)||!a)}function X(){return aQ[0].end.x!==0}function a6(){return !!(av.tap)}function Y(){return !!(av.doubleTap)}function aU(){return !!(av.longTap)}function Q(){if(N==null){return false}var bb=at();return(Y()&&((bb-N)<=av.doubleTapThreshold))}function H(){return Q()}function ax(){return((W===1||!a)&&(isNaN(ag)||ag<av.threshold))}function a0(){return((ab>av.longTapThreshold)&&(ag<r))}function ah(){return !!(ax()&&a6())}function aG(){return !!(Q()&&Y())}function ap(){return !!(a0()&&aU())}function F(){a5=at();ad=event.touches.length+1}function R(){a5=0;ad=0}function am(){var bb=false;if(a5){var bc=at()-a5;if(bc<=av.fingerReleaseThreshold){bb=true}}return bb}function aB(){return !!(aR.data(B+"_intouch")===true)}function ao(bb){if(bb===true){aR.bind(ay,a3);aR.bind(U,L);if(S){aR.bind(S,K)}}else{aR.unbind(ay,a3,false);aR.unbind(U,L,false);if(S){aR.unbind(S,K,false)}}aR.data(B+"_intouch",bb===true)}function ai(bc,bb){var bd=bb.identifier!==undefined?bb.identifier:0;aQ[bc].identifier=bd;aQ[bc].start.x=aQ[bc].end.x=bb.pageX||bb.clientX;aQ[bc].start.y=aQ[bc].end.y=bb.pageY||bb.clientY;return aQ[bc]}function aH(bb){var bd=bb.identifier!==undefined?bb.identifier:0;var bc=ac(bd);bc.end.x=bb.pageX||bb.clientX;bc.end.y=bb.pageY||bb.clientY;return bc}function ac(bc){for(var bb=0;bb<aQ.length;bb++){if(aQ[bb].identifier==bc){return aQ[bb]}}}function aj(){var bb=[];for(var bc=0;bc<=5;bc++){bb.push({start:{x:0,y:0},end:{x:0,y:0},identifier:0})}return bb}function aI(bb,bc){bc=Math.max(bc,aT(bb));M[bb].distance=bc}function aT(bb){if(M[bb]){return M[bb].distance}return undefined}function aa(){var bb={};bb[p]=aw(p);bb[o]=aw(o);bb[e]=aw(e);bb[x]=aw(x);return bb}function aw(bb){return{direction:bb,distance:0}}function aM(){return a2-T}function au(be,bd){var bc=Math.abs(be.x-bd.x);var bb=Math.abs(be.y-bd.y);return Math.round(Math.sqrt(bc*bc+bb*bb))}function a7(bb,bc){var bd=(bc/bb)*1;return bd.toFixed(2)}function ar(){if(G<1){return z}else{return c}}function aS(bc,bb){return Math.round(Math.sqrt(Math.pow(bb.x-bc.x,2)+Math.pow(bb.y-bc.y,2)))}function aE(be,bc){var bb=be.x-bc.x;var bg=bc.y-be.y;var bd=Math.atan2(bg,bb);var bf=Math.round(bd*180/Math.PI);if(bf<0){bf=360-Math.abs(bf)}return bf}function aL(bc,bb){var bd=aE(bc,bb);if((bd<=45)&&(bd>=0)){return p}else{if((bd<=360)&&(bd>=315)){return p}else{if((bd>=135)&&(bd<=225)){return o}else{if((bd>45)&&(bd<135)){return x}else{return e}}}}}function at(){var bb=new Date();return bb.getTime()}function aY(bb){bb=f(bb);var bd=bb.offset();var bc={left:bd.left,right:bd.left+bb.outerWidth(),top:bd.top,bottom:bd.top+bb.outerHeight()};return bc}function E(bb,bc){return(bb.x>bc.left&&bb.x<bc.right&&bb.y>bc.top&&bb.y<bc.bottom)}}}));

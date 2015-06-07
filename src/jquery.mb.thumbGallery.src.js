@@ -24,6 +24,7 @@
 
 		name    : "jquery.mb.thumbGrid",
 		version : "{{ version }}",
+		build : "{{ build }}",
 		author  : "Matteo Bicocchi",
 		defaults: {
 			nav_effect         : "slideLeft",
@@ -33,21 +34,26 @@
 			gallery_effectnext : "slideRight",
 			gallery_effectprev : "slideLeft",
 			gallery_timing     : 500,
-			gallery_cover      : true,
+			gallery_cover      : false,
 			gallery_fullscreenw: "100%",
-			gallery_fullscreenh: "100%"
+			gallery_fullscreenh: "100%",
+			ease               : "cubic-bezier(0.19, 1, 0.22, 1)"
 		},
 
 		transitions: {
 			fade        : {in: {opacity: 0}, out: {opacity: 0}},
 			slideUp     : {in: {opacity: 0}, out: {y: -200, opacity: 0}},
 			slideDown   : {in: {opacity: 0}, out: {y: 200, opacity: 0}},
-			slideLeft   : {in: {opacity: 0}, out: {x: -200, opacity: 0}},
-			slideRight  : {in: {opacity: 0}, out: {x: 200, opacity: 0}},
+			slideLeft   : {in: {opacity: 0}, out: {x: -200, opacity: 0}, ease:"cubic-bezier(0,.01,1,1)"},
+			slideRight  : {in: {opacity: 0}, out: {x: 200, opacity: 0}, ease:"cubic-bezier(0,.01,1,1)"},
 			slideInverse: {in: {y: 200, opacity: 0}, out: {y: 200, opacity: 0}},
 			zoomIn      : {in: {scale: .5, opacity: 0}, out: {scale: 2, opacity: 0}},
 			zoomOut     : {in: {scale: 2, opacity: 0}, out: {scale: .1, opacity: 0}},
-			rotate      : {in: { opacity: 0}, out: {rotate: 179, opacity: 0}}
+			rotate      : {in: { opacity: 0}, out: {rotate: 179, opacity: 0}},
+
+			mobSlideLeft   : {in: {opacity: 0}, out: {x: -200, opacity: 0}, ease:"cubic-bezier(0,.01,1,1)"},
+			mobSlideRight  : {in: {opacity: 0}, out: {x: 200, opacity: 0}, ease:"cubic-bezier(0,.01,1,1)"}
+
 		},
 
 		/**
@@ -77,12 +83,13 @@
 				grid.nav_delay = $grid.data("nav_delay") || opt.nav_delay;
 				grid.nav_timing = $grid.data("nav_timing") || opt.nav_timing;
 				grid.nav_pagination = $grid.data("nav_pagination") || opt.nav_pagination;
+				grid.nav_pagination = jQuery.isMobile && !jQuery.isTablet ? 1 : grid.nav_pagination;
 				grid.gallery_fullscreenw = $grid.data("gallery_fullscreenw") || opt.gallery_fullscreenw;
 				grid.gallery_fullscreenh = $grid.data("gallery_fullscreenh") || opt.gallery_fullscreenh;
 				grid.gallery_cover = $grid.data("gallery_cover") || opt.gallery_cover;
 				grid.gallery_effectnext = $grid.data("gallery_effectnext") || grid.nav_effect;
 				grid.gallery_effectprev = $grid.data("gallery_effectprev") || grid.nav_effect;
-				grid.gallery_timing = $grid.data("gallery_timing") || grid.nav_effect;
+				grid.gallery_timing = $grid.data("gallery_timing") || 1000;
 
 				jQuery.extend(opt, $grid.data());
 
@@ -96,6 +103,7 @@
 				});
 
 				grid.pages = [];
+
 				grid.totPages = Math.ceil(grid.elements.size() / grid.nav_pagination);
 
 				var thumbIdx = 0;
@@ -115,6 +123,7 @@
 				}
 
 				jQuery.thumbGrid.drawPage(grid, grid.pageIndex, false);
+				jQuery(window).resize();
 			})
 		},
 
@@ -132,24 +141,61 @@
 			var grid = el;
 			var $grid = jQuery(grid);
 
-			grid.nav_effect = $grid.data("nav_effect") || "fade";
+			if(!jQuery.isMobile)
+				grid.nav_effect = $grid.data("nav_effect") || "fade";
+
 			grid.nav_delay = $grid.data("nav_delay") || 100;
 			grid.nav_timing = $grid.data("nav_timing") || 1000;
-
 			grid.isAnimating = true;
 
 			var pageElements = grid.pages[pageIdx];
 			var $page = jQuery("<ul/>").addClass("thumb-grid");
 
+			grid.setThumbsize = function(el){
+
+				if(!$grid.is(":visible")){
+					$grid.css({opacity:0}).show();
+					grid.width = $grid.outerWidth();
+					$grid.hide().css({opacity:1});
+				}else{
+					grid.width = $grid.outerWidth();
+				}
+
+				var w = (grid.width/grid.nav_pagination)- (grid.nav_pagination == 1 ? 0 : 10);
+
+				if(grid.nav_pagination > 4)
+					w = ((grid.width*2)/grid.nav_pagination)-10;
+
+				if(grid.width < 600 && grid.nav_pagination > 3)
+					w = ($grid.outerWidth()/2.1) - 10;
+
+				var h = w/1.5;
+
+				el.each(function(){
+					jQuery(this).css({width:w, height:h});
+				});
+				return {w:w, h:h};
+			};
+
 			for (var x = 0; x < grid.nav_pagination; x++) {
-				var thumb = $(pageElements[x]).clone().removeClass("in");
+
+				var thumb_box = jQuery("<div/>").addClass("thumb_box");
+				var thumb = jQuery(pageElements[x]);
+				var thumb_src = jQuery(pageElements[x]).attr("src");
+
+				thumb_box.css({width:"100%",height:"100%",backgroundImage:"url("+thumb_src+")", backgroundSize:"cover", backgroundRepeat: "no-repeat", backgroundPosition: "center center"});
+				thumb_box.attr({
+					"data-highres": thumb.data("highres"),
+					"data-globalindex": thumb.data("globalindex")
+				});
+
 				if (thumb.length) {
-					var thumbWrapper = jQuery("<li/>").addClass("thumbWrapper").append(thumb);
+					var thumbWrapper = jQuery("<li/>").addClass("thumbWrapper").append(thumb_box);
 
 					thumbWrapper.data("idx", x);
 
 					thumbWrapper.on("click", function () {
-						var idx = $("img", this).data("globalindex");
+						var idx = jQuery(".thumb_box", this).data("globalindex");
 						jQuery.thumbGrid.drawSlideShow(grid, idx);
 					});
 
@@ -170,12 +216,50 @@
 				}
 			}
 
+			grid.setThumbsize(jQuery(".thumbWrapper", $page));
+			jQuery(window).off("resize.thumbgallery").on("resize.thumbgallery", function(){
+				grid.setThumbsize(jQuery(".thumbWrapper", $page));
+			});
+
 			if (applyEffect)
 				$page.addClass("in");
 
 			$grid.find(".thumb-grid").addClass("out").removeClass("in");
 
 			$grid.prepend($page);
+
+			if(jQuery.isMobile){
+
+				var distanceForSwipe = 120;
+				$page.swipe({
+
+					allowPageScroll:"auto",
+					threshold: 120,
+					triggerOnTouchEnd:false,
+
+					swipeStatus: function(event, phase, direction, distance){
+
+							if(grid.isAnimating)
+								return;
+
+							if (phase == "end") {
+
+								if (direction == "left") {
+									grid.nav_effect = "mobSlideLeft";
+									jQuery.thumbGrid.nextPage(grid);
+								} else if (direction == "right") {
+									grid.nav_effect = "mobSlideRight";
+									jQuery.thumbGrid.prevPage(grid);
+								}
+							}
+
+					}
+//					swipe:function(event, direction, distance, duration, fingerCount, fingerData) {}
+				});
+
+			}
+
+			var ease = jQuery.thumbGrid.transitions[grid.nav_effect].ease || grid.opt.ease;
 
 			setTimeout(function () {
 
@@ -185,7 +269,7 @@
 				for (var i = 0; i < jQuery(".in .thumbWrapper", $grid).length; i++) {
 					var elIn = jQuery(".in .thumbWrapper", $grid).eq(i);
 
-					elIn.CSSAnimate(displayProperties, grid.nav_timing, delayIn, "cubic-bezier(0.19, 1, 0.22, 1)", function () {});
+					elIn.CSSAnimate(displayProperties, grid.nav_timing, delayIn, ease, function () {});
 					delayIn += grid.nav_delay;
 
 				}
@@ -197,7 +281,7 @@
 
 					grid.nav.addClass("waiting");
 
-					elOut.CSSAnimate(transitionOut, grid.nav_timing, delayOut, "cubic-bezier(0.19, 1, 0.22, 1)", function () {
+					elOut.CSSAnimate(transitionOut, grid.nav_timing, delayOut, ease, function () {
 
 						if ($(this).index() == jQuery(".out .thumbWrapper", $grid).length - 1) {
 							jQuery(".out", $grid).remove();
@@ -221,12 +305,54 @@
 						grid.nav.show();
 				}
 
-			}, 100);
+			}, 50);
 
 			jQuery(window).on("resize.thumbGrid", function () {
 				grid.height = $page.height();
 				$grid.height(grid.height);
 			});
+		},
+
+		/**
+		 *
+		 * @param grid
+		 */
+		nextPage: function(grid){
+
+			++grid.pageIndex;
+
+			if (grid.pageIndex > grid.totPages - 1)
+				grid.pageIndex = 0;
+
+			jQuery.thumbGrid.drawPage(grid, grid.pageIndex, true);
+
+			if(!grid.nav.length)
+				return;
+
+			jQuery(".indexEl", grid.nav).removeClass("sel");
+			jQuery(".indexEl", grid.nav).eq(grid.pageIndex).addClass("sel");
+
+		},
+
+		/**
+		 *
+		 * @param grid
+		 */
+		prevPage: function(grid){
+
+			--grid.pageIndex;
+
+			if (grid.pageIndex < 0)
+				grid.pageIndex = grid.totPages-1;
+
+			jQuery.thumbGrid.drawPage(grid, grid.pageIndex, true);
+
+			if(!grid.nav.length)
+				return;
+
+			jQuery(".indexEl", grid.nav).removeClass("sel");
+			jQuery(".indexEl", grid.nav).eq(grid.pageIndex).addClass("sel");
+
 		},
 
 		/**
@@ -246,10 +372,19 @@
 				idxPlaceHolder.addClass("indexEl");
 				idxPlaceHolder.on("click", function () {
 
-					if (grid.isAnimating || grid.pageIndex == jQuery(this).attr("idx"))
+					var pageIndex = jQuery(this).attr("idx");
+
+					if (grid.isAnimating || grid.pageIndex == pageIndex)
 						return;
 
-					grid.pageIndex = jQuery(this).attr("idx");
+					if(jQuery.isMobile) {
+						if (pageIndex < grid.pageIndex)
+							grid.nav_effect = "mobSlideLeft";
+						else
+							grid.nav_effect = "mobSlideRight";
+					}
+
+					grid.pageIndex = pageIndex;
 					jQuery.thumbGrid.drawPage(grid, grid.pageIndex);
 
 					jQuery(".indexEl", nav).removeClass("sel");
@@ -454,8 +589,8 @@
 							grid.isAnimating = true;
 
 						setTimeout(function () {
-							imgWrapper.CSSAnimate(displayProperties, grid.opt.gallery_timing, 50, "cubic-bezier(0.19, 1, 0.22, 1)", function () {});
-							oldImgWrapper.CSSAnimate(jQuery.thumbGrid.transitions[slideShow.effect].out, grid.opt.gallery_timing, 80, "cubic-bezier(0.19, 1, 0.22, 1)", function () {
+							imgWrapper.CSSAnimate(displayProperties, grid.opt.gallery_timing, 50, grid.opt.ease, function () {});
+							oldImgWrapper.CSSAnimate(jQuery.thumbGrid.transitions[slideShow.effect].out, grid.opt.gallery_timing, 80, grid.opt.ease, function () {
 								grid.isAnimating = false;
 								oldImgWrapper.removeClass("in");
 								jQuery(".tg-img-wrapper", placeHolder).not(".in").remove();
@@ -503,10 +638,41 @@
 
 			};
 
+			if(jQuery.isMobile){
+				slideShow.effectNext = "mobSlideLeft";
+				slideShow.effectPrev = "mobSlideRight";
+
+				overlay.swipe({
+					allowPageScroll:"auto",
+					threshold: 120,
+					triggerOnTouchEnd:false,
+
+					swipeStatus: function(event, phase, direction, distance){
+
+							if(grid.isAnimating)
+								return;
+
+						if (phase == "end") {
+
+							if (direction == "left") {
+								slideShow.next();
+							} else {
+								slideShow.prev();
+							}
+						}
+
+					},
+					swipe:function(event, direction, distance, duration, fingerCount, fingerData) {}
+
+				});
+
+			}
+
+
 			jQuery("body").append(overlay);
 			overlay.CSSAnimate({opacity: 1}, 600, 0, function () {
 
-				placeHolder.CSSAnimate({width: "100%", height: "100%", left: 0, top: 0, opacity: 1}, 400, 0, "cubic-bezier(.8,.07,.98,.06)", function () {
+				placeHolder.CSSAnimate({width: "100%", height: "100%", left: 0, top: 0, opacity: 1}, 400, 0, grid.opt.ease, function () {
 					slideShow.init(grid);
 					jQuery(".tg-icon", overlay).fadeTo(200, 1);
 				})
@@ -534,7 +700,7 @@
 
 			jQuery(".tg-icon").fadeTo(200, 0);
 			jQuery(".tg-placeHolder > div").fadeOut(500);
-			jQuery(".tg-placeHolder").CSSAnimate({width: pHwidth, height: pHheight, left: pHleft, top: pHtop, opacity: 1}, 800, 400, "cubic-bezier(0.19, 1, 0.22, 1)", function () {
+			jQuery(".tg-placeHolder").CSSAnimate({width: pHwidth, height: pHheight, left: pHleft, top: pHtop, opacity: 1}, 800, 400, grid.opt.ease, function () {
 				jQuery(".tg-overlay").CSSAnimate({opacity: 0}, 600, function () {
 					$(this).remove();
 					jQuery("body").css({overflow: "auto"});

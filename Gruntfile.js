@@ -52,11 +52,11 @@ module.exports = function(grunt) {
 			options: {
 				banner: '/*' +
 						' <%= pkg.title %> <%= grunt.template.today("dd-mm-yyyy") %>\n' +
-						' _ jquery.mb.components                                                                                                                             _\n' +
-						' _ email: matteo@open-lab.com                                                                                                                       _\n' +
-						' _ Copyright (c) 2001-<%= grunt.template.today("yyyy") %>. Matteo Bicocchi (Pupunzi);                                                                                              _\n' +
-						' _ blog: http://pupunzi.open-lab.com                                                                                                                _\n' +
-						' _ Open Lab s.r.l., Florence - Italy                                                                                                                _\n' +
+						' _ jquery.mb.components \n' +
+						' _ email: matteo@open-lab.com \n' +
+						' _ Copyright (c) 2001-<%= grunt.template.today("yyyy") %>. Matteo Bicocchi (Pupunzi); \n' +
+						' _ blog: http://pupunzi.open-lab.com  \n' +
+						' _ Open Lab s.r.l., Florence - Italy \n' +
 						' */\n'
 			},
 
@@ -85,7 +85,8 @@ module.exports = function(grunt) {
 					prefix: '{{ ',
 					suffix: ' }}',
 					globals: {
-						version: '<%= pkg.version %>'
+						version: '<%= pkg.version %>',
+						build: '<%= grunt.file.readJSON("package.json").buildnum %>'
 					}
 				},
 				files: [
@@ -117,11 +118,17 @@ module.exports = function(grunt) {
 			}
 		},
 
+		buildnumber: {
+			options: {
+				field: 'buildnum'
+			},
+			files  : ['package.json', 'bower.json']
+		},
+
 		watch: {
 			files: ['src/css/*.css','src/*.js','src/*.tmpl', 'Gruntfile.js'],
-			tasks: ['copy','concat', 'uglify', 'cssmin', 'includereplace']
+			tasks: ['default']
 		}
-
 	});
 
 	grunt.loadNpmTasks('grunt-include-replace');
@@ -131,7 +138,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-build-number');
 
-	grunt.registerTask('default', ['copy','concat', 'uglify', 'cssmin', 'includereplace', 'imagemin']);
-
+	grunt.registerTask('default', ['buildnumber', 'copy','concat', 'uglify', 'cssmin', 'includereplace', 'imagemin']);
 };
