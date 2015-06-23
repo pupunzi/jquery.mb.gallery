@@ -20,24 +20,36 @@
  ___________________________________________________________________________________________________________________________________________________*/
 
 (function ($) {
+	/**
+	 *
+	 * @type {{name: string, version: string, build: string, author: string, defaults: {nav_effect: string, nav_delay: number, nav_timing: number, nav_pagination: number, display_nav: boolean, gallery_effectnext: string, gallery_effectprev: string, gallery_timing: number, gallery_cover: boolean, gallery_fullscreenw: string, gallery_fullscreenh: string, showIndexinFullscreen: boolean, ease: string, onSlide: onSlide, onFullScreen: onFullScreen, onExitFullScreen: onExitFullScreen, onFullscreenChange: onFullscreenChange}, transitions: {fade: {in: {opacity: number}, out: {opacity: number}}, slideUp: {in: {opacity: number}, out: {y: number, opacity: number}}, slideDown: {in: {opacity: number}, out: {y: number, opacity: number}}, slideLeft: {in: {opacity: number}, out: {x: number, opacity: number}, ease: string}, slideRight: {in: {opacity: number}, out: {x: number, opacity: number}, ease: string}, slideInverse: {in: {y: number, opacity: number}, out: {y: number, opacity: number}}, zoomIn: {in: {scale: number, opacity: number}, out: {scale: number, opacity: number}}, zoomOut: {in: {scale: number, opacity: number}, out: {scale: number, opacity: number}}, rotate: {in: {opacity: number}, out: {rotate: number, opacity: number}}, mobSlideLeft: {in: {opacity: number}, out: {x: number, opacity: number}, ease: string}, mobSlideRight: {in: {opacity: number}, out: {x: number, opacity: number}, ease: string}}, events: {start: string, move: string, end: string}, init: init, drawPage: drawPage, nextPage: nextPage, prevPage: prevPage, buildIndex: buildIndex, drawSlideShow: drawSlideShow, closeSlideShow: closeSlideShow}}
+	 */
 	jQuery.thumbGrid = {
 
 		name    : "jquery.mb.thumbGrid",
 		version : "1.3.1",
 		build : "537",
 		author  : "Matteo Bicocchi",
+
 		defaults: {
 			nav_effect         : "slideLeft",
 			nav_delay          : 60,
 			nav_timing         : 800,
 			nav_pagination     : 6,
+			display_nav          : true,
 			gallery_effectnext : "slideRight",
 			gallery_effectprev : "slideLeft",
 			gallery_timing     : 500,
 			gallery_cover      : false,
 			gallery_fullscreenw: "100%",
 			gallery_fullscreenh: "100%",
-			ease               : "cubic-bezier(0.19, 1, 0.22, 1)"
+			showIndexinFullscreen: false,
+			ease                 : "cubic-bezier(0.19, 1, 0.22, 1)",
+
+			onSlide           : function (grid) {},
+			onFullScreen      : function (grid) {},
+			onExitFullScreen  : function (grid) {},
+			onFullscreenChange: function (grid) {}
 		},
 
 		transitions: {
@@ -59,7 +71,7 @@
 		events: {
 			start: jQuery.isMobile ? "touchstart" : "mousedown",
 			move: jQuery.isMobile ? "touchmove" : "mousemove",
-			end: jQuery.isMobile ? "touchend" : "mouseup"
+			end: jQuery.isMobile ? "click" : "click"
 		},
 
 		/**
@@ -96,12 +108,13 @@
 				grid.gallery_effectnext = $grid.data("gallery_effectnext") || grid.nav_effect;
 				grid.gallery_effectprev = $grid.data("gallery_effectprev") || grid.nav_effect;
 				grid.gallery_timing = $grid.data("gallery_timing") || 1000;
+				grid.display_nav = $grid.data("display_nav") != "undefined" ? $grid.data("display_nav") : opt.display_nav;
 
 				jQuery.extend(opt, $grid.data());
 
 				grid.opt = opt;
 
-				grid.elements = $grid.children().clone();
+				grid.elements = $grid.children().clone(true);
 				$grid.children().hide();
 
 				grid.elements.each(function (i) {
@@ -163,6 +176,7 @@
 					$grid.css({opacity:0}).show();
 					grid.width = $grid.outerWidth();
 					$grid.hide().css({opacity:1});
+
 				}else{
 					grid.width = $grid.outerWidth();
 				}
@@ -185,19 +199,21 @@
 
 			for (var x = 0; x < grid.nav_pagination; x++) {
 
-				var thumb_box = jQuery("<div/>").addClass("thumb_box");
 				var thumb = jQuery(pageElements[x]);
+				var thumb_box = jQuery("<div/>").addClass("thumb_box");
 				var thumb_src = jQuery(pageElements[x]).attr("src");
+				thumb_box.css({backgroundImage:"url("+thumb_src+")", backgroundSize:"cover", backgroundRepeat: "no-repeat", backgroundPosition: "center center"});
 
-				thumb_box.css({width:"100%",height:"100%",backgroundImage:"url("+thumb_src+")", backgroundSize:"cover", backgroundRepeat: "no-repeat", backgroundPosition: "center center"});
 				thumb_box.attr({
+					"data-type" : thumb.data("type") || "image",
 					"data-highres": thumb.data("highres"),
 					"data-globalindex": thumb.data("globalindex")
 				});
 
+				thumb_box.css({width:"100%",height:"100%"});
+
 				if (thumb.length) {
 					var thumbWrapper = jQuery("<li/>").addClass("thumbWrapper").append(thumb_box);
-
 					thumbWrapper.data("idx", x);
 
 					thumbWrapper.on(jQuery.thumbGrid.events.end, function () {
@@ -236,31 +252,35 @@
 
 			if(jQuery.isMobile){
 
-				var distanceForSwipe = 120;
 				$page.swipe({
 
 					allowPageScroll:"auto",
-					threshold: 120,
+					threshold: 75,
 					triggerOnTouchEnd:false,
 
 					swipeStatus: function(event, phase, direction, distance){
 
-							if(grid.isAnimating)
-								return;
+						if(grid.isAnimating)
+							return;
 
-							if (phase == "end") {
+						if (phase == "end") {
 
-								if (direction == "left") {
-									grid.nav_effect = "mobSlideLeft";
-									jQuery.thumbGrid.nextPage(grid);
-								} else if (direction == "right") {
-									grid.nav_effect = "mobSlideRight";
-									jQuery.thumbGrid.prevPage(grid);
-								}
+							event.preventDefault();
+							event.stopPropagation();
+
+							if (direction == "left") {
+
+								grid.nav_effect = "mobSlideLeft";
+								jQuery.thumbGrid.nextPage(grid);
+
+							} else if (direction == "right") {
+								grid.nav_effect = "mobSlideRight";
+								jQuery.thumbGrid.prevPage(grid);
 							}
 
+							return false;
+						}
 					}
-//					swipe:function(event, direction, distance, duration, fingerCount, fingerData) {}
 				});
 
 			}
@@ -307,7 +327,7 @@
 					jQuery.thumbGrid.buildIndex(grid);
 					grid.isAnimating = false;
 
-					if (typeof grid.nav != "undefined")
+					if (typeof grid.nav != "undefined" && grid.display_nav)
 						grid.nav.show();
 				}
 
@@ -317,6 +337,10 @@
 				grid.height = $page.height();
 				$grid.height(grid.height);
 			});
+
+			if(typeof grid.opt.onSlide == "function"){
+				grid.opt.onSlide(grid)
+			}
 		},
 
 		/**
@@ -363,10 +387,10 @@
 
 		/**
 		 *
-		 * @param el
+		 * @param grid
 		 */
-		buildIndex: function (el) {
-			var grid = el;
+		buildIndex: function (grid) {
+			var grid = grid;
 			var $grid = jQuery(grid);
 			var nav = jQuery("<nav/>").addClass("thumbGridNav");
 
@@ -416,8 +440,7 @@
 		 */
 		drawSlideShow: function (el, idx) {
 
-			jQuery("body").trigger("drawSlideShow");
-			jQuery("body").css({overflow: "hidden"});
+			jQuery("body").css({overflow: "hidden"}).trigger("drawSlideShow");
 
 			var grid = el,
 					$grid = jQuery(grid),
@@ -480,6 +503,11 @@
 					slideShow.goTo(false);
 					slideShow.keyboard(true);
 					grid.isAnimating = false;
+
+					if(typeof grid.opt.onFullScreen == "function"){
+						grid.opt.onFullScreen(grid);
+					}
+
 				},
 
 				/**
@@ -499,7 +527,6 @@
 									break;
 
 								case 32: //space
-//									jQuery.thumbGrid.closeSlideShow(el, idx);
 									e.preventDefault();
 									break;
 
@@ -531,17 +558,20 @@
 					var oldImgWrapper = jQuery(".tg-img-wrapper", placeHolder).eq(0);
 
 					var idx = grid.slideShowIdx,
+							contentType= jQuery(grid.elements[idx]).data("type") || "image",
 							imagesList = grid.elements,
 							image = $(imagesList[idx]),
 							imgWrapper = jQuery("<div/>").addClass("tg-img-wrapper"),
 							imageToShowURL = image.data("highres"),
-							imageCaption = image.data("caption"),
-							imgContainer = jQuery("<div/>").addClass("tg-img-container");
+							videoToShowURL = image.data("videourl"),
+							contentToShowID = image.data("contentid"),
+							imageCaption = $("<span/>").addClass("tg-img-caption").html(image.data("caption")),
+							imgContainer = jQuery("<div/>").addClass("tg-img-container"),
+							content;
+
 					imgContainer.css({position: "absolute", top: 0, left: 0, bottom: 0, right: 0, width: grid.gallery_fullscreenw, height: grid.gallery_fullscreenh, margin: "auto"});
 					imgWrapper.append(imgContainer);
-
 					placeHolder.prepend(imgWrapper);
-
 					imgWrapper.addClass("in");
 
 					var img = jQuery("<img/>");
@@ -560,13 +590,8 @@
 						imgWrapper.css({opacity: 0});
 					}
 
-					img.one("load", function () {
 
-						if (this.loaded)
-							return;
-
-						this.loaded = true;
-
+					function showContent(){
 						if (animate) {
 							imgWrapper.css(jQuery.normalizeCss(jQuery.thumbGrid.transitions[slideShow.effect].in));
 						} else {
@@ -578,17 +603,10 @@
 						clearTimeout(slideShow.spinner);
 						spinnerPh.fadeOut(300, function () {spinnerPh.empty();});
 
-						imgContainer.css({
-							backgroundImage   : "url(" + imageToShowURL + ")",
-							backgroundSize    : grid.gallery_cover && !jQuery.isMobile ? "cover" : "contain",
-							backgroundPosition: "center center",
-							backgroundRepeat  : "no-repeat"
-						});
-
-						var imageIndex = jQuery("<span/>").addClass("tg-img-index").html((idx + 1) + "/" + imagesList.length + " ");
+						var imageIndex = grid.opt.showIndexinFullscreen ? jQuery("<span/>").addClass("tg-image-index").html((idx + 1) + "/" + imagesList.length + " ") : "";
 						var captionLabel = jQuery("<label/>").html(imageCaption).prepend(imageIndex);
 
-						if (imageCaption)
+						if (image.data("caption"))
 							imgContainer.append(captionLabel);
 
 						if (animate)
@@ -603,10 +621,46 @@
 							});
 						}, 100);
 
-					}).attr({src: imageToShowURL});
+					}
+
+					if(contentType == "image") {
+
+						img.one("load", function () {
+
+							if (this.loaded)
+								return;
+
+							this.loaded = true;
+
+							showContent();
+							imgContainer.css({
+								backgroundImage   : "url(" + imageToShowURL + ")",
+								backgroundSize    : grid.gallery_cover && !jQuery.isMobile ? "cover" : "contain",
+								backgroundPosition: "center center",
+								backgroundRepeat  : "no-repeat"
+							});
+
+						}).attr({src: imageToShowURL});
+
+					} else if(contentType == "video") {
+
+						showContent();
+						content = jQuery("<iframe/>").attr("src", videoToShowURL);
+						content.css({width:"100%", height:300, marginTop: 50, border: "none"});
+						imgContainer.html(content);
+
+					} else {
+
+						showContent();
+						content = jQuery("#" + contentToShowID).clone(true);
+						content.css({width:"100%", height:"100%"});
+						imgContainer.html(content);
+					}
+
 				},
 
 				/**
+				 *
 				 *
 				 */
 				next: function () {
@@ -645,18 +699,19 @@
 			};
 
 			if(jQuery.isMobile){
+
 				slideShow.effectNext = "mobSlideLeft";
 				slideShow.effectPrev = "mobSlideRight";
 
 				overlay.swipe({
 					allowPageScroll:"auto",
-					threshold: 120,
+					threshold: 75,
 					triggerOnTouchEnd:false,
 
 					swipeStatus: function(event, phase, direction, distance){
 
-							if(grid.isAnimating)
-								return;
+						if(grid.isAnimating)
+							return;
 
 						if (phase == "end") {
 
@@ -665,6 +720,9 @@
 							} else {
 								slideShow.prev();
 							}
+
+							if(typeof grid.opt.onFullscreenChange == "function")
+								grid.opt.onFullscreenChange(grid)
 						}
 
 					},
@@ -674,13 +732,13 @@
 
 			}
 
-
 			jQuery("body").append(overlay);
-			overlay.CSSAnimate({opacity: 1}, 600, 0, function () {
+			overlay.CSSAnimate({opacity: 1}, 600, 300, function () {
 
 				placeHolder.CSSAnimate({width: "100%", height: "100%", left: 0, top: 0, opacity: 1}, 400, 0, grid.opt.ease, function () {
 					slideShow.init(grid);
 					jQuery(".tg-icon", overlay).fadeTo(200, 1);
+
 				})
 
 			});
@@ -712,6 +770,11 @@
 					jQuery("body").css({overflow: "auto"});
 				});
 			});
+
+			if(typeof grid.opt.onExitFullScreen == "function"){
+				grid.opt.onExitFullScreen(grid);
+			}
+
 		}
 	};
 
