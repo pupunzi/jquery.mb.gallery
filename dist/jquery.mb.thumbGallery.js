@@ -28,7 +28,7 @@
 
 		name   : "jquery.mb.thumbGrid",
 		version: "1.3.1",
-		build  : "544",
+		build  : "545",
 		author : "Matteo Bicocchi",
 
 		defaults: {
@@ -111,9 +111,6 @@
 				grid.display_nav = typeof $grid.data("display_nav") != "undefined" ? $grid.data("display_nav") : opt.display_nav;
 
 				jQuery.extend(opt, $grid.data());
-
-				console.debug($grid.data(), typeof $grid.data("display_nav"))
-
 
 				grid.opt = opt;
 
@@ -329,9 +326,6 @@
 					$grid.height(grid.height);
 					jQuery.thumbGrid.buildIndex(grid);
 					grid.isAnimating = false;
-
-					console.debug(grid.display_nav, grid.nav)
-
 
 					if (typeof grid.nav != "undefined" && grid.display_nav)
 						grid.nav.show();
