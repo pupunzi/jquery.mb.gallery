@@ -23,9 +23,7 @@
   "docs": "https://github.com/pupunzi/jquery.mb.thumbGallery/wiki",
   "download": "https://github.com/pupunzi/jquery.mb.thumbGallery/",
   "dependencies": {
-    "jquery": ">=1.8",
-    "jQuery-mb-CSSAnimate": ">=2.0",
-    "jQuery-mb-browser": ">=1.0"
+    "jquery": ">=1.8"
   },
   "main": "dist/jquery.mb.thumbGallery.js",
   "scripts": {
@@ -47,5 +45,5 @@
     "grunt-include-replace": "^3.0.0"
   },
   "license": "MIT",
-  "buildnum": "555"
+  "buildnum": "556"
 }

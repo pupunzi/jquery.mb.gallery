@@ -127,7 +127,7 @@ jQuery.thumbGrid = {
 
 			grid.pages = [];
 
-			grid.totPages = Math.ceil(grid.elements.size() / grid.nav_pagination);
+			grid.totPages = Math.ceil(grid.elements.length / grid.nav_pagination);
 
 			var thumbIdx = 0;
 
