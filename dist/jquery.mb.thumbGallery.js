@@ -27,12 +27,13 @@ jQuery.thumbGrid = {
 
 	name   : "jquery.mb.thumbGrid",
 	version: "1.3.1",
-	build  : "556",
+	build  : "565",
 	author : "Matteo Bicocchi",
 
 	defaults: {
 		nav_effect           : "slideLeft",
 		nav_delay            : 60,
+		nav_delay_inverse    : 0,
 		nav_timing           : 800,
 		nav_pagination       : 6,
 		display_nav          : true,
@@ -99,6 +100,7 @@ jQuery.thumbGrid = {
 
 			grid.nav_effect = $grid.data("nav_effect") || opt.nav_effect;
 			grid.nav_delay = $grid.data("nav_delay") || opt.nav_delay;
+			grid.nav_delay_inverse = $grid.data("nav_delay_inverse") || opt.nav_delay_inverse;
 			grid.nav_timing = $grid.data("nav_timing") || opt.nav_timing;
 			grid.nav_pagination = typeof $grid.data("nav_pagination") != "undefined" ?  $grid.data("nav_pagination") : opt.nav_pagination;
 			grid.nav_pagination = jQuery.isMobile && !jQuery.isTablet ? 1 : grid.nav_pagination;
@@ -168,6 +170,7 @@ jQuery.thumbGrid = {
 			grid.nav_effect = $grid.data("nav_effect") || "fade";
 
 		grid.nav_delay = $grid.data("nav_delay") || 100;
+		grid.nav_delay_inverse = $grid.data("nav_delay_inverse") || 0;
 		grid.nav_timing = $grid.data("nav_timing") || 1000;
 		grid.isAnimating = true;
 
@@ -303,7 +306,9 @@ jQuery.thumbGrid = {
 
 			var delayIn = grid.nav_delay;
 			for (var i = 0; i < jQuery(".in .thumbWrapper", $grid).length; i++) {
-				var elIn = jQuery(".in .thumbWrapper", $grid).eq(i);
+
+				var idx = grid.nav_delay_inverse ? (jQuery(".in .thumbWrapper", $grid).length -1) - i : i;
+				var elIn = jQuery(".in .thumbWrapper", $grid).eq(idx).data("idx", idx);
 
 				elIn.CSSAnimate(displayProperties, grid.nav_timing, delayIn, ease, function () {});
 				delayIn += grid.nav_delay;
@@ -311,8 +316,12 @@ jQuery.thumbGrid = {
 			}
 
 			var delayOut = grid.nav_delay;
+
 			for (var ii = 0; ii < jQuery(".out .thumbWrapper", $grid).length; ii++) {
-				var elOut = jQuery(".out .thumbWrapper", $grid).eq(ii);
+
+				var idx = grid.nav_delay_inverse ? (jQuery(".in .thumbWrapper", $grid).length -1) - ii : ii;
+
+				var elOut = jQuery(".out .thumbWrapper", $grid).eq(idx);
 				var transitionOut = jQuery.thumbGrid.transitions[grid.nav_effect].out;
 
 				grid.nav.addClass("waiting");

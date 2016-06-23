@@ -171,8 +171,9 @@
 
              data-thumbgrid="true"
              data-nav_effect="slideInverse"
-             data-nav_delay="60"
-             data-nav_timing="300"
+             data-nav_delay="100"
+             data-nav_timing="1000"
+             data-nav_delay_inverse="1"
              data-nav_pagination="3"
              data-gallery_effectnext="fadeIn"
              data-gallery_effectprev="fadeOut"
@@ -218,7 +219,7 @@
     jQuery.thumbGrid.transitions.fadeIn = {in: {x:"0", opacity:0, scale:0.9}, out: {x:0, opacity:0}};
     jQuery.thumbGrid.transitions.fadeOut = {in: {x:"0", opacity:0}, out: {x:0, scale:0.9, opacity:0}};
     jQuery.thumbGrid.transitions.slideLeft = {in: {x:$(window).width(), opacity:0}, out: {x:-$(window).width(), opacity:0}, ease:"cubic-bezier(.43,.18,.81,1.07)"};
-    jQuery.thumbGrid.transitions.slideRight = {in: {x:0, opacity:0}, out: {x:$(window).width(), opacity:0}, ease:"cubic-bezier(.43,.18,.81,1.07)"};
+    jQuery.thumbGrid.transitions.slideRight = {in: {x:-$(window).width(), opacity:0}, out: {x:$(window).width(), opacity:0}, ease:"cubic-bezier(.43,.18,.81,1.07)"};
 
     /* Initialize the gallery */
     jQuery("#thumbGrid").thumbGrid();

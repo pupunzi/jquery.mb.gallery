@@ -140,5 +140,5 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-build-number');
 
-	grunt.registerTask('default', ['buildnumber', 'copy','concat', 'uglify', 'cssmin', 'includereplace', 'imagemin']);
+	grunt.registerTask('default', ['buildnumber', 'copy','concat', 'uglify', 'cssmin', 'includereplace']); //, 'imagemin'
 };
