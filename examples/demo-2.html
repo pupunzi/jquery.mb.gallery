@@ -41,13 +41,13 @@
 
     <style>
         body, html {
-            position: absolute;
+            position: relative;
             min-width: 100%;
             min-height: 100%;
             margin: 0;
             padding: 0;
             /*background: linear-gradient(135deg, #ffaa02 0%,#febf01 100%); *//* W3C */
-            background: linear-gradient(135deg, #e58f27 0%, #f2be01 100%);
+            background: linear-gradient(135deg, #343b40 0%, #494e51 100%);
             font-family: Verdana, Arial, Helvetica, sans-serif;
         }
 
@@ -147,11 +147,11 @@
     <div id="customize">
         <label for="effect">transition effect</label>
         <select id="effect">
+            <option value="fade">fade</option>
             <option value="zoom">zoom</option>
-            <option value="fade_zoom">fade_zoom</option>
-            <option value="slide_vertical">slide_vertical</option>
-            <option value="slide_horizontal" selected>slide_horizontal</option>
-            <option value="slide_inverse" >slide_inverse</option>
+            <option value="slide_vertical">slide vertically</option>
+            <option value="slide_horizontal">slide Horizzontally</option>
+            <option value="slide_inverse" >slide inverse</option>
             <option value="rotate">rotate</option>
         </select>
         <br>
@@ -172,7 +172,7 @@
              data-nav_timing="1000"
              data-nav_delay_inverse="1"
              data-nav_pagination="3"
-             data-gallery_effect="fade_zoom"
+             data-gallery_effect="slide_horizontal"
              data-gallery_fullscreenw="90%"
              data-gallery_fullscreenh="100%"
              data-gallery_cover="true">
@@ -211,17 +211,6 @@
         $( "#wrapper" ).prepend( logo ), $( "#logo" ).fadeIn()
     }
 
-    /* Extend or modify effects */
-/*
-    jQuery.thumbGallery.transitions.fadeIn = {in: {x:"0", opacity:0, scale:0.9}, out: {x:0, opacity:0}};
-    jQuery.thumbGallery.transitions.fadeOut = {in: {x:"0", opacity:0}, out: {x:0, scale:0.9, opacity:0}};
-    jQuery.thumbGallery.transitions.slideLeft = {in: {x:$(window).width()*2, opacity:0}, out: {x:-$(window).width(), opacity:0}, ease:"cubic-bezier(.43,.18,.81,1.07)", sequence:true};
-    jQuery.thumbGallery.transitions.slideRight = {in: {x:-$(window).width(), opacity:0}, out: {x:$(window).width(), opacity:0}, ease:"cubic-bezier(.43,.18,.81,1.07)", nav_delay_inverse: true, sequence:true};
-    jQuery.thumbGallery.transitions.zoomIn = {in: {scale: .1, opacity: 0}, out: {scale: 2, opacity: 0}, nav_delay_inverse: false};
-    jQuery.thumbGallery.transitions.zoomOut  = {in: {scale: 2, opacity: 0}, out: {scale: .1, opacity: 0}, nav_delay_inverse: false};
-    jQuery.thumbGallery.transitions.rotate  = {in: {scale: .1,rotate: 179, opacity: 0}, out: {scale: .1,rotate: -179, opacity: 0}, nav_delay_inverse: false};
-
-*/
 
     /* Initialize the gallery */
     jQuery("#thumbGallery").thumbGallery();

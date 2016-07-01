@@ -21,245 +21,269 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––-->
 
 <html>
+
 <head>
-    <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-    <meta name="description" content="">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="MobileOptimized" content="320">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="cleartype" content="on">
+	<meta name="description" content="">
+	<meta name="HandheldFriendly" content="True">
+	<meta name="MobileOptimized" content="320">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="cleartype" content="on">
 
-    <title>jquery.mb.thumbGrid</title>
+	<title>jquery.mb.thumbGallery</title>
 
-    <link href='http://fonts.googleapis.com/css?family=Lekton|Lobster' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="css/jquery.mb.thumbgallery.min.css?_v={{ version }}"/>
+	<link href='http://fonts.googleapis.com/css?family=Lekton|Lobster' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="css/jquery.mb.thumbgallery.min.css?_v={{ version }}" />
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="jquery.mb.thumbGallery.min.js?_v={{ version }}"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="jquery.mb.thumbGallery.min.js?_v={{ version }}"></script>
 
-    <style>
-        body, html {
-            position: relative;
-            min-width: 100%;
-            min-height: 100%;
-            margin: 0;
-            padding: 0;
-            /*background: linear-gradient(135deg, #ffaa02 0%,#febf01 100%); *//* W3C */
-            background: linear-gradient(135deg, #343b40 0%, #494e51 100%);
-            font-family: Verdana, Arial, Helvetica, sans-serif;
-        }
-
-        #wrapper{
-            padding: 20px;
-            max-width: 1024px;
-            width: 100%;
-            margin: auto;
-        }
-
-        h1{
-            text-align: center;
-            font-size: 60px;
-            font-family: 'Lobster', cursive;
-        }
-
-        label{
-            color: white;
-        }
-
-        /*custom overlay gradient */
-
-        .tg-placeHolder{
-            /*background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);*/
-            background: #000;
-        }
-
-        .tg-overlay {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.78) 0%, rgba(23, 23, 23, 0.60) 100%);
-        }
-
-
-        /******** DEMO SWITCHER *******/
-        #customize {
-            color: white;
-            text-align: right;
-            position: relative;
-            margin: auto;
-            width: 100%;
-            margin-bottom: 120px;
-        }
-
-        #customize input, #customize select {
-            font-size: 15px;
-            margin: 3px;
-            padding: 4px 4px 4px 8px;
-            border: 1px solid rgba(38, 41, 43, 0.44);
-            color:#fff;
-            background-color: rgba(0, 0, 0, 0.2);
-            border-radius: 4px;
-        }
-
-        #customize select {
-            margin: 0;
-            outline: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            -ms-appearance: none;
-            -o-appearance: none;
-            appearance: none;
-            vertical-align: middle;
-        }
-
-        #customize label {
-            font-size: 13px;
-            margin: 3px 0;
-            padding: 3px 10px 3px 0;
-            /*width: 160px;*/
-            display: inline-block;
-            text-align: left;
-            text-transform: uppercase;
-            font-weight: 500;
-        }
-
-        .thumbGrid {
-            display: none;
-        }
-
-        @media (max-width: 500px) {
-            h1{
-                font-size: 30px;
-            }
-        }
-
-
-    </style>
+	<style>
+	body,
+	html {
+		position: relative;
+		min-width: 100%;
+		min-height: 100%;
+		margin: 0;
+		padding: 0;
+		/*background: linear-gradient(135deg, #ffaa02 0%,#febf01 100%); */
+		/* W3C */
+		background: linear-gradient(135deg, #343b40 0%, #494e51 100%);
+		font-family: Verdana, Arial, Helvetica, sans-serif;
+	}
+	
+	#wrapper {
+		padding: 20px;
+		max-width: 1024px;
+		width: 100%;
+		margin: auto;
+	}
+	
+	h1 {
+		text-align: center;
+		font-size: 60px;
+		font-family: 'Lobster', cursive;
+	}
+	
+	label {
+		color: white;
+	}
+	/*custom overlay gradient */
+	
+	.tg-placeHolder {
+		/*background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);*/
+		background: #000;
+	}
+	
+	.tg-overlay {
+		background: linear-gradient(135deg, rgba(0, 0, 0, 0.78) 0%, rgba(23, 23, 23, 0.60) 100%);
+	}
+	/******** DEMO SWITCHER *******/
+	
+	#customize {
+		color: white;
+		text-align: right;
+		position: relative;
+		margin: auto;
+		width: 100%;
+		margin-bottom: 120px;
+	}
+	
+	#customize input,
+	#customize select {
+		font-size: 15px;
+		margin: 3px;
+		padding: 4px 4px 4px 8px;
+		border: 1px solid rgba(38, 41, 43, 0.44);
+		color: #fff;
+		background-color: rgba(0, 0, 0, 0.2);
+		border-radius: 4px;
+	}
+	
+	#customize select {
+		margin: 0;
+		outline: none;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		-ms-appearance: none;
+		-o-appearance: none;
+		appearance: none;
+		vertical-align: middle;
+	}
+	
+	#customize label {
+		font-size: 13px;
+		margin: 3px 0;
+		padding: 3px 10px 3px 0;
+		/*width: 160px;*/
+		display: inline-block;
+		text-align: left;
+		text-transform: uppercase;
+		font-weight: 500;
+	}
+	
+	.thumbGallery {
+		display: none;
+	}
+	
+	@media (max-width: 500px) {
+		h1 {
+			font-size: 30px;
+		}
+	}
+	</style>
 </head>
 
 <body>
 
-<article id="wrapper">
-    <h1>mb.thumbGallery</h1>
+	<article id="wrapper">
+		<h1>mb.thumbGallery</h1>
 
-    <div id="customize">
-        <label for="effect">transition effect</label>
-        <select id="effect">
-            <option value="zoomIn">zoomIn</option>
-            <option value="zoomOut">zoomOut</option>
-            <option value="fade">fade</option>
-            <option value="slideUp">slideUp</option>
-            <option value="slideDown">slideDown</option>
-            <option value="slideLeft">slideLeft</option>
-            <option value="slideRight">slideRight</option>
-            <option value="slideInverse" selected>slideInverse</option>
-            <option value="rotate">rotate</option>
-        </select>
-        <br>
-        <br>
-        <label for="delay">transition delay (in ms)</label>
-        <input id="delay" value="100"/><br><label for="timing">transition timing (in ms)</label><input id="timing" value="1000"/>
-    </div>
+		<div id="customize">
+			<label for="effect">transition effect</label>
+			<select id="effect">
+				<option value="zoomIn">zoomIn</option>
+				<option value="zoomOut">zoomOut</option>
+				<option value="fade">fade</option>
+				<option value="slideUp">slideUp</option>
+				<option value="slideDown">slideDown</option>
+				<option value="slideLeft">slideLeft</option>
+				<option value="slideRight">slideRight</option>
+				<option value="slideInverse" selected>slideInverse</option>
+				<option value="rotate">rotate</option>
+			</select>
+			<br>
+			<br>
+			<label for="delay">transition delay (in ms)</label>
+			<input id="delay" value="100" />
+			<br>
+			<label for="timing">transition timing (in ms)</label>
+			<input id="timing" value="1000" />
+		</div>
 
-    <section class="content">
+		<section class="content">
 
-        <div id="thumbGrid"
-             class="thumbGrid"
+			<div id="thumbGallery" class="thumbGallery" data-thumbGallery="true" data-nav_effect="slideInverse" data-nav_delay="60" data-nav_timing="1000" data-nav_pagination="6" data-gallery_effectnext="fadeIn" data-gallery_effectprev="fadeOut" data-gallery_fullscreenw="90%" data-gallery_fullscreenh="90%" data-gallery_cover="true">
 
-             data-thumbgrid="true"
-             data-nav_effect="slideInverse"
-             data-nav_delay="60"
-             data-nav_timing="1000"
-             data-nav_pagination="6"
-             data-gallery_effectnext="fadeIn"
-             data-gallery_effectprev="fadeOut"
-             data-gallery_fullscreenw="90%"
-             data-gallery_fullscreenh="90%"
-             data-gallery_cover="true">
+				<img src="img/LR/01.jpg" data-highres="img/HR/01.jpg" data-caption="Parturient Bibendum Malesuada Etiam" />
+				<img src="img/LR/02.jpg" data-highres="img/HR/02.jpg" />
+				<img src="img/LR/03.jpg" data-highres="img/HR/03.jpg" data-caption="Adipiscing Inceptos Ornare Cursus" />
+				<img src="img/LR/04.jpg" data-highres="img/HR/04.jpg" data-caption="Etiam Purus Sollicitudin Fusce" />
+				<img src="img/LR/05.jpg" data-highres="img/HR/05.jpg" data-caption="Parturient Bibendum Malesuada Etiam" />
+				<img src="img/LR/06.jpg" data-highres="img/HR/06.jpg" data-caption="Magna Pharetra Inceptos" />
+				<img src="img/LR/07.jpg" data-highres="img/HR/07.jpg" data-caption="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+				<img src="img/LR/08.jpg" data-highres="img/HR/08.jpg" data-caption="Venenatis Purus Parturient" />
+				<img src="img/LR/09.jpg" data-highres="img/HR/09.jpg" data-caption="Ipsum Pharetra Cras Elit" />
+				<img src="img/LR/10.jpg" data-highres="img/HR/10.jpg" data-caption="Cras Mollis Tortor Bibendum" />
+				<img src="img/LR/11.jpg" data-highres="img/HR/11.jpg" data-caption="Venenatis Sem Commodo Condimentum" />
+				<img src="img/LR/12.jpg" data-highres="img/HR/12.jpg" data-caption="Condimentum Magna Sollicitudin" />
+				<img src="img/LR/13.jpg" data-highres="img/HR/13.jpg" data-caption="Vestibulum Mollis Adipiscing Cursus Euismod" />
+				<img src="img/LR/14.jpg" data-highres="img/HR/14.jpg" data-caption="Egestas Vulputate Fusce Mattis" />
+				<img src="img/LR/15.jpg" data-highres="img/HR/15.jpg" data-caption="Pellentesque Etiam Vestibulum" />
+				<img src="img/LR/16.jpg" data-highres="img/HR/16.jpg" data-caption="Mollis Purus Malesuada" />
+				<img src="img/LR/17.jpg" data-highres="img/HR/17.jpg" data-caption="Magna Nullam Sollicitudin Tortor" />
+				<img src="img/LR/18.jpg" data-highres="img/HR/18.jpg" data-caption="Cursus Justo Ridiculus Venenatis" />
+				<img src="img/LR/19.jpg" data-highres="img/HR/19.jpg" data-caption="Cras Nullam Consectetur Adipiscing" />
+				<img src="img/LR/20.jpg" data-highres="img/HR/20.jpg" data-caption="Lorem Sit Condimentum Dolor" />
+				<img src="img/LR/21.jpg" data-highres="img/HR/21.jpg" data-caption="Aenean Dolor Etiam Porta" />
+				<img src="img/LR/22.jpg" data-highres="img/HR/22.jpg" data-caption="Mollis Elit Ornare Sit Fringilla" />
 
-            <img src="img/LR/01.jpg" data-highres="img/HR/01.jpg" data-caption="Parturient Bibendum Malesuada Etiam"/>
-            <img src="img/LR/02.jpg" data-highres="img/HR/02.jpg" />
-            <img src="img/LR/03.jpg" data-highres="img/HR/03.jpg" data-caption="Adipiscing Inceptos Ornare Cursus"/>
-            <img src="img/LR/04.jpg" data-highres="img/HR/04.jpg" data-caption="Etiam Purus Sollicitudin Fusce"/>
-            <img src="img/LR/05.jpg" data-highres="img/HR/05.jpg" data-caption="Parturient Bibendum Malesuada Etiam"/>
-            <img src="img/LR/06.jpg" data-highres="img/HR/06.jpg" data-caption="Magna Pharetra Inceptos"/>
-            <img src="img/LR/07.jpg" data-highres="img/HR/07.jpg" data-caption="Lorem ipsum dolor sit amet, consectetur adipiscing elit"/>
-            <img src="img/LR/08.jpg" data-highres="img/HR/08.jpg" data-caption="Venenatis Purus Parturient"/>
-            <img src="img/LR/09.jpg" data-highres="img/HR/09.jpg" data-caption="Ipsum Pharetra Cras Elit"/>
-            <img src="img/LR/10.jpg" data-highres="img/HR/10.jpg" data-caption="Cras Mollis Tortor Bibendum"/>
-            <img src="img/LR/11.jpg" data-highres="img/HR/11.jpg" data-caption="Venenatis Sem Commodo Condimentum"/>
-            <img src="img/LR/12.jpg" data-highres="img/HR/12.jpg" data-caption="Condimentum Magna Sollicitudin"/>
-            <img src="img/LR/13.jpg" data-highres="img/HR/13.jpg" data-caption="Vestibulum Mollis Adipiscing Cursus Euismod"/>
-            <img src="img/LR/14.jpg" data-highres="img/HR/14.jpg" data-caption="Egestas Vulputate Fusce Mattis"/>
-            <img src="img/LR/15.jpg" data-highres="img/HR/15.jpg" data-caption="Pellentesque Etiam Vestibulum"/>
-            <img src="img/LR/16.jpg" data-highres="img/HR/16.jpg" data-caption="Mollis Purus Malesuada"/>
-            <img src="img/LR/17.jpg" data-highres="img/HR/17.jpg" data-caption="Magna Nullam Sollicitudin Tortor"/>
-            <img src="img/LR/18.jpg" data-highres="img/HR/18.jpg" data-caption="Cursus Justo Ridiculus Venenatis"/>
-            <img src="img/LR/19.jpg" data-highres="img/HR/19.jpg" data-caption="Cras Nullam Consectetur Adipiscing"/>
-            <img src="img/LR/20.jpg" data-highres="img/HR/20.jpg" data-caption="Lorem Sit Condimentum Dolor"/>
-            <img src="img/LR/21.jpg" data-highres="img/HR/21.jpg" data-caption="Aenean Dolor Etiam Porta"/>
-            <img src="img/LR/22.jpg" data-highres="img/HR/22.jpg" data-caption="Mollis Elit Ornare Sit Fringilla"/>
+			</div>
 
-        </div>
+		</section>
 
-    </section>
+	</article>
 
-</article>
+	<a style="position: fixed;bottom:40px;right: 30px;" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=V6ZS8JPMZC446&lc=GB&item_name=mb%2eideas&item_number=MBIDEAS&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG_global%2egif%3aNonHosted">
+		<img border="0" alt="PayPal" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG_global.gif" class="alignright">
+	</a>
 
-<a style="position: fixed;bottom:40px;right: 30px;" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=V6ZS8JPMZC446&lc=GB&item_name=mb%2eideas&item_number=MBIDEAS&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG_global%2egif%3aNonHosted">
-    <img border="0" alt="PayPal" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG_global.gif" class="alignright">
-</a>
+	<script>
+	//   jQuery(function () {
 
-<script>
+	var isIframe = function() {
+		var a = !1;
+		try {
+			self.location.href != top.location.href && ( a = !0 )
+		} catch ( b ) {
+			a = !0
+		}
+		return a
+	};
+	if ( !isIframe() ) {
+		var logo = $( "<a href='http://pupunzi.com/#mb.components/components.html' style='position:absolute;top:0;z-index:1000'><img id='logo' border='0' src='http://pupunzi.com/images/logo.png' alt='mb.ideas.repository'></a>" );
+		$( "#wrapper" ).prepend( logo ), $( "#logo" ).fadeIn()
+	}
 
-    //   jQuery(function () {
+	/* Extend or modify effects */
+	jQuery.thumbGallery.transitions.fadeIn = { in: {
+			x: "0",
+			opacity: 0,
+			scale: 0.9
+		},
+		out: {
+			x: 0,
+			opacity: 0
+		}
+	};
+	jQuery.thumbGallery.transitions.fadeOut = { in: {
+			x: "0",
+			opacity: 0
+		},
+		out: {
+			x: 0,
+			scale: 0.9,
+			opacity: 0
+		}
+	};
+	jQuery.thumbGallery.transitions.slideLeft = { in: {
+			x: $( window ).width(),
+			opacity: 0
+		},
+		out: {
+			x: 0,
+			opacity: 0
+		}
+	};
+	jQuery.thumbGallery.transitions.slideRight = { in: {
+			x: 0,
+			opacity: 0
+		},
+		out: {
+			x: $( window ).width(),
+			opacity: 0
+		}
+	};
 
-    var isIframe = function() {
-        var a = !1;
-        try {
-            self.location.href != top.location.href && ( a = !0 )
-        } catch ( b ) {
-            a = !0
-        }
-        return a
-    };
-    if ( !isIframe() ) {
-        var logo = $( "<a href='http://pupunzi.com/#mb.components/components.html' style='position:absolute;top:0;z-index:1000'><img id='logo' border='0' src='http://pupunzi.com/images/logo.png' alt='mb.ideas.repository'></a>" );
-        $( "#wrapper" ).prepend( logo ), $( "#logo" ).fadeIn()
-    }
+	/* Initialize the gallery */
+	jQuery( "#thumbGallery" ).thumbGallery();
 
-    /* Extend or modify effects */
-    jQuery.thumbGrid.transitions.fadeIn = {in: {x:"0", opacity:0, scale:0.9}, out: {x:0, opacity:0}};
-    jQuery.thumbGrid.transitions.fadeOut = {in: {x:"0", opacity:0}, out: {x:0, scale:0.9, opacity:0}};
-    jQuery.thumbGrid.transitions.slideLeft = {in: {x:$(window).width(), opacity:0}, out: {x:0, opacity:0}};
-    jQuery.thumbGrid.transitions.slideRight = {in: {x:0, opacity:0}, out: {x:$(window).width(), opacity:0}};
+	/* customizer */
+	jQuery( "#effect" ).on( "change", function() {
+		var x = $( this ).val();
+		jQuery( "#thumbGallery" ).data( "nav_effect", x );
+	} );
 
-    /* Initialize the gallery */
-    jQuery("#thumbGrid").thumbGrid();
+	jQuery( "#delay" ).on( "change", function() {
+		var x = parseFloat( $( this ).val() );
+		jQuery( "#thumbGallery" ).data( "nav_delay", x );
+	} );
 
-    /* customizer */
-    jQuery("#effect").on("change",function(){
-        var x = $(this).val();
-        jQuery("#thumbGrid").data("nav_effect", x);
-    });
+	jQuery( "#timing" ).on( "change", function() {
+		var x = parseFloat( $( this ).val() );
+		jQuery( "#thumbGallery" ).data( "nav_timing", x );
+	} );
 
-    jQuery("#delay").on("change",function(){
-        var x = parseFloat($(this).val());
-        jQuery("#thumbGrid").data("nav_delay", x);
-    });
+	/*
+	 setTimeout(function(){
+	 $(".thumbGallery").fadeTo(800,1)
+	 },1000)
+	 */
 
-    jQuery("#timing").on("change",function(){
-        var x = parseFloat($(this).val());
-        jQuery("#thumbGrid").data("nav_timing", x);
-    });
-
-    /*
-     setTimeout(function(){
-     $(".thumbGrid").fadeTo(800,1)
-     },1000)
-     */
-
-    //   });
-
-</script>
+	//   });
+	</script>
 </body>
+
 </html>

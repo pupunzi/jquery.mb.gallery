@@ -105,14 +105,14 @@ module.exports = function(grunt) {
 				},
 				files: [{
 					expand: true,
-					cwd: 'src/assets/HR/',
+					cwd: '/src/assets/HR/',
 					src: ['*.{png,jpg,gif}'],
-					dest: 'dist/img/HR'
+					dest: '/dist/img/HR'
 				},{
 					expand: true,
-					cwd: 'src/assets/LR/',
+					cwd: '/src/assets/LR/',
 					src: ['*.{png,jpg,gif}'],
-					dest: 'dist/img/LR'
+					dest: '/dist/img/LR'
 				}
 				]
 			}
@@ -128,6 +128,49 @@ module.exports = function(grunt) {
 		watch: {
 			files: ['src/css/*.css','src/*.js','src/*.tmpl', 'Gruntfile.js'],
 			tasks: ['default']
+		},
+
+		jsbeautifier: {
+			files  : ['src/*.js', '!dist/*.min.js', 'src/*.html', 'src/*.tmpl', 'src/css/*.css'],
+			options: {
+				html: {
+					braceStyle         : "collapse",
+					indentChar         : "\t",
+					indentScripts      : "keep",
+					indentSize         : 1,
+					maxPreserveNewlines: 3,
+					preserveNewlines   : true,
+					spaceInParen       : true,
+					unformatted        : ["a", "sub", "sup", "b", "i", "u"],
+					wrapLineLength     : 0
+				},
+				css : {
+					indentChar         : " ",
+					maxPreserveNewlines: 1,
+					preserveNewlines   : false,
+					indentSize         : 4
+				},
+				js  : {
+					braceStyle             : "collapse",
+					breakChainedMethods    : false,
+					e4x                    : false,
+					evalCode               : false,
+					indentChar             : "\t",
+					indentLevel            : 0,
+					indentSize             : 1,
+					indentWithTabs         : false,
+					jslintHappy            : false,
+					keepArrayIndentation   : true,
+					keepFunctionIndentation: true,
+					maxPreserveNewlines    : 3,
+					preserveNewlines       : true,
+					spaceBeforeConditional : false,
+					spaceInParen           : true,
+					unescapeStrings        : false,
+					wrapLineLength         : 0,
+					endWithNewline         : true
+				}
+			}
 		}
 	});
 
@@ -138,7 +181,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks("grunt-jsbeautifier");
 	grunt.loadNpmTasks('grunt-build-number');
 
-	grunt.registerTask('default', ['buildnumber', 'copy','concat', 'uglify', 'cssmin', 'includereplace']); //, 'imagemin'
+	grunt.registerTask('default', ['buildnumber', 'copy','concat', 'uglify', 'cssmin', 'includereplace','imagemin', 'jsbeautifier']); //, 'imagemin'
 };
