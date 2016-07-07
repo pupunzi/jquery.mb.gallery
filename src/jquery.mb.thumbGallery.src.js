@@ -320,7 +320,6 @@ jQuery.thumbGrid = {
 			for (var ii = 0; ii < jQuery(".out .thumbWrapper", $grid).length; ii++) {
 
 				var idx = grid.nav_delay_inverse ? (jQuery(".in .thumbWrapper", $grid).length -1) - ii : ii;
-
 				var elOut = jQuery(".out .thumbWrapper", $grid).eq(idx);
 				var transitionOut = jQuery.thumbGrid.transitions[grid.nav_effect].out;
 
