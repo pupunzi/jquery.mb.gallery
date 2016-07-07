@@ -42,8 +42,10 @@
     "grunt-contrib-imagemin": "^0.9.4",
     "grunt-contrib-uglify": "^0.9.1",
     "grunt-contrib-watch": "^0.6.1",
-    "grunt-include-replace": "^3.0.0"
+    "grunt-include-replace": "^3.0.0",
+    "grunt-jsbeautifier": "^0.2.12",
+    "minimatch": "^3.0.2"
   },
   "license": "MIT",
-  "buildnum": "565"
+  "buildnum": "663"
 }
