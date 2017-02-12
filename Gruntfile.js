@@ -137,7 +137,7 @@ module.exports = function(grunt) {
 					braceStyle         : "collapse",
 					indentChar         : "\t",
 					indentScripts      : "keep",
-					indentSize         : 1,
+					indentSize         : 4,
 					maxPreserveNewlines: 3,
 					preserveNewlines   : true,
 					spaceInParen       : true,
@@ -145,7 +145,7 @@ module.exports = function(grunt) {
 					wrapLineLength     : 0
 				},
 				css : {
-					indentChar         : " ",
+					indentChar         : "\t",
 					maxPreserveNewlines: 1,
 					preserveNewlines   : false,
 					indentSize         : 4
@@ -153,22 +153,24 @@ module.exports = function(grunt) {
 				js  : {
 					braceStyle             : "collapse",
 					breakChainedMethods    : false,
-					e4x                    : true,
+					e4x                    : false,
 					evalCode               : false,
 					indentChar             : "\t",
 					indentLevel            : 0,
-					indentSize             : 1,
+					indentSize             : 4,
 					indentWithTabs         : true,
-					jslintHappy            : true,
-					keepArrayIndentation   : true,
-					keepFunctionIndentation: true,
-					maxPreserveNewlines    : 3,
+					jslintHappy            : false,
+					keepArrayIndentation   : false,
+					keepFunctionIndentation: false,
+					maxPreserveNewlines    : 0,
 					preserveNewlines       : true,
 					spaceBeforeConditional : true,
 					spaceInParen           : true,
+					spaceInEmptyParen      : true,
+					commaFirst             : false,
 					unescapeStrings        : false,
 					wrapLineLength         : 0,
-					endWithNewline         : true
+					endWithNewline         : false
 				}
 			}
 		}

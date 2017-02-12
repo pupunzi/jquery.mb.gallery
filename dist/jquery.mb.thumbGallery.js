@@ -28,7 +28,7 @@
 
 		name: "jquery.mb.thumbGallery",
 		version: "1.3.1",
-		build: "689",
+		build: "701",
 		author: "Matteo Bicocchi",
 
 		defaults: {
@@ -58,189 +58,43 @@
 		transitions: {
 
 			fade: {
-				prev: { in: {
-					opacity: 0
-				},
-					out: {
-						opacity: 0
-					},
-					nav_delay_inverse: false
-				},
-				next: { in: {
-					opacity: 0
-				},
-					out: {
-						opacity: 0
-					},
-					nav_delay_inverse: false
-				}
+				prev: { in: { opacity: 0},out: {opacity: 0},nav_delay_inverse: false},
+				next: { in: {opacity: 0 },out: {opacity: 0 },nav_delay_inverse: false}
 			},
 
 			fade_zoom: {
-				prev: { in: {
-					x: "0",
-					opacity: 0,
-					scale: 0.9
-				},
-					out: {
-						x: 0,
-						opacity: 0
-					},
-					nav_delay_inverse: false
-				},
-				next: { in: {
-					x: "0",
-					opacity: 0
-				},
-					out: {
-						x: 0,
-						scale: 0.9,
-						opacity: 0
-					},
-					nav_delay_inverse: false
-				}
+				prev: { in: {x: "0", opacity: 0, scale: 0.9},out: {x: 0,opacity: 0},nav_delay_inverse: false},
+				next: { in: {x: "0",opacity: 0},out: {x: 0,scale: 0.9,opacity: 0},nav_delay_inverse: false}
 			},
 
 			slide_vertical: {
-				prev: { in: {
-					opacity: 0
-				},
-					out: {
-						y: -200,
-						opacity: 0
-					},
-					nav_delay_inverse: false
-				},
-				next: { in: {
-					opacity: 0
-				},
-					out: {
-						y: 200,
-						opacity: 0
-					},
-					nav_delay_inverse: false
-				}
+				prev: { in: {opacity: 0},out: {y: -200,opacity: 0},nav_delay_inverse: false},
+				next: { in: {opacity: 0},out: {y: 200,opacity: 0},nav_delay_inverse: false}
 			},
 
 			slide_horizontal: {
-				prev: { in: {
-					//					x: -$( window ).width() * 2,
-					opacity: 0
-				},
-					out: {
-						x: $( window )
-								.width(),
-						opacity: 0
-					},
-					ease: "cubic-bezier(.43,.18,.81,1.07)",
-					sequence: true,
-					nav_delay_inverse: true
-				},
-				next: { in: {
-					//					x: $( window ).width(),
-					opacity: 0
-				},
-					out: {
-						x: -$( window )
-								.width(),
-						opacity: 0
-					},
-					ease: "cubic-bezier(.43,.18,.81,1.07)",
-					nav_delay_inverse: false,
-					sequence: true
-				}
+				prev: { in: {opacity: 0},out: {x: $( window ).width(),opacity: 0},ease: "cubic-bezier(.43,.18,.81,1.07)",sequence: true,nav_delay_inverse: true},
+				next: { in: {opacity: 0},out: {x: -$( window ).width(),opacity: 0},ease: "cubic-bezier(.43,.18,.81,1.07)",sequence: true,nav_delay_inverse: false}
 			},
 
 			slide_inverse: {
-				prev: { in: {
-					y: 200,
-					opacity: 0
-				},
-					out: {
-						y: 200,
-						opacity: 0
-					},
-					nav_delay_inverse: false
-				},
-				next: { in: {
-					y: 200,
-					opacity: 0
-				},
-					out: {
-						y: 200,
-						opacity: 0
-					},
-					nav_delay_inverse: false
-				}
+				prev: { in: {y: 200,opacity: 0},out: {y: 200,opacity: 0},nav_delay_inverse: false},
+				next: { in: {y: 200,opacity: 0},out: {y: 200,opacity: 0},nav_delay_inverse: false}
 			},
 
 			zoom: {
-				prev: { in: {
-					scale: .1,
-					opacity: 0
-				},
-					out: {
-						scale: 2,
-						opacity: 0
-					},
-					nav_delay_inverse: false
-				},
-				next: { in: {
-					scale: 2,
-					opacity: 0
-				},
-					out: {
-						scale: .1,
-						opacity: 0
-					},
-					nav_delay_inverse: false
-				}
+				prev: { in: {scale: .1,opacity: 0},out: {scale: 2,opacity: 0},nav_delay_inverse: false},
+				next: { in: {scale: 2,opacity: 0},out: {scale: .1,opacity: 0},nav_delay_inverse: false}
 			},
 
 			rotate: {
-				prev: { in: {
-					opacity: 0,
-					rotate: -179
-				},
-					out: {
-						rotate: 179,
-						opacity: 0
-					},
-					nav_delay_inverse: false
-				},
-				next: { in: {
-					opacity: 0,
-					rotate: 179
-				},
-					out: {
-						rotate: -179,
-						opacity: 0
-					},
-					nav_delay_inverse: false
-				}
+				prev: { in: {opacity: 0,rotate: -179},out: {rotate: 179,opacity: 0},nav_delay_inverse: false},
+				next: { in: {opacity: 0,rotate: 179},out: {rotate: -179,opacity: 0},nav_delay_inverse: false}
 			},
 
 			mobSlide: {
-				prev: { in: {
-					opacity: 0
-				},
-					out: {
-						x: 200,
-						opacity: 0
-					},
-					ease: "cubic-bezier(0,.01,1,1)",
-					nav_delay_inverse: false
-				},
-				next: { in: {
-					opacity: 0
-				},
-					out: {
-						x: -200,
-						opacity: 0
-					},
-					ease: "cubic-bezier(0,.01,1,1)",
-					nav_delay_inverse: true
-				}
+				prev: { in: {opacity: 0},out: {x: 200,opacity: 0},ease: "cubic-bezier(0,.01,1,1)",nav_delay_inverse: false},
+				next: { in: {opacity: 0},out: {x: -200,opacity: 0},ease: "cubic-bezier(0,.01,1,1)",nav_delay_inverse: true}
 			}
 		},
 
@@ -273,6 +127,8 @@
 				grid.isAnimating = false;
 				grid.pageIndex = 0;
 
+				grid.id = Math.floor(Math.random()*10000);
+
 				grid.nav_effect = $grid.data( "nav_effect" ) || opt.nav_effect;
 				grid.nav_delay = $grid.data( "nav_delay" ) || opt.nav_delay;
 				grid.nav_delay_inverse = $grid.data( "nav_delay_inverse" ) || opt.nav_delay_inverse;
@@ -283,7 +139,7 @@
 				grid.gallery_fullscreenh = $grid.data( "gallery_fullscreenh" ) || opt.gallery_fullscreenh;
 				grid.gallery_cover = $grid.data( "gallery_cover" ) || opt.gallery_cover;
 				grid.thumb_fit = $grid.data( "thumb_fit" ) || opt.thumb_fit;
-				grid.thumb_ratio = eval($grid.data( "thumb_ratio" )) || opt.thumb_ratio;
+				grid.thumb_ratio = eval( $grid.data( "thumb_ratio" ) ) || opt.thumb_ratio;
 
 				grid.gallery_effect = $grid.data( "gallery_effect" ) || grid.nav_effect;
 
@@ -406,7 +262,7 @@
 				var thumb_src = jQuery( pageElements[ x ] ).attr( "src" );
 				thumb_box.css( {
 					backgroundImage: "url(" + thumb_src + ")",
-					backgroundSize: grid.thumb_fit ? "contain" :  "cover",
+					backgroundSize: grid.thumb_fit ? "contain" : "cover",
 					backgroundRepeat: "no-repeat",
 					backgroundPosition: "center center"
 				} );
@@ -435,9 +291,15 @@
 
 					thumbWrapper.data( "idx", x );
 
-					thumbWrapper.on( jQuery.thumbGallery.events.end, function () {
+					thumbWrapper.on( jQuery.thumbGallery.events.end, function (e) {
+
+						if ( grid.isAnimating )
+							return;
+
 						var idx = jQuery( ".thumb_box", this ).data( "globalindex" );
 						jQuery.thumbGallery.drawSlideShow( grid, idx );
+
+						e.originalEvent.preventDefault();
 					} );
 
 					if ( applyEffect ) {
@@ -446,6 +308,7 @@
 						} );
 
 						grid.direction = grid.direction || "next";
+
 						var transitionIn = jQuery.normalizeCss( jQuery.thumbGallery.transitions[ $grid.data( "nav_effect" ) ][ grid.direction ].in );
 						thumbWrapper.css( transitionIn );
 
@@ -470,11 +333,13 @@
 					//if(grid.nav_pagination == 1 ) {
 
 					jQuery( ".tg-next, .tg-prev", $page ).remove();
-					var next = jQuery( "<div/>" ).addClass( "tg-next tg-icon" ).on( jQuery.thumbGallery.events.end, function () {
+					var next = jQuery( "<div/>" ).addClass( "tg-next tg-icon" ).on( jQuery.thumbGallery.events.end, function (e) {
 						jQuery.thumbGallery.nextPage( grid );
+						e.originalEvent.preventDefault();
 					} );
-					var prev = jQuery( "<div/>" ).addClass( "tg-prev tg-icon" ).on( jQuery.thumbGallery.events.end, function () {
+					var prev = jQuery( "<div/>" ).addClass( "tg-prev tg-icon" ).on( jQuery.thumbGallery.events.end, function (e) {
 						jQuery.thumbGallery.prevPage( grid );
+						e.originalEvent.preventDefault();
 					} );
 
 					if ( grid.elements.length > grid.nav_pagination )
@@ -488,7 +353,7 @@
 			}
 
 			grid.setThumbsize( jQuery( ".thumbWrapper", $page ) );
-			jQuery( window ).off( "resize.thumbgallery" ).on( "resize.thumbgallery", function () {
+			jQuery( window ).off( "resize.thumbgallery_" + grid.id ).on( "resize.thumbgallery_" + grid.id, function () {
 				grid.setThumbsize( jQuery( ".thumbWrapper", $page ) );
 			} ).resize();
 
@@ -684,16 +549,18 @@
 					idx: ( x - 1 )
 				} );
 				idxPlaceHolder.addClass( "indexEl" );
-				idxPlaceHolder.on( jQuery.thumbGallery.events.end, function () {
+				idxPlaceHolder.on( jQuery.thumbGallery.events.end, function (e) {
 
 					var pageIndex = jQuery( this ).attr( "idx" );
 
 					grid.direction = grid.pageIndex < pageIndex ? "next" : "prev";
 
-					console.debug( "grid.isAnimating ", grid.isAnimating )
-					console.debug( "grid.pageIndex ", grid.pageIndex )
-					console.debug( "pageIndex ", pageIndex )
+					/*
+					 console.debug( "grid.isAnimating ", grid.isAnimating )
+					 console.debug( "grid.pageIndex ", grid.pageIndex )
+					 console.debug( "pageIndex ", pageIndex )
 
+					 */
 					if ( grid.isAnimating || grid.pageIndex == pageIndex )
 						return;
 
@@ -707,10 +574,13 @@
 					grid.pageIndex = pageIndex;
 					jQuery.thumbGallery.drawPage( grid );
 
-					console.debug( grid.pageIndex );
+//					console.debug( grid.pageIndex );
 
 					jQuery( ".indexEl", nav ).removeClass( "sel" );
 					jQuery( ".indexEl", nav ).eq( grid.pageIndex ).addClass( "sel" );
+
+					e.preventDefault();
+
 				} );
 
 				nav.append( idxPlaceHolder );

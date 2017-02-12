@@ -23,7 +23,7 @@
  *
  * @type {{name: string, version: string, build: string, author: string, defaults: {nav_effect: string, nav_delay: number, nav_timing: number, nav_pagination: number, nav_show: boolean, gallery_effectnext: string, gallery_effectprev: string, gallery_timing: number, gallery_cover: boolean, gallery_fullscreenw: string, gallery_fullscreenh: string, showIndexinFullscreen: boolean, ease: string, onSlide: onSlide, onFullScreen: onFullScreen, onExitFullScreen: onExitFullScreen, onFullscreenChange: onFullscreenChange}, transitions: {fade: {in: {opacity: number}, out: {opacity: number}}, slideUp: {in: {opacity: number}, out: {y: number, opacity: number}}, slideDown: {in: {opacity: number}, out: {y: number, opacity: number}}, slideLeft: {in: {opacity: number}, out: {x: number, opacity: number}, ease: string}, slideRight: {in: {opacity: number}, out: {x: number, opacity: number}, ease: string}, slideInverse: {in: {y: number, opacity: number}, out: {y: number, opacity: number}}, zoomIn: {in: {scale: number, opacity: number}, out: {scale: number, opacity: number}}, zoomOut: {in: {scale: number, opacity: number}, out: {scale: number, opacity: number}}, rotate: {in: {opacity: number}, out: {rotate: number, opacity: number}}, mobSlideLeft: {in: {opacity: number}, out: {x: number, opacity: number}, ease: string}, mobSlideRight: {in: {opacity: number}, out: {x: number, opacity: number}, ease: string}}, events: {start: string, move: string, end: string}, init: init, drawPage: drawPage, nextPage: nextPage, prevPage: prevPage, buildIndex: buildIndex, drawSlideShow: drawSlideShow, closeSlideShow: closeSlideShow}}
  */
-( function ( $ ) {
+( function( $ ) {
 	jQuery.thumbGallery = {
 
 		name: "jquery.mb.thumbGallery",
@@ -49,10 +49,10 @@
 			ease: "cubic-bezier(0.19, 1, 0.22, 1)",
 			thumb_ratio: 1,
 
-			onSlide: function ( grid ) {},
-			onFullScreen: function ( grid ) {},
-			onExitFullScreen: function ( grid ) {},
-			onFullscreenChange: function ( grid ) {}
+			onSlide: function( grid ) {},
+			onFullScreen: function( grid ) {},
+			onExitFullScreen: function( grid ) {},
+			onFullscreenChange: function( grid ) {}
 		},
 
 		transitions: {
@@ -124,12 +124,10 @@
 
 			slide_horizontal: {
 				prev: { in: {
-						//					x: -$( window ).width() * 2,
 						opacity: 0
 					},
 					out: {
-						x: $( window )
-							.width(),
+						x: $( window ).width( ),
 						opacity: 0
 					},
 					ease: "cubic-bezier(.43,.18,.81,1.07)",
@@ -137,17 +135,15 @@
 					nav_delay_inverse: true
 				},
 				next: { in: {
-						//					x: $( window ).width(),
 						opacity: 0
 					},
 					out: {
-						x: -$( window )
-							.width(),
+						x: -$( window ).width( ),
 						opacity: 0
 					},
 					ease: "cubic-bezier(.43,.18,.81,1.07)",
-					nav_delay_inverse: false,
-					sequence: true
+					sequence: true,
+					nav_delay_inverse: false
 				}
 			},
 
@@ -255,23 +251,25 @@
 		 * @param options
 		 * @returns {*}
 		 */
-		init: function ( options ) {
+		init: function( options ) {
 
 			var opt = {};
 
 			jQuery.extend( opt, jQuery.thumbGallery.defaults, options );
 
-			return this.each( function () {
+			return this.each( function( ) {
 
 				var grid = this;
 				var $grid = jQuery( grid );
 
 				$grid.addClass( "tg-container" );
 
-				$grid.hide();
+				$grid.hide( );
 
 				grid.isAnimating = false;
 				grid.pageIndex = 0;
+
+				grid.id = Math.floor( Math.random( ) * 10000 );
 
 				grid.nav_effect = $grid.data( "nav_effect" ) || opt.nav_effect;
 				grid.nav_delay = $grid.data( "nav_delay" ) || opt.nav_delay;
@@ -291,29 +289,29 @@
 				grid.nav_show = typeof $grid.data( "nav_show" ) != "undefined" ? $grid.data( "nav_show" ) : opt.nav_show;
 				grid.clever_transition = typeof $grid.data( "clever_transition" ) != "undefined" ? $grid.data( "clever_transition" ) : opt.clever_transition;
 
-				jQuery.extend( opt, $grid.data() );
+				jQuery.extend( opt, $grid.data( ) );
 
 				grid.opt = opt;
 
-				grid.elements = $grid.children().clone( true );
-				$grid.children().hide();
+				grid.elements = $grid.children( ).clone( true );
+				$grid.children( ).hide( );
 
 
 				if ( grid.nav_pagination == 0 )
 					grid.nav_pagination = grid.elements.length;
 
-				grid.elements.each( function ( i ) {
+				grid.elements.each( function( i ) {
 					jQuery( this ).attr( "data-globalindex", i );
 				} );
 
-				grid.pages = [];
+				grid.pages = [ ];
 
 				grid.totPages = Math.ceil( grid.elements.length / grid.nav_pagination );
 
 				var thumbIdx = 0;
 
 				for ( var p = 0; p < grid.totPages; p++ ) {
-					var page = [];
+					var page = [ ];
 					for ( var x = 0; x < grid.nav_pagination; x++ ) {
 
 						if ( !grid.elements[ thumbIdx ] )
@@ -327,7 +325,7 @@
 				}
 
 				jQuery.thumbGallery.drawPage( grid, false );
-				jQuery( window ).resize();
+				jQuery( window ).resize( );
 			} )
 		},
 
@@ -336,7 +334,7 @@
 		 * @param el
 		 * @param applyEffect
 		 */
-		drawPage: function ( el, applyEffect ) {
+		drawPage: function( el, applyEffect ) {
 
 			if ( typeof applyEffect === "undefined" )
 				applyEffect = true;
@@ -352,21 +350,21 @@
 			var pageElements = grid.pages[ el.pageIndex ];
 			var $page = jQuery( "<ul/>" ).addClass( "thumb-grid" );
 
-			grid.setThumbsize = function ( el ) {
+			grid.setThumbsize = function( el ) {
 
 				if ( !$grid.is( ":visible" ) ) {
 
 					$grid.css( {
 						opacity: 0
-					} ).show();
-					grid.width = $grid.outerWidth();
-					$grid.hide().css( {
+					} ).show( );
+					grid.width = $grid.outerWidth( );
+					$grid.hide( ).css( {
 						opacity: 1
 					} );
 
 				} else {
 
-					grid.width = $grid.outerWidth();
+					grid.width = $grid.outerWidth( );
 
 				}
 
@@ -383,7 +381,7 @@
 
 				var h = w / grid.thumb_ratio;
 
-				el.each( function () {
+				el.each( function( ) {
 					jQuery( this ).css( {
 						width: w,
 						height: h
@@ -430,14 +428,20 @@
 						var captionBox = jQuery( "<div/>" ).addClass( "tg-captionBox" ).html( thumb.data( "caption" ) );
 						thumb_box.after( captionBox );
 					} else {
-						jQuery( ".tg-captionBox", thumb_box ).remove();
+						jQuery( ".tg-captionBox", thumb_box ).remove( );
 					}
 
 					thumbWrapper.data( "idx", x );
 
-					thumbWrapper.on( jQuery.thumbGallery.events.end, function () {
+					thumbWrapper.on( jQuery.thumbGallery.events.end, function( e ) {
+
+						if ( grid.isAnimating )
+							return;
+
 						var idx = jQuery( ".thumb_box", this ).data( "globalindex" );
 						jQuery.thumbGallery.drawSlideShow( grid, idx );
+
+						e.originalEvent.preventDefault( );
 					} );
 
 					if ( applyEffect ) {
@@ -446,6 +450,7 @@
 						} );
 
 						grid.direction = grid.direction || "next";
+
 						var transitionIn = jQuery.normalizeCss( jQuery.thumbGallery.transitions[ $grid.data( "nav_effect" ) ][ grid.direction ].in );
 						thumbWrapper.css( transitionIn );
 
@@ -462,19 +467,19 @@
 							skew: 0,
 							filter: " blur(0)"
 						} );
-						thumbWrapper.css( displayProperties ).show();
+						thumbWrapper.css( displayProperties ).show( );
 					}
 
 					$page.append( thumbWrapper );
 
-					//if(grid.nav_pagination == 1 ) {
-
-					jQuery( ".tg-next, .tg-prev", $page ).remove();
-					var next = jQuery( "<div/>" ).addClass( "tg-next tg-icon" ).on( jQuery.thumbGallery.events.end, function () {
+					jQuery( ".tg-next, .tg-prev", $page ).remove( );
+					var next = jQuery( "<div/>" ).addClass( "tg-next tg-icon" ).on( jQuery.thumbGallery.events.end, function( e ) {
 						jQuery.thumbGallery.nextPage( grid );
+						e.originalEvent.preventDefault( );
 					} );
-					var prev = jQuery( "<div/>" ).addClass( "tg-prev tg-icon" ).on( jQuery.thumbGallery.events.end, function () {
+					var prev = jQuery( "<div/>" ).addClass( "tg-prev tg-icon" ).on( jQuery.thumbGallery.events.end, function( e ) {
 						jQuery.thumbGallery.prevPage( grid );
+						e.originalEvent.preventDefault( );
 					} );
 
 					if ( grid.elements.length > grid.nav_pagination )
@@ -488,9 +493,10 @@
 			}
 
 			grid.setThumbsize( jQuery( ".thumbWrapper", $page ) );
-			jQuery( window ).off( "resize.thumbgallery" ).on( "resize.thumbgallery", function () {
+
+			jQuery( window ).off( "resize.thumbgallery_" + grid.id ).on( "resize.thumbgallery_" + grid.id, function( ) {
 				grid.setThumbsize( jQuery( ".thumbWrapper", $page ) );
-			} ).resize();
+			} ).resize( );
 
 			if ( applyEffect )
 				$page.addClass( "in" );
@@ -507,11 +513,11 @@
 					threshold: 75,
 					triggerOnTouchEnd: false,
 
-					swipeStatus: function ( event, phase, direction, distance ) {
+					swipeStatus: function( event, phase, direction, distance ) {
 
 						if ( phase == "move" ) {
-							event.preventDefault();
-							event.stopPropagation();
+							event.preventDefault( );
+							event.stopPropagation( );
 						}
 
 						if ( grid.isAnimating )
@@ -520,8 +526,8 @@
 
 						if ( phase == "end" ) {
 
-							event.preventDefault();
-							event.stopPropagation();
+							event.preventDefault( );
+							event.stopPropagation( );
 
 							if ( direction == "left" ) {
 
@@ -544,7 +550,7 @@
 
 			var ease = jQuery.thumbGallery.transitions[ $grid.data( "nav_effect" ) ][ grid.direction ].ease || grid.opt.ease;
 
-			setTimeout( function () {
+			setTimeout( function( ) {
 
 				var displayProperties = {
 					top: 0,
@@ -582,9 +588,9 @@
 					var transitionOut = jQuery.thumbGallery.transitions[ $grid.data( "nav_effect" ) ][ grid.direction ].out;
 					grid.nav.addClass( "waiting" );
 
-					elOut.CSSAnimate( transitionOut, grid.nav_timing, delayOut, ease, function () {
+					elOut.CSSAnimate( transitionOut, grid.nav_timing, delayOut, ease, function( ) {
 						if ( elOut.data( "islast" ) ) {
-							jQuery( ".out", $grid ).remove();
+							jQuery( ".out", $grid ).remove( );
 							grid.isAnimating = false;
 							grid.nav.removeClass( "waiting" );
 						}
@@ -592,30 +598,30 @@
 					delayOut += grid.nav_delay;
 				}
 
-				$grid.fadeIn();
+				$grid.fadeIn( );
 
 				if ( !applyEffect ) {
-					grid.height = $page.height();
+					grid.height = $page.height( );
 					$grid.height( grid.height );
 					jQuery.thumbGallery.buildIndex( grid );
 					grid.isAnimating = false;
 
 					if ( typeof grid.nav != "undefined" && grid.nav_show )
-						grid.nav.show();
+						grid.nav.show( );
 				}
 			}, 100 );
 
-			jQuery( window ).on( "resize.thumbGallery", function () {
-				grid.height = $page.height();
+			jQuery( window ).on( "resize.thumbGallery", function( ) {
+				grid.height = $page.height( );
 				$grid.height( grid.height );
-			} ).resize();
+			} ).resize( );
 
 		},
 		/**
 		 *
 		 * @param grid
 		 */
-		nextPage: function ( grid ) {
+		nextPage: function( grid ) {
 
 			if ( grid.isAnimating )
 				return;
@@ -641,7 +647,7 @@
 		 *
 		 * @param grid
 		 */
-		prevPage: function ( grid ) {
+		prevPage: function( grid ) {
 
 			if ( grid.isAnimating )
 				return;
@@ -667,10 +673,10 @@
 		 *
 		 * @param grid
 		 */
-		buildIndex: function ( grid ) {
+		buildIndex: function( grid ) {
 
 			var $grid = jQuery( grid );
-			jQuery( "#" + grid.id + "+ .thumbGridNav" ).remove();
+			jQuery( "#" + grid.id + "+ .thumbGridNav" ).remove( );
 
 			var nav = jQuery( "<nav/>" ).addClass( "thumbGridNav" );
 
@@ -684,16 +690,18 @@
 					idx: ( x - 1 )
 				} );
 				idxPlaceHolder.addClass( "indexEl" );
-				idxPlaceHolder.on( jQuery.thumbGallery.events.end, function () {
+				idxPlaceHolder.on( jQuery.thumbGallery.events.end, function( e ) {
 
 					var pageIndex = jQuery( this ).attr( "idx" );
 
 					grid.direction = grid.pageIndex < pageIndex ? "next" : "prev";
 
-					console.debug( "grid.isAnimating ", grid.isAnimating )
-					console.debug( "grid.pageIndex ", grid.pageIndex )
-					console.debug( "pageIndex ", pageIndex )
+					/*
+					 console.debug( "grid.isAnimating ", grid.isAnimating )
+					 console.debug( "grid.pageIndex ", grid.pageIndex )
+					 console.debug( "pageIndex ", pageIndex )
 
+					 */
 					if ( grid.isAnimating || grid.pageIndex == pageIndex )
 						return;
 
@@ -707,17 +715,20 @@
 					grid.pageIndex = pageIndex;
 					jQuery.thumbGallery.drawPage( grid );
 
-					console.debug( grid.pageIndex );
+					//					console.debug( grid.pageIndex );
 
 					jQuery( ".indexEl", nav ).removeClass( "sel" );
 					jQuery( ".indexEl", nav ).eq( grid.pageIndex ).addClass( "sel" );
+
+					e.preventDefault( );
+
 				} );
 
 				nav.append( idxPlaceHolder );
 				jQuery( ".indexEl", nav ).eq( grid.pageIndex ).addClass( "sel" );
 
 			}
-			nav.hide();
+			nav.hide( );
 
 			grid.nav = nav;
 
@@ -731,7 +742,7 @@
 		 * @param el
 		 * @param idx
 		 */
-		drawSlideShow: function ( el, idx ) {
+		drawSlideShow: function( el, idx ) {
 
 			jQuery( "body" ).css( {
 				overflow: "hidden"
@@ -743,21 +754,21 @@
 					opacity: 0
 				} ),
 				placeHolder = jQuery( "<div/>" ).addClass( "tg-placeHolder" ),
-				slideShowClose = jQuery( "<div/>" ).addClass( "tg-close tg-icon" ).on( jQuery.thumbGallery.events.end, function () {
+				slideShowClose = jQuery( "<div/>" ).addClass( "tg-close tg-icon" ).on( jQuery.thumbGallery.events.end, function( ) {
 					jQuery.thumbGallery.closeSlideShow( el, idx )
 				} ),
-				slideShowNext = jQuery( "<div/>" ).addClass( "tg-next tg-icon" ).on( jQuery.thumbGallery.events.end, function () {
-					grid.slideShow.next()
+				slideShowNext = jQuery( "<div/>" ).addClass( "tg-next tg-icon" ).on( jQuery.thumbGallery.events.end, function( ) {
+					grid.slideShow.next( )
 				} ),
-				slideShowPrev = jQuery( "<div/>" ).addClass( "tg-prev tg-icon" ).on( jQuery.thumbGallery.events.end, function () {
-					grid.slideShow.prev()
+				slideShowPrev = jQuery( "<div/>" ).addClass( "tg-prev tg-icon" ).on( jQuery.thumbGallery.events.end, function( ) {
+					grid.slideShow.prev( )
 				} ),
 				spinnerPh = jQuery( "<div/>" ).addClass( "tg-spinner" ),
 				$origin = $grid.find( "[data-globalindex=" + idx + "]" ).parent( "li" ),
-				pHleft = $origin.offset().left - jQuery( window ).scrollLeft(),
-				pHtop = $origin.offset().top - jQuery( window ).scrollTop(),
-				pHwidth = $origin.outerWidth(),
-				pHheight = $origin.outerHeight();
+				pHleft = $origin.offset( ).left - jQuery( window ).scrollLeft( ),
+				pHtop = $origin.offset( ).top - jQuery( window ).scrollTop( ),
+				pHwidth = $origin.outerWidth( ),
+				pHheight = $origin.outerHeight( );
 
 			grid.nav_effect = jQuery.thumbGallery.transitions[ grid.nav_effect ] || jQuery.thumbGallery.transitions[ "fade" ];
 			grid.nav_delay = $grid.data( "nav_delay" ) || 500;
@@ -802,13 +813,13 @@
 				spinner;
 
 			spinner = new Spinner( spinnerOpts ).spin( target );
-			spinnerPh.hide();
+			spinnerPh.hide( );
 			//spinnerPh.delay(800).fadeIn(1000);
 
 
 			grid.slideShow = {
 
-				init: function () {
+				init: function( ) {
 
 					grid.slideShow.goTo( false );
 					grid.slideShow.keyboard( true );
@@ -828,35 +839,35 @@
 				 *
 				 * @param on
 				 */
-				keyboard: function ( on ) {
+				keyboard: function( on ) {
 
 					if ( on ) {
-						jQuery( document ).on( "keydown.thumbGallery", function ( e ) {
+						jQuery( document ).on( "keydown.thumbGallery", function( e ) {
 
 							switch ( e.keyCode ) {
 
-							case 27: //Esc
-								jQuery.thumbGallery.closeSlideShow( el, idx );
-								e.preventDefault();
-								break;
+								case 27: //Esc
+									jQuery.thumbGallery.closeSlideShow( el, idx );
+									e.preventDefault( );
+									break;
 
-							case 32: //space
-								e.preventDefault();
-								break;
+								case 32: //space
+									e.preventDefault( );
+									break;
 
-							case 39: //arrow right
-								grid.slideShow.next();
-								e.preventDefault();
-								break;
+								case 39: //arrow right
+									grid.slideShow.next( );
+									e.preventDefault( );
+									break;
 
-							case 37: //arrow left
-								grid.slideShow.prev();
-								e.preventDefault();
-								break;
+								case 37: //arrow left
+									grid.slideShow.prev( );
+									e.preventDefault( );
+									break;
 							}
 						} );
 
-						jQuery( "body" ).on( "closeSlideShow", function () {
+						jQuery( "body" ).on( "closeSlideShow", function( ) {
 							grid.slideShow.keyboard( false );
 						} );
 
@@ -869,7 +880,7 @@
 				 *
 				 * @param animate
 				 */
-				goTo: function ( animate ) {
+				goTo: function( animate ) {
 
 					var oldImgWrapper = jQuery( ".tg-img-wrapper", placeHolder ).eq( 0 );
 					oldImgWrapper.removeClass( "in" );
@@ -918,7 +929,7 @@
 					if ( animate ) {
 
 						imgWrapper.css( jQuery.normalizeCss( grid.slideShow.effectNext.in ) );
-						grid.slideShow.spinner = setTimeout( function () {
+						grid.slideShow.spinner = setTimeout( function( ) {
 							spinner = new Spinner( spinnerOpts ).spin( target );
 							spinnerPh.fadeIn( 300 );
 						}, 1000 )
@@ -930,7 +941,7 @@
 						} );
 					}
 
-					var showContent = function () {
+					var showContent = function( ) {
 						if ( animate ) {
 							imgWrapper.css( jQuery.normalizeCss( grid.slideShow.effectNext.in ) );
 						} else {
@@ -942,8 +953,8 @@
 						}
 
 						clearTimeout( grid.slideShow.spinner );
-						spinnerPh.fadeOut( 300, function () {
-							spinnerPh.empty();
+						spinnerPh.fadeOut( 300, function( ) {
+							spinnerPh.empty( );
 						} );
 
 						var imageIndex = grid.opt.showIndexinFullscreen ? jQuery( "<span/>" ).addClass( "tg-image-index" ).html( ( idx + 1 ) + "/" + imagesList.length + " " ) : "";
@@ -955,13 +966,13 @@
 						if ( animate )
 							grid.isAnimating = true;
 
-						setTimeout( function () {
+						setTimeout( function( ) {
 							imgWrapper.CSSAnimate( displayProperties, grid.opt.gallery_timing, 50, grid.opt.ease );
-							oldImgWrapper.CSSAnimate( grid.slideShow.effect.out, grid.opt.gallery_timing, 80, grid.opt.ease, function () {
+							oldImgWrapper.CSSAnimate( grid.slideShow.effect.out, grid.opt.gallery_timing, 80, grid.opt.ease, function( ) {
 
 								grid.isAnimating = false;
 								oldImgWrapper.removeClass( "in" );
-								jQuery( ".tg-img-wrapper", placeHolder ).not( ".in" ).remove();
+								jQuery( ".tg-img-wrapper", placeHolder ).not( ".in" ).remove( );
 							} );
 						}, 50 );
 
@@ -969,7 +980,7 @@
 
 					if ( contentType == "image" ) {
 
-						img.one( "load", function () {
+						img.one( "load", function( ) {
 
 							var el = img.get( 0 );
 
@@ -978,7 +989,7 @@
 
 							el.loaded = true;
 
-							showContent();
+							showContent( );
 							imgContainer.css( {
 								backgroundImage: "url(" + imageToShowURL + ")",
 								backgroundSize: grid.gallery_cover && !jQuery.isMobile ? "cover" : "contain",
@@ -993,7 +1004,7 @@
 
 					} else if ( contentType == "video" ) {
 
-						showContent();
+						showContent( );
 						content = jQuery( "<iframe/>" ).attr( "src", videoToShowURL );
 						content.css( {
 							width: "100%",
@@ -1005,7 +1016,7 @@
 
 					} else {
 
-						showContent();
+						showContent( );
 						content = jQuery( "#" + contentToShowID ).clone( true );
 						content.css( {
 							width: "100%",
@@ -1020,7 +1031,7 @@
 				 *
 				 *
 				 */
-				next: function () {
+				next: function( ) {
 
 					grid.slideShow.effect = grid.slideShow.effectNext;
 
@@ -1038,7 +1049,7 @@
 				/**
 				 *
 				 */
-				prev: function () {
+				prev: function( ) {
 
 					grid.slideShow.effect = grid.slideShow.effectPrev;
 
@@ -1066,11 +1077,11 @@
 					threshold: 75,
 					triggerOnTouchEnd: false,
 
-					swipeStatus: function ( event, phase, direction, distance ) {
+					swipeStatus: function( event, phase, direction, distance ) {
 
 						if ( phase == "move" ) {
-							event.preventDefault();
-							event.stopPropagation();
+							event.preventDefault( );
+							event.stopPropagation( );
 						}
 
 						if ( grid.isAnimating )
@@ -1079,9 +1090,9 @@
 						if ( phase == "end" ) {
 
 							if ( direction == "left" ) {
-								grid.slideShow.next();
+								grid.slideShow.next( );
 							} else {
-								grid.slideShow.prev();
+								grid.slideShow.prev( );
 							}
 
 							if ( typeof grid.opt.onFullscreenChange == "function" )
@@ -1089,7 +1100,7 @@
 						}
 
 					},
-					swipe: function ( event, direction, distance, duration, fingerCount, fingerData ) {}
+					swipe: function( event, direction, distance, duration, fingerCount, fingerData ) {}
 
 				} );
 
@@ -1098,7 +1109,7 @@
 			jQuery( "body" ).append( overlay );
 			overlay.CSSAnimate( {
 				opacity: 1
-			}, 600, 300, function () {
+			}, 600, 300, function( ) {
 
 				placeHolder.CSSAnimate( {
 					width: "100%",
@@ -1106,7 +1117,7 @@
 					left: 0,
 					top: 0,
 					opacity: 1
-				}, 400, 0, grid.opt.ease, function () {
+				}, 400, 0, grid.opt.ease, function( ) {
 					grid.slideShow.init( grid );
 					jQuery( ".tg-icon", overlay ).fadeTo( 200, 1 );
 
@@ -1121,7 +1132,7 @@
 		 * @param el
 		 * @param idx
 		 */
-		closeSlideShow: function ( el, idx ) {
+		closeSlideShow: function( el, idx ) {
 
 			jQuery( "body" ).trigger( "closeSlideShow" );
 
@@ -1129,14 +1140,14 @@
 				$grid = jQuery( grid ),
 				origin = $grid.find( "[data-globalindex=" + idx + "]" )
 				.parents( "li" ),
-				pHleft = origin.offset()
+				pHleft = origin.offset( )
 				.left - jQuery( window )
-				.scrollLeft(),
-				pHtop = origin.offset()
+				.scrollLeft( ),
+				pHtop = origin.offset( )
 				.top - jQuery( window )
-				.scrollTop(),
-				pHwidth = origin.outerWidth(),
-				pHheight = origin.outerHeight();
+				.scrollTop( ),
+				pHwidth = origin.outerWidth( ),
+				pHheight = origin.outerHeight( );
 
 			jQuery( ".tg-overlay .tg-icon" ).fadeTo( 200, 0 );
 			jQuery( ".tg-placeHolder > div" ).fadeOut( 500 );
@@ -1146,12 +1157,12 @@
 				left: pHleft,
 				top: pHtop,
 				opacity: 1
-			}, 800, 400, grid.opt.ease, function () {
+			}, 800, 400, grid.opt.ease, function( ) {
 				var overlay = jQuery( ".tg-overlay" );
 				overlay.CSSAnimate( {
 					opacity: 0
-				}, 600, function () {
-					overlay.remove();
+				}, 600, function( ) {
+					overlay.remove( );
 					jQuery( "body" ).css( {
 						overflow: "auto"
 					} );
