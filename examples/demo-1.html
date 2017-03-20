@@ -223,9 +223,6 @@
 
 */
 
-    /* Initialize the gallery */
-    jQuery("#thumbGallery").thumbGallery();
-
     /* customizer */
     jQuery("#effect").on("change",function(){
         var x = $(this).val();
@@ -245,6 +242,10 @@
     if(jQuery.isMobile){
         jQuery("body").css({marginBottom: 140})
     }
+
+
+    /* Initialize the gallery */
+    jQuery("#thumbGallery").thumbGallery();
 
 
 </script>
