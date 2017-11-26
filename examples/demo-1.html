@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-<!--–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-  jquery.mb.components                                                                                                                              –
-                                                                                                                                                    –
-  file: demo-1.html                                                                                                                                 –
-  last modified: 06/06/15 1.01                                                                                                                      –
-                                                                                                                                                    –
-  Open Lab s.r.l., Florence - Italy                                                                                                                 –
-                                                                                                                                                    –
-  email: matteo@open-lab.com                                                                                                                        –
-  site: http://pupunzi.com                                                                                                                          –
-        http://open-lab.com                                                                                                                         –
-  blog: http://pupunzi.open-lab.com                                                                                                                 –
-  Q&A:  http://jquery.pupunzi.com                                                                                                                   –
-                                                                                                                                                    –
-  Licences: MIT, GPL                                                                                                                                –
-     http://www.opensource.org/licenses/mit-license.php                                                                                             –
-     http://www.gnu.org/licenses/gpl.html                                                                                                           –
-                                                                                                                                                    –
-  Copyright (c) 2001-2015. Matteo Bicocchi (Pupunzi);                                                                                               –
-  –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––-->
+<!--::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+  jquery.mb.components
+
+  file: demo-1.html
+  last modified: 25/11/17 20.37
+  Version:  {{ version }}
+  Build:  {{ buildnum }}
+
+  Open Lab s.r.l., Florence - Italy
+  email:  matteo@open-lab.com
+  blog: 	http://pupunzi.open-lab.com
+  site: 	http://pupunzi.com
+  	http://open-lab.com
+
+  Licences: MIT, GPL
+  http://www.opensource.org/licenses/mit-license.php
+  http://www.gnu.org/licenses/gpl.html
+
+  Copyright (c) 2001-2017. Matteo Bicocchi (Pupunzi)
+  :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
 
 <html>
 <head>
@@ -36,7 +36,7 @@
     <link href='http://fonts.googleapis.com/css?family=Lekton|Lobster' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="../dist/css/jquery.mb.thumbgallery.min.css?_v=1.3.1"/>
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="../dist/jquery.mb.thumbGallery.js?_v=1.3.1"></script>
 
     <style>
@@ -46,7 +46,6 @@
             min-height: 100%;
             margin: 0;
             padding: 0;
-            /*background: linear-gradient(135deg, #ffaa02 0%,#febf01 100%); *//* W3C */
             background: linear-gradient(135deg, #e58f27 0%, #f2be01 100%);
             font-family: Verdana, Arial, Helvetica, sans-serif;
         }
@@ -77,7 +76,6 @@
         /*custom overlay gradient */
 
         .tg-placeHolder{
-            /*background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);*/
             background: #000;
         }
 
@@ -97,7 +95,7 @@
             position: relative;
             margin: auto;
             width: 100%;
-            margin-bottom: 120px;
+            /*margin-bottom: 120px;*/
         }
 
         #customize input, #customize select {
@@ -125,7 +123,6 @@
             font-size: 13px;
             margin: 3px 0;
             padding: 3px 10px 3px 0;
-            /*width: 160px;*/
             display: inline-block;
             text-align: left;
             text-transform: uppercase;
@@ -171,11 +168,19 @@
              data-nav_delay="100"
              data-nav_timing="1000"
              data-nav_delay_inverse="1"
-             data-nav_pagination="3"
-             data-gallery_effect="fade_zoom"
-             data-gallery_fullscreenw="90%"
-             data-gallery_fullscreenh="100%"
-             data-gallery_cover="true">
+             data-nav_pagination="6"
+             data-gallery_effect="slide_horizontal"
+             data-gallery_fullscreen_w="90%"
+             data-gallery_fullscreen_h="100%"
+             data-gallery_timing="2000"
+
+             data-full_inline="true"
+             data-full_inline_height="600"
+
+             data-gallery_cover="true"
+             data-thumb_ratio=4/3
+             data-thumb_fit=false
+                >
 
             <img src="../dist/img/LR/01.jpg" data-highres="../dist/img/HR/01.jpg" data-caption="Parturient Bibendum Malesuada Etiam"/>
             <img src="../dist/img/LR/02.jpg" data-highres="../dist/img/HR/02.jpg" />
@@ -220,34 +225,30 @@
     jQuery.thumbGallery.transitions.zoomIn = {in: {scale: .1, opacity: 0}, out: {scale: 2, opacity: 0}, nav_delay_inverse: false};
     jQuery.thumbGallery.transitions.zoomOut  = {in: {scale: 2, opacity: 0}, out: {scale: .1, opacity: 0}, nav_delay_inverse: false};
     jQuery.thumbGallery.transitions.rotate  = {in: {scale: .1,rotate: 179, opacity: 0}, out: {scale: .1,rotate: -179, opacity: 0}, nav_delay_inverse: false};
-
 */
+
+    /* Initialize the gallery */
+    var myGallery = jQuery("#thumbGallery").thumbGallery();
 
     /* customizer */
     jQuery("#effect").on("change",function(){
         var x = $(this).val();
-        jQuery("#thumbGallery").data("nav_effect", x);
+        myGallery.data("nav_effect", x);
     });
 
     jQuery("#delay").on("change",function(){
         var x = parseFloat($(this).val());
-        jQuery("#thumbGallery").data("nav_delay", x);
+        myGallery.data("nav_delay", x);
     });
 
     jQuery("#timing").on("change",function(){
         var x = parseFloat($(this).val());
-        jQuery("#thumbGallery").data("nav_timing", x);
+        myGallery.data("nav_timing", x);
     });
 
     if(jQuery.isMobile){
         jQuery("body").css({marginBottom: 140})
     }
-
-
-    /* Initialize the gallery */
-    jQuery("#thumbGallery").thumbGallery();
-
-
 </script>
 </body>
 </html>

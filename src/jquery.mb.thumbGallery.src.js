@@ -1,28 +1,24 @@
-/*___________________________________________________________________________________________________________________________________________________
- _ jquery.mb.components                                                                                                                             _
- _                                                                                                                                                  _
- _ file: jquery.mb.thumbGallery.src.js                                                                                                              _
- _ last modified: 24/05/15 21.53                                                                                                                    _
- _                                                                                                                                                  _
- _ Open Lab s.r.l., Florence - Italy                                                                                                                _
- _                                                                                                                                                  _
- _ email: matteo@open-lab.com                                                                                                                       _
- _ site: http://pupunzi.com                                                                                                                         _
- _       http://open-lab.com                                                                                                                        _
- _ blog: http://pupunzi.open-lab.com                                                                                                                _
- _ Q&A:  http://jquery.pupunzi.com                                                                                                                  _
- _                                                                                                                                                  _
- _ Licences: MIT, GPL                                                                                                                               _
- _    http://www.opensource.org/licenses/mit-license.php                                                                                            _
- _    http://www.gnu.org/licenses/gpl.html                                                                                                          _
- _                                                                                                                                                  _
- _ Copyright (c) 2001-2015. Matteo Bicocchi (Pupunzi);                                                                                              _
- ___________________________________________________________________________________________________________________________________________________*/
+/*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+ jquery.mb.components
 
-/**
- *
- * @type {{name: string, version: string, build: string, author: string, defaults: {nav_effect: string, nav_delay: number, nav_timing: number, nav_pagination: number, nav_show: boolean, gallery_effectnext: string, gallery_effectprev: string, gallery_timing: number, gallery_cover: boolean, gallery_fullscreenw: string, gallery_fullscreenh: string, showIndexinFullscreen: boolean, ease: string, onSlide: onSlide, onFullScreen: onFullScreen, onExitFullScreen: onExitFullScreen, onFullscreenChange: onFullscreenChange}, transitions: {fade: {in: {opacity: number}, out: {opacity: number}}, slideUp: {in: {opacity: number}, out: {y: number, opacity: number}}, slideDown: {in: {opacity: number}, out: {y: number, opacity: number}}, slideLeft: {in: {opacity: number}, out: {x: number, opacity: number}, ease: string}, slideRight: {in: {opacity: number}, out: {x: number, opacity: number}, ease: string}, slideInverse: {in: {y: number, opacity: number}, out: {y: number, opacity: number}}, zoomIn: {in: {scale: number, opacity: number}, out: {scale: number, opacity: number}}, zoomOut: {in: {scale: number, opacity: number}, out: {scale: number, opacity: number}}, rotate: {in: {opacity: number}, out: {rotate: number, opacity: number}}, mobSlideLeft: {in: {opacity: number}, out: {x: number, opacity: number}, ease: string}, mobSlideRight: {in: {opacity: number}, out: {x: number, opacity: number}, ease: string}}, events: {start: string, move: string, end: string}, init: init, drawPage: drawPage, nextPage: nextPage, prevPage: prevPage, buildIndex: buildIndex, drawSlideShow: drawSlideShow, closeSlideShow: closeSlideShow}}
- */
+ file: jquery.mb.thumbGallery.src.js
+ last modified: 24/11/17 21.40
+ Version:  {{ version }}
+ Build:  {{ buildnum }}
+
+ Open Lab s.r.l., Florence - Italy
+ email:  matteo@open-lab.com
+ blog: 	http://pupunzi.open-lab.com
+ site: 	http://pupunzi.com
+ http://open-lab.com
+
+ Licences: MIT, GPL
+ http://www.opensource.org/licenses/mit-license.php
+ http://www.gnu.org/licenses/gpl.html
+
+ Copyright (c) 2001-2017. Matteo Bicocchi (Pupunzi)
+ :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+
 ( function( $ ) {
 	jQuery.thumbGallery = {
 
@@ -42,12 +38,17 @@
 			gallery_timing: 500,
 			gallery_cover: false,
 			thumb_fit: false,
-			gallery_fullscreenw: "100%",
-			gallery_fullscreenh: "100%",
+
+			full_inline: false,
+			full_inline_height: 500,
+
+			gallery_fullscreen_w: "100%",
+			gallery_fullscreen_h: "100%",
 			showIndexinFullscreen: false,
 			clever_transition: true,
 			ease: "cubic-bezier(0.19, 1, 0.22, 1)",
 			thumb_ratio: 1,
+
 
 			onSlide: function( grid ) {},
 			onFullScreen: function( grid ) {},
@@ -56,7 +57,6 @@
 		},
 
 		transitions: {
-
 			fade: {
 				prev: { in: {
 						opacity: 0
@@ -75,7 +75,6 @@
 					nav_delay_inverse: false
 				}
 			},
-
 			fade_zoom: {
 				prev: { in: {
 						x: "0",
@@ -100,7 +99,6 @@
 					nav_delay_inverse: false
 				}
 			},
-
 			slide_vertical: {
 				prev: { in: {
 						opacity: 0
@@ -121,7 +119,6 @@
 					nav_delay_inverse: false
 				}
 			},
-
 			slide_horizontal: {
 				prev: { in: {
 						opacity: 0
@@ -146,7 +143,6 @@
 					nav_delay_inverse: false
 				}
 			},
-
 			slide_inverse: {
 				prev: { in: {
 						y: 200,
@@ -169,7 +165,6 @@
 					nav_delay_inverse: false
 				}
 			},
-
 			zoom: {
 				prev: { in: {
 						scale: .1,
@@ -192,7 +187,6 @@
 					nav_delay_inverse: false
 				}
 			},
-
 			rotate: {
 				prev: { in: {
 						opacity: 0,
@@ -215,7 +209,6 @@
 					nav_delay_inverse: false
 				}
 			},
-
 			mobSlide: {
 				prev: { in: {
 						opacity: 0
@@ -240,6 +233,9 @@
 			}
 		},
 
+		/**
+		 * Mouse / touch events
+		 */
 		events: {
 			start: jQuery.isMobile ? "touchstart" : "mousedown",
 			move: jQuery.isMobile ? "touchmove" : "mousemove",
@@ -252,50 +248,46 @@
 		 * @returns {*}
 		 */
 		init: function( options ) {
-
-			var opt = {};
-
-			jQuery.extend( opt, jQuery.thumbGallery.defaults, options );
-
 			return this.each( function( ) {
-
 				var grid = this;
 				var $grid = jQuery( grid );
 
 				$grid.addClass( "tg-container" );
-
+				grid.opt = {};
+				jQuery.extend( grid.opt, jQuery.thumbGallery.defaults, options );
 				$grid.hide( );
 
 				grid.isAnimating = false;
 				grid.pageIndex = 0;
 
-				grid.id = Math.floor( Math.random( ) * 10000 );
+				grid.id = grid.id ? grid.id : "thumbGallery_" + new Date( ).getTime( );
+				grid.setAttribute( "gid", "thumbGallery_" + new Date( ).getTime( ) );
 
-				grid.nav_effect = $grid.data( "nav_effect" ) || opt.nav_effect;
-				grid.nav_delay = $grid.data( "nav_delay" ) || opt.nav_delay;
-				grid.nav_delay_inverse = $grid.data( "nav_delay_inverse" ) || opt.nav_delay_inverse;
+				grid.nav_effect = $grid.data( "nav_effect" ) || grid.opt.nav_effect;
+				grid.nav_delay = $grid.data( "nav_delay" ) || grid.opt.nav_delay;
+				grid.nav_delay_inverse = $grid.data( "nav_delay_inverse" ) || grid.opt.nav_delay_inverse;
 				grid.nav_timing = $grid.data( "nav_timing" ) || opt.nav_timing;
-				grid.nav_pagination = typeof $grid.data( "nav_pagination" ) != "undefined" ? $grid.data( "nav_pagination" ) : opt.nav_pagination;
+				grid.nav_pagination = typeof $grid.data( "nav_pagination" ) != "undefined" ? $grid.data( "nav_pagination" ) : grid.opt.nav_pagination;
 				grid.nav_pagination = jQuery.isMobile && !jQuery.isTablet ? 1 : grid.nav_pagination;
-				grid.gallery_fullscreenw = $grid.data( "gallery_fullscreenw" ) || opt.gallery_fullscreenw;
-				grid.gallery_fullscreenh = $grid.data( "gallery_fullscreenh" ) || opt.gallery_fullscreenh;
-				grid.gallery_cover = $grid.data( "gallery_cover" ) || opt.gallery_cover;
-				grid.thumb_fit = $grid.data( "thumb_fit" ) || opt.thumb_fit;
-				grid.thumb_ratio = eval( $grid.data( "thumb_ratio" ) ) || opt.thumb_ratio;
-
+				grid.gallery_fullscreen_w = $grid.data( "gallery_fullscreen_w" ) || grid.opt.gallery_fullscreen_w;
+				grid.gallery_fullscreen_h = $grid.data( "gallery_fullscreen_h" ) || grid.opt.gallery_fullscreen_h;
+				grid.gallery_cover = $grid.data( "gallery_cover" ) || grid.opt.gallery_cover;
+				grid.thumb_fit = $grid.data( "thumb_fit" ) || grid.opt.thumb_fit;
+				grid.thumb_ratio = eval( $grid.data( "thumb_ratio" ) ) || grid.opt.thumb_ratio;
 				grid.gallery_effect = $grid.data( "gallery_effect" ) || grid.nav_effect;
-
 				grid.gallery_timing = $grid.data( "gallery_timing" ) || 1000;
-				grid.nav_show = typeof $grid.data( "nav_show" ) != "undefined" ? $grid.data( "nav_show" ) : opt.nav_show;
-				grid.clever_transition = typeof $grid.data( "clever_transition" ) != "undefined" ? $grid.data( "clever_transition" ) : opt.clever_transition;
+				grid.nav_show = typeof $grid.data( "nav_show" ) != "undefined" ? $grid.data( "nav_show" ) : grid.opt.nav_show;
+				grid.clever_transition = typeof $grid.data( "clever_transition" ) != "undefined" ? $grid.data( "clever_transition" ) : grid.opt.clever_transition;
+				grid.full_inline = typeof $grid.data( "full_inline" ) != "undefined" ? $grid.data( "full_inline" ) : grid.opt.full_inline;
+				grid.full_inline_height = typeof $grid.data( "full_inline_height" ) != "undefined" ? parseFloat( $grid.data( "full_inline_height" ) ) : grid.opt.full_inline_height;
 
-				jQuery.extend( opt, $grid.data( ) );
+				if ( jQuery.isMobile )
+					grid.full_inline = false;
 
-				grid.opt = opt;
+				jQuery.extend( grid.opt, $grid.data( ) );
 
 				grid.elements = $grid.children( ).clone( true );
 				$grid.children( ).hide( );
-
 
 				if ( grid.nav_pagination == 0 )
 					grid.nav_pagination = grid.elements.length;
@@ -305,18 +297,13 @@
 				} );
 
 				grid.pages = [ ];
-
 				grid.totPages = Math.ceil( grid.elements.length / grid.nav_pagination );
-
 				var thumbIdx = 0;
-
 				for ( var p = 0; p < grid.totPages; p++ ) {
 					var page = [ ];
 					for ( var x = 0; x < grid.nav_pagination; x++ ) {
-
 						if ( !grid.elements[ thumbIdx ] )
 							break;
-
 						var thumb = grid.elements[ thumbIdx ];
 						page.push( thumb );
 						thumbIdx++;
@@ -325,8 +312,62 @@
 				}
 
 				jQuery.thumbGallery.drawPage( grid, false );
+
+				if ( grid.full_inline )
+					jQuery.thumbGallery.drawFullInline( grid );
+
 				jQuery( window ).resize( );
-			} )
+
+			} );
+		},
+		/**
+		 *
+		 * @param el
+		 */
+		drawFullInline: function( el ) {
+			var grid = el;
+			var $grid = jQuery( grid );
+			/* Create the full-image container*/
+			grid.fullInlineBox = jQuery( "<div/>" ).addClass( "inline-full-box" );
+			grid.fullInlineBox.css( {
+				height: grid.full_inline_height,
+				width: "100%",
+				position: "absolute",
+				padding: 5,
+				top: 0,
+				left: 0
+			} );
+
+			/* Create the full-image*/
+			grid.fullInlineImg = jQuery( "<div/>" ).addClass( "inline-full-img" );
+			var fullImage_src = $( grid.pages[ 0 ][ 0 ] ).data( "highres" );
+			grid.fullInlineImg.css( {
+				height: "calc(100% - 10px)",
+				width: "calc(100% - 10px)",
+				top: 0,
+				left: 0,
+				right: 0,
+				bottom: 0,
+				margin: "auto",
+				position: "absolute",
+				background: "#000",
+				backgroundImage: "url(" + fullImage_src + ")",
+				backgroundSize: grid.thumb_fit ? "contain" : "cover",
+				backgroundRepeat: "no-repeat",
+				backgroundPosition: "center center"
+			} );
+
+			jQuery.thumbGallery.showFullInline( grid, 0 );
+
+			/* Set the correct height to the gallery*/
+			/*
+						$grid.css( {
+							height: grid.full_inline_height + ( grid.thumbSize.h + 5 )
+						} );
+			*/
+
+			grid.fullInlineBox.prepend( grid.fullInlineImg );
+			$grid.prepend( grid.fullInlineBox );
 		},
 
 		/**
@@ -344,61 +385,18 @@
 
 			grid.nav_delay = $grid.data( "nav_delay" ) || 100;
 			grid.nav_delay_inverse = $grid.data( "nav_delay_inverse" ) || 0;
-			grid.nav_timing = $grid.data( "nav_timing" ) || 1000;
+			grid.nav_timing = $grid.data( "nav_timing" ) || 2000;
 			grid.isAnimating = true;
-
 			var pageElements = grid.pages[ el.pageIndex ];
 			var $page = jQuery( "<ul/>" ).addClass( "thumb-grid" );
-
-			grid.setThumbsize = function( el ) {
-
-				if ( !$grid.is( ":visible" ) ) {
-
-					$grid.css( {
-						opacity: 0
-					} ).show( );
-					grid.width = $grid.outerWidth( );
-					$grid.hide( ).css( {
-						opacity: 1
-					} );
-
-				} else {
-
-					grid.width = $grid.outerWidth( );
-
-				}
-
-				var w = ( grid.width / grid.nav_pagination ) - ( grid.nav_pagination == 1 ? 0 : 10 );
-
-				if ( grid.nav_pagination > 6 )
-					w = ( ( grid.width * 2 ) / grid.nav_pagination ) - 10;
-
-				if ( grid.nav_pagination > 8 )
-					w = ( ( grid.width * 2.5 ) / grid.nav_pagination ) - 10;
-
-				if ( grid.width < 600 && grid.nav_pagination > 3 )
-					w = ( grid.width / 2 ) - 10;
-
-				var h = w / grid.thumb_ratio;
-
-				el.each( function( ) {
-					jQuery( this ).css( {
-						width: w,
-						height: h
-					} );
-				} );
-				return {
-					w: w,
-					h: h
-				};
-			};
-
+			grid.page = $page;
+			if ( grid.full_inline )
+				$page.addClass( "full-inline" );
 			if ( typeof grid.opt.onSlide == "function" ) {
 				grid.opt.onSlide( grid )
 			}
 
 			for ( var x = 0; x < grid.nav_pagination; x++ ) {
-
 				var thumb = jQuery( pageElements[ x ] );
 				var thumb_box = jQuery( "<div/>" ).addClass( "thumb_box" );
 				var thumb_src = jQuery( pageElements[ x ] ).attr( "src" );
@@ -423,24 +421,24 @@
 
 				if ( thumb.length ) {
 					var thumbWrapper = jQuery( "<li/>" ).addClass( "thumbWrapper" ).append( thumb_box );
-
 					if ( grid.nav_pagination == 1 && thumb.data( "caption" ) ) {
 						var captionBox = jQuery( "<div/>" ).addClass( "tg-captionBox" ).html( thumb.data( "caption" ) );
 						thumb_box.after( captionBox );
 					} else {
 						jQuery( ".tg-captionBox", thumb_box ).remove( );
 					}
-
 					thumbWrapper.data( "idx", x );
-
 					thumbWrapper.on( jQuery.thumbGallery.events.end, function( e ) {
-
 						if ( grid.isAnimating )
 							return;
 
 						var idx = jQuery( ".thumb_box", this ).data( "globalindex" );
-						jQuery.thumbGallery.drawSlideShow( grid, idx );
 
+						if ( grid.full_inline ) {
+							jQuery.thumbGallery.showFullInline( grid, idx );
+						} else {
+							jQuery.thumbGallery.drawSlideShow( grid, idx );
+						}
 						e.originalEvent.preventDefault( );
 					} );
 
@@ -448,14 +446,10 @@
 						thumbWrapper.css( {
 							opacity: 0
 						} );
-
 						grid.direction = grid.direction || "next";
-
 						var transitionIn = jQuery.normalizeCss( jQuery.thumbGallery.transitions[ $grid.data( "nav_effect" ) ][ grid.direction ].in );
 						thumbWrapper.css( transitionIn );
-
 					} else {
-
 						var displayProperties = jQuery.normalizeCss( {
 							top: 0,
 							left: 0,
@@ -469,9 +463,7 @@
 						} );
 						thumbWrapper.css( displayProperties ).show( );
 					}
-
 					$page.append( thumbWrapper );
-
 					jQuery( ".tg-next, .tg-prev", $page ).remove( );
 					var next = jQuery( "<div/>" ).addClass( "tg-next tg-icon" ).on( jQuery.thumbGallery.events.end, function( e ) {
 						jQuery.thumbGallery.nextPage( grid );
@@ -481,38 +473,34 @@
 						jQuery.thumbGallery.prevPage( grid );
 						e.originalEvent.preventDefault( );
 					} );
-
 					if ( grid.elements.length > grid.nav_pagination )
 						$page.append( next ).append( prev );
-
 					$page.addClass( "active" );
-
 				} else {
 					break;
 				}
 			}
-
-			grid.setThumbsize( jQuery( ".thumbWrapper", $page ) );
-
+			grid.thumbSize = jQuery.thumbGallery.setThumbSize( grid, jQuery( ".thumbWrapper", $page ) );
 			jQuery( window ).off( "resize.thumbgallery_" + grid.id ).on( "resize.thumbgallery_" + grid.id, function( ) {
-				grid.setThumbsize( jQuery( ".thumbWrapper", $page ) );
+
+				var el = jQuery( ".thumbWrapper", $page );
+				grid.thumbSize = jQuery.thumbGallery.setThumbSize( grid, el );
+				$grid.css( {
+					height: grid.full_inline ? grid.full_inline_height + ( grid.thumbSize.h + 5 ) : grid.thumbSize.h
+				} );
+
 			} ).resize( );
 
 			if ( applyEffect )
 				$page.addClass( "in" );
 
 			$grid.find( ".thumb-grid" ).addClass( "out" ).removeClass( "in" );
-
 			$grid.prepend( $page );
-
 			if ( jQuery.isMobile ) {
-
 				$page.swipe( {
-
 					allowPageScroll: "auto",
 					threshold: 75,
 					triggerOnTouchEnd: false,
-
 					swipeStatus: function( event, phase, direction, distance ) {
 
 						if ( phase == "move" ) {
@@ -522,7 +510,6 @@
 
 						if ( grid.isAnimating )
 							return;
-
 
 						if ( phase == "end" ) {
 
@@ -543,7 +530,6 @@
 						}
 					}
 				} );
-
 			}
 
 			grid.direction = grid.direction || "next";
@@ -601,8 +587,7 @@
 				$grid.fadeIn( );
 
 				if ( !applyEffect ) {
-					grid.height = $page.height( );
-					$grid.height( grid.height );
+					//$grid.height( $page.height( ) );
 					jQuery.thumbGallery.buildIndex( grid );
 					grid.isAnimating = false;
 
@@ -612,11 +597,59 @@
 			}, 100 );
 
 			jQuery( window ).on( "resize.thumbGallery", function( ) {
-				grid.height = $page.height( );
-				$grid.height( grid.height );
+				//$grid.height( $page.height( ) );
 			} ).resize( );
-
 		},
+
+		/**
+		 *
+		 * @param grid
+		 * @param el
+		 * @returns {{w: number, h: number}}
+		 */
+		setThumbSize: function( grid, el ) {
+			var $grid = jQuery( grid );
+			if ( !$grid.is( ":visible" ) ) {
+				$grid.css( {
+					opacity: 0
+				} ).show( );
+				grid.width = $grid.outerWidth( );
+				$grid.hide( ).css( {
+					opacity: 1
+				} );
+			} else {
+				grid.width = $grid.outerWidth( );
+			}
+
+			var w = ( grid.width / grid.nav_pagination ) - ( grid.nav_pagination == 1 ? 0 : 10 );
+			if ( grid.nav_pagination > 6 )
+				w = ( ( grid.width * 2 ) / grid.nav_pagination ) - 10;
+			if ( grid.nav_pagination > 8 )
+				w = ( ( grid.width * 2.5 ) / grid.nav_pagination ) - 10;
+			if ( grid.width < 600 && grid.nav_pagination > 3 )
+				w = ( grid.width / 2 ) - 10;
+
+			var h = w / grid.thumb_ratio;
+
+			el.each( function( ) {
+				jQuery( this ).css( {
+					width: w,
+					height: h
+				} );
+			} );
+			return {
+				w: w,
+				h: h
+			};
+		},
+
+		getThumbSize: function( grid, el ) {
+			return {
+				h: el.outerHeight( ),
+				w: jQuery( grid ).outerHeight( )
+			};
+		},
+
 		/**
 		 *
 		 * @param grid
@@ -691,49 +724,67 @@
 				} );
 				idxPlaceHolder.addClass( "indexEl" );
 				idxPlaceHolder.on( jQuery.thumbGallery.events.end, function( e ) {
-
 					var pageIndex = jQuery( this ).attr( "idx" );
-
 					grid.direction = grid.pageIndex < pageIndex ? "next" : "prev";
-
 					/*
 					 console.debug( "grid.isAnimating ", grid.isAnimating )
 					 console.debug( "grid.pageIndex ", grid.pageIndex )
 					 console.debug( "pageIndex ", pageIndex )
-
 					 */
 					if ( grid.isAnimating || grid.pageIndex == pageIndex )
 						return;
-
 					if ( jQuery.isMobile ) {
 						if ( pageIndex < grid.pageIndex )
 							grid.nav_effect = jQuery.thumbGallery.transitions[ "mobSlide" ][ "prev" ];
 						else
 							grid.nav_effect = jQuery.thumbGallery.transitions[ "mobSlide" ][ "next" ];
 					}
-
 					grid.pageIndex = pageIndex;
 					jQuery.thumbGallery.drawPage( grid );
-
-					//					console.debug( grid.pageIndex );
-
 					jQuery( ".indexEl", nav ).removeClass( "sel" );
 					jQuery( ".indexEl", nav ).eq( grid.pageIndex ).addClass( "sel" );
-
 					e.preventDefault( );
-
 				} );
-
 				nav.append( idxPlaceHolder );
 				jQuery( ".indexEl", nav ).eq( grid.pageIndex ).addClass( "sel" );
-
 			}
 			nav.hide( );
-
 			grid.nav = nav;
-
 			if ( grid.nav_show && grid.totPages < 20 )
 				$grid.after( nav );
+		},
+
+		/**
+		 *
+		 * @param idx
+		 */
+		showFullInline: function( el, idx ) {
+			var grid = el;
+			var newFullImg = grid.fullInlineImg.clone( ).css( {
+				opacity: 0
+			} );
+			newFullImg.attr( "idx", idx );
+
+			var imagesList = grid.elements;
+			var image = jQuery( imagesList[ idx ] );
+			var imageToShowURL = image.data( "highres" );
+			newFullImg.css( {
+				backgroundImage: "url(" + imageToShowURL + ")",
+				backgroundSize: grid.gallery_cover && !jQuery.isMobile ? "cover" : "contain",
+				backgroundPosition: "center center",
+				backgroundRepeat: "no-repeat",
+				zIndex: 1,
+				cursor: "pointer"
+			} );
+			grid.fullInlineBox.append( newFullImg );
+			newFullImg.CSSAnimate( {
+				opacity: 1
+			}, grid.gallery_timing / 1.5, "ease-out", function( ) {
+				grid.fullInlineImg.remove( );
+				grid.fullInlineImg = newFullImg;
+			} ).off( jQuery.thumbGallery.events.end ).on( jQuery.thumbGallery.events.end, function( ) {
+				jQuery.thumbGallery.drawSlideShow( grid, grid.fullInlineImg.attr( "idx" ) );
+			} )
 
 		},
 
@@ -743,36 +794,37 @@
 		 * @param idx
 		 */
 		drawSlideShow: function( el, idx ) {
-
 			jQuery( "body" ).css( {
 				overflow: "hidden"
 			} ).trigger( "drawSlideShow" );
 
-			var grid = el,
-				$grid = jQuery( grid ),
-				overlay = jQuery( "<div/>" ).addClass( "tg-overlay" ).css( {
-					opacity: 0
-				} ),
-				placeHolder = jQuery( "<div/>" ).addClass( "tg-placeHolder" ),
-				slideShowClose = jQuery( "<div/>" ).addClass( "tg-close tg-icon" ).on( jQuery.thumbGallery.events.end, function( ) {
-					jQuery.thumbGallery.closeSlideShow( el, idx )
-				} ),
-				slideShowNext = jQuery( "<div/>" ).addClass( "tg-next tg-icon" ).on( jQuery.thumbGallery.events.end, function( ) {
-					grid.slideShow.next( )
-				} ),
-				slideShowPrev = jQuery( "<div/>" ).addClass( "tg-prev tg-icon" ).on( jQuery.thumbGallery.events.end, function( ) {
-					grid.slideShow.prev( )
-				} ),
-				spinnerPh = jQuery( "<div/>" ).addClass( "tg-spinner" ),
-				$origin = $grid.find( "[data-globalindex=" + idx + "]" ).parent( "li" ),
-				pHleft = $origin.offset( ).left - jQuery( window ).scrollLeft( ),
-				pHtop = $origin.offset( ).top - jQuery( window ).scrollTop( ),
-				pHwidth = $origin.outerWidth( ),
-				pHheight = $origin.outerHeight( );
+			var grid = el;
+			var $grid = jQuery( grid );
+			var overlay = jQuery( "<div/>" ).addClass( "tg-overlay" ).css( {
+				opacity: 0
+			} );
+			var placeHolder = jQuery( "<div/>" ).addClass( "tg-placeHolder" );
+			var slideShowClose = jQuery( "<div/>" ).addClass( "tg-close tg-icon" ).on( jQuery.thumbGallery.events.end, function( ) {
+				jQuery.thumbGallery.closeSlideShow( el, idx )
+			} );
+			var slideShowNext = jQuery( "<div/>" ).addClass( "tg-next tg-icon" ).on( jQuery.thumbGallery.events.end, function( ) {
+				grid.slideShow.next( )
+			} );
+			var slideShowPrev = jQuery( "<div/>" ).addClass( "tg-prev tg-icon" ).on( jQuery.thumbGallery.events.end, function( ) {
+				grid.slideShow.prev( )
+			} );
+			var spinnerPh = jQuery( "<div/>" ).addClass( "tg-spinner" );
+			var $origin = $grid.find( "[data-globalindex=" + idx + "]" ).parent( "li" );
+			console.debug( idx, $origin );
+			var pHleft = $origin.offset( ).left - jQuery( window ).scrollLeft( );
+			var pHtop = $origin.offset( ).top - jQuery( window ).scrollTop( );
+			var pHwidth = $origin.outerWidth( );
+			var pHheight = $origin.outerHeight( );
+
 
 			grid.nav_effect = jQuery.thumbGallery.transitions[ grid.nav_effect ] || jQuery.thumbGallery.transitions[ "fade" ];
 			grid.nav_delay = $grid.data( "nav_delay" ) || 500;
-			grid.nav_timing = $grid.data( "nav_timing" ) || 1000;
+			grid.nav_timing = parseFloat( $grid.data( "nav_timing" ) ) * 2 || 3000;
 
 			grid.slideShowIdx = idx;
 
@@ -903,8 +955,8 @@
 						left: 0,
 						bottom: 0,
 						right: 0,
-						width: grid.gallery_fullscreenw,
-						height: grid.gallery_fullscreenh,
+						width: grid.gallery_fullscreen_w,
+						height: grid.gallery_fullscreen_h,
 						margin: "auto"
 					} );
 
@@ -968,7 +1020,7 @@
 
 						setTimeout( function( ) {
 							imgWrapper.CSSAnimate( displayProperties, grid.opt.gallery_timing, 50, grid.opt.ease );
-							oldImgWrapper.CSSAnimate( grid.slideShow.effect.out, grid.opt.gallery_timing, 80, grid.opt.ease, function( ) {
+							oldImgWrapper.CSSAnimate( grid.slideShow.effect.out, grid.opt.gallery_timing, 120, grid.opt.ease, function( ) {
 
 								grid.isAnimating = false;
 								oldImgWrapper.removeClass( "in" );
@@ -1003,7 +1055,6 @@
 
 
 					} else if ( contentType == "video" ) {
-
 						showContent( );
 						content = jQuery( "<iframe/>" ).attr( "src", videoToShowURL );
 						content.css( {
@@ -1175,7 +1226,6 @@
 
 		}
 	};
+
+	jQuery.fn.thumbGallery = jQuery.thumbGallery.init;
 } )( jQuery );
-
-
-jQuery.fn.thumbGallery = jQuery.thumbGallery.init;

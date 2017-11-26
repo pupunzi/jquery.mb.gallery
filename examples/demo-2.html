@@ -1,25 +1,24 @@
 <!DOCTYPE html>
-<!--–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-  jquery.mb.components                                                                                                                              –
-                                                                                                                                                    –
-  file: demo-1.html                                                                                                                                 –
-  last modified: 06/06/15 1.01                                                                                                                      –
-                                                                                                                                                    –
-  Open Lab s.r.l., Florence - Italy                                                                                                                 –
-                                                                                                                                                    –
-  email: matteo@open-lab.com                                                                                                                        –
-  site: http://pupunzi.com                                                                                                                          –
-        http://open-lab.com                                                                                                                         –
-  blog: http://pupunzi.open-lab.com                                                                                                                 –
-  Q&A:  http://jquery.pupunzi.com                                                                                                                   –
-                                                                                                                                                    –
-  Licences: MIT, GPL                                                                                                                                –
-     http://www.opensource.org/licenses/mit-license.php                                                                                             –
-     http://www.gnu.org/licenses/gpl.html                                                                                                           –
-                                                                                                                                                    –
-  Copyright (c) 2001-2015. Matteo Bicocchi (Pupunzi);                                                                                               –
-  –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––-->
+<!--::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+  jquery.mb.components
 
+  file: demo-2.html
+  last modified: 24/11/17 21.42
+  Version:  {{ version }}
+  Build:  {{ buildnum }}
+
+  Open Lab s.r.l., Florence - Italy
+  email:  matteo@open-lab.com
+  blog: 	http://pupunzi.open-lab.com
+  site: 	http://pupunzi.com
+  	http://open-lab.com
+
+  Licences: MIT, GPL
+  http://www.opensource.org/licenses/mit-license.php
+  http://www.gnu.org/licenses/gpl.html
+
+  Copyright (c) 2001-2017. Matteo Bicocchi (Pupunzi)
+  :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
 <html>
 <head>
     <meta charset="UTF-8"/>
@@ -36,7 +35,7 @@
     <link href='http://fonts.googleapis.com/css?family=Lekton|Lobster' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="../dist/css/jquery.mb.thumbgallery.min.css?_v=1.3.1"/>
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
     <script src="../dist/jquery.mb.thumbGallery.js?_v=1.3.1"></script>
 
     <style>
@@ -212,30 +211,29 @@
         $( "#wrapper" ).prepend( logo ), $( "#logo" ).fadeIn()
     }
 
-
     /* Initialize the gallery */
-    jQuery("#thumbGallery").thumbGallery();
+   var myGallery = jQuery("#thumbGallery").thumbGallery();
 
     /* customizer */
     jQuery("#effect").on("change",function(){
         var x = $(this).val();
-        jQuery("#thumbGallery").data("nav_effect", x);
+        myGallery.data("nav_effect", x);
+
     });
 
     jQuery("#delay").on("change",function(){
         var x = parseFloat($(this).val());
-        jQuery("#thumbGallery").data("nav_delay", x);
+        myGallery.data("nav_delay", x);
     });
 
     jQuery("#timing").on("change",function(){
         var x = parseFloat($(this).val());
-        jQuery("#thumbGallery").data("nav_timing", x);
+        myGallery.data("nav_timing", x);
     });
 
     if(jQuery.isMobile){
         jQuery("body").css({marginBottom: 140})
     }
-
 
 </script>
 </body>

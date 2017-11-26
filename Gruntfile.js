@@ -1,23 +1,23 @@
-/*___________________________________________________________________________________________________________________________________________________
- _ jquery.mb.components                                                                                                                             _
- _                                                                                                                                                  _
- _ file: Gruntfile.js                                                                                                                               _
- _ last modified: 24/05/15 20.15                                                                                                                    _
- _                                                                                                                                                  _
- _ Open Lab s.r.l., Florence - Italy                                                                                                                _
- _                                                                                                                                                  _
- _ email: matteo@open-lab.com                                                                                                                       _
- _ site: http://pupunzi.com                                                                                                                         _
- _       http://open-lab.com                                                                                                                        _
- _ blog: http://pupunzi.open-lab.com                                                                                                                _
- _ Q&A:  http://jquery.pupunzi.com                                                                                                                  _
- _                                                                                                                                                  _
- _ Licences: MIT, GPL                                                                                                                               _
- _    http://www.opensource.org/licenses/mit-license.php                                                                                            _
- _    http://www.gnu.org/licenses/gpl.html                                                                                                          _
- _                                                                                                                                                  _
- _ Copyright (c) 2001-2015. Matteo Bicocchi (Pupunzi);                                                                                              _
- ___________________________________________________________________________________________________________________________________________________*/
+/*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+ jquery.mb.components
+
+ file: Gruntfile.js
+ last modified: 25/11/17 19.13
+ Version:  {{ version }}
+ Build:  {{ buildnum }}
+
+ Open Lab s.r.l., Florence - Italy
+ email:  matteo@open-lab.com
+ blog: 	http://pupunzi.open-lab.com
+ site: 	http://pupunzi.com
+ 	http://open-lab.com
+
+ Licences: MIT, GPL
+ http://www.opensource.org/licenses/mit-license.php
+ http://www.gnu.org/licenses/gpl.html
+
+ Copyright (c) 2001-2017. Matteo Bicocchi (Pupunzi)
+ :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
 
 module.exports = function(grunt) {
 
@@ -30,6 +30,7 @@ module.exports = function(grunt) {
 					{flatten: true, expand: true, cwd: '../jquery.mb.browser/inc/', src: ['jquery.mb.browser.min.js'], dest: 'src/dep/'},
 					{flatten: true, expand: true, cwd: '../jquery.mb.CSSAnimate/inc/', src: ['jquery.mb.CSSAnimate.min.js'], dest: 'src/dep/'},
 					{flatten: false, expand: true, cwd: 'src/css/font/', src: ['**'],  dest: 'dist/css/font/'},
+//					{flatten: false, expand: true, cwd: 'src/img/', src: ['**'],  dest: 'dist/img/'},
 					{flatten: true, expand: true, cwd: 'src/', src: ['index.tmpl'], dest: 'dist/',
 						rename: function(dest, src) {
 							return dest + src.replace('.tmpl','.html');
@@ -97,22 +98,28 @@ module.exports = function(grunt) {
 			}
 		},
 
-		imagemin: {
+		image: {
 			dynamic: {
 				options: {
-					optimizationLevel: 3,
-					svgoPlugins: [{ removeViewBox: false }]
+					optipng: false,
+					pngquant: false,
+					zopflipng: false,
+					jpegRecompress: ['--strip', '--quality', 'medium', '--min', 40, '--max', 80],
+					mozjpeg: false,
+					guetzli: false,
+					gifsicle: false,
+					svgo: false
 				},
 				files: [{
 					expand: true,
-					cwd: '/src/assets/HR/',
+					cwd: 'src/assets/HR',
 					src: ['*.{png,jpg,gif}'],
-					dest: '/dist/img/HR'
+					dest: 'dist/img/HR'
 				},{
 					expand: true,
-					cwd: '/src/assets/LR/',
+					cwd: 'src/assets/LR',
 					src: ['*.{png,jpg,gif}'],
-					dest: '/dist/img/LR'
+					dest: 'dist/img/LR'
 				}
 				]
 			}
@@ -135,7 +142,7 @@ module.exports = function(grunt) {
 			options: {
 				html: {
 					braceStyle         : "collapse",
-					indentChar         : "\t",
+					indentChar         : " ",
 					indentScripts      : "keep",
 					indentSize         : 4,
 					maxPreserveNewlines: 3,
@@ -145,7 +152,7 @@ module.exports = function(grunt) {
 					wrapLineLength     : 0
 				},
 				css : {
-					indentChar         : "\t",
+					indentChar         : " ",
 					maxPreserveNewlines: 1,
 					preserveNewlines   : false,
 					indentSize         : 4
@@ -155,13 +162,13 @@ module.exports = function(grunt) {
 					breakChainedMethods    : false,
 					e4x                    : false,
 					evalCode               : false,
-					indentChar             : "\t",
+					indentChar             : " ",
 					indentLevel            : 0,
 					indentSize             : 4,
 					indentWithTabs         : true,
 					jslintHappy            : false,
-					keepArrayIndentation   : false,
-					keepFunctionIndentation: false,
+					keepArrayIndentation   : true,
+					keepFunctionIndentation: true,
 					maxPreserveNewlines    : 0,
 					preserveNewlines       : true,
 					spaceBeforeConditional : true,
@@ -177,7 +184,6 @@ module.exports = function(grunt) {
 	});
 
 	grunt.loadNpmTasks('grunt-include-replace');
-	grunt.loadNpmTasks('grunt-contrib-imagemin');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-concat');
@@ -185,6 +191,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks("grunt-jsbeautifier");
 	grunt.loadNpmTasks('grunt-build-number');
+	grunt.loadNpmTasks('grunt-image');
 
-	grunt.registerTask('default', ['buildnumber', 'copy','concat', 'uglify', 'cssmin', 'includereplace','imagemin', 'jsbeautifier']); //, 'imagemin'
+	grunt.registerTask('default', ['buildnumber', 'copy','concat', 'uglify', 'cssmin', 'includereplace', 'jsbeautifier']); //, 'image'
 };

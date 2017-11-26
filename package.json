@@ -23,7 +23,8 @@
   "docs": "https://github.com/pupunzi/jquery.mb.thumbGallery/wiki",
   "download": "https://github.com/pupunzi/jquery.mb.thumbGallery/",
   "dependencies": {
-    "jquery": ">=1.8"
+    "jquery": ">=1.8",
+    "mozjpeg": "^4.1.1"
   },
   "main": "dist/jquery.mb.thumbGallery.js",
   "scripts": {
@@ -39,13 +40,14 @@
     "grunt-contrib-concat": "^0.5.1",
     "grunt-contrib-copy": "^0.8.0",
     "grunt-contrib-cssmin": "^0.12.3",
-    "grunt-contrib-imagemin": "^0.9.4",
+    "grunt-contrib-imagemin": "^0.9.1",
     "grunt-contrib-uglify": "^0.9.1",
     "grunt-contrib-watch": "^0.6.1",
+    "grunt-image": "^4.1.0",
     "grunt-include-replace": "^3.0.0",
     "grunt-jsbeautifier": "^0.2.12",
     "minimatch": "^3.0.2"
   },
   "license": "MIT",
-  "buildnum": "703"
+  "buildnum": "845"
 }
