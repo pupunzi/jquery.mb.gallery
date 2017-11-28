@@ -29,7 +29,9 @@
 .tg-overlay,
 .tg-placeHolder,
 .tg-placeHolder div {
+    /*
     -webkit-perspective: 1000;
+    */
     -webkit-backface-visibility: hidden
 }
 
@@ -235,11 +237,12 @@ nav.thumbGridNav.waiting a:not(.sel) {
 
 .tg-placeHolder {
     background: #1e2123;
-    box-shadow: 0 0 5px rgba(0, 0, 0, .6) -webkit-perspective: 1000
+    box-shadow: 0 0 5px rgba(0, 0, 0, .6);
+    /*-webkit-perspective: 1000*/
 }
 
 .tg-placeHolder div {
-    -webkit-perspective: 1000
+    /*-webkit-perspective: 1000*/
 }
 
 .tg-close {
@@ -276,6 +279,11 @@ nav.thumbGridNav.waiting a:not(.sel) {
 .tg-next,
 .tg-prev {
     -webkit-transition: all .4s
+}
+
+.tg-next.disabled,
+.tg-prev.disabled {
+    opacity: .4 !important;
 }
 
 .tg-prev {
@@ -344,7 +352,7 @@ nav.thumbGridNav.waiting a:not(.sel) {
     left: 0;
     overflow: hidden;
     max-width: 100%;
-    -webkit-perspective: 1000
+    /*-webkit-perspective: 1000*/
 }
 
 .tg-img-wrapper label {

@@ -37,7 +37,7 @@
 			gallery_effect: "slide_horizontal",
 			gallery_timing: 500,
 			gallery_cover: false,
-			thumb_fit: false,
+			thumb_cover: true,
 
 			full_inline: false,
 			full_inline_height: 500,
@@ -167,21 +167,21 @@
 			},
 			zoom: {
 				prev: { in: {
-						scale: .1,
+						scale: 2,
 						opacity: 0
 					},
 					out: {
-						scale: 2,
+						scale: .2,
 						opacity: 0
 					},
 					nav_delay_inverse: false
 				},
 				next: { in: {
-						scale: 2,
+						scale: .2,
 						opacity: 0
 					},
 					out: {
-						scale: .1,
+						scale: 2,
 						opacity: 0
 					},
 					nav_delay_inverse: false
@@ -271,8 +271,8 @@
 				grid.nav_pagination = jQuery.isMobile && !jQuery.isTablet ? 1 : grid.nav_pagination;
 				grid.gallery_fullscreen_w = $grid.data( "gallery_fullscreen_w" ) || grid.opt.gallery_fullscreen_w;
 				grid.gallery_fullscreen_h = $grid.data( "gallery_fullscreen_h" ) || grid.opt.gallery_fullscreen_h;
-				grid.gallery_cover = $grid.data( "gallery_cover" ) || grid.opt.gallery_cover;
-				grid.thumb_fit = $grid.data( "thumb_fit" ) || grid.opt.thumb_fit;
+				grid.gallery_cover = typeof( $grid.data( "gallery_cover" ) ) != "undefined" ? $grid.data( "gallery_cover" ) : grid.opt.gallery_cover;
+				grid.thumb_cover = typeof( $grid.data( "thumb_cover" ) ) != "undefined" ? $grid.data( "thumb_cover" ) : grid.opt.thumb_cover;
 				grid.thumb_ratio = eval( $grid.data( "thumb_ratio" ) ) || grid.opt.thumb_ratio;
 				grid.gallery_effect = $grid.data( "gallery_effect" ) || grid.nav_effect;
 				grid.gallery_timing = $grid.data( "gallery_timing" ) || 1000;
@@ -352,7 +352,7 @@
 				position: "absolute",
 				background: "#000",
 				backgroundImage: "url(" + fullImage_src + ")",
-				backgroundSize: grid.thumb_fit ? "contain" : "cover",
+				backgroundSize: "cover",
 				backgroundRepeat: "no-repeat",
 				backgroundPosition: "center center"
 			} );
@@ -402,7 +402,7 @@
 				var thumb_src = jQuery( pageElements[ x ] ).attr( "src" );
 				thumb_box.css( {
 					backgroundImage: "url(" + thumb_src + ")",
-					backgroundSize: grid.thumb_fit ? "contain" : "cover",
+					backgroundSize: grid.thumb_cover ? "cover" : "contain",
 					backgroundRepeat: "no-repeat",
 					backgroundPosition: "center center"
 				} );
@@ -770,7 +770,7 @@
 			var imageToShowURL = image.data( "highres" );
 			newFullImg.css( {
 				backgroundImage: "url(" + imageToShowURL + ")",
-				backgroundSize: grid.gallery_cover && !jQuery.isMobile ? "cover" : "contain",
+				backgroundSize: "cover",
 				backgroundPosition: "center center",
 				backgroundRepeat: "no-repeat",
 				zIndex: 1,
@@ -815,12 +815,10 @@
 			} );
 			var spinnerPh = jQuery( "<div/>" ).addClass( "tg-spinner" );
 			var $origin = $grid.find( "[data-globalindex=" + idx + "]" ).parent( "li" );
-			console.debug( idx, $origin );
 			var pHleft = $origin.offset( ).left - jQuery( window ).scrollLeft( );
 			var pHtop = $origin.offset( ).top - jQuery( window ).scrollTop( );
 			var pHwidth = $origin.outerWidth( );
 			var pHheight = $origin.outerHeight( );
-
 
 			grid.nav_effect = jQuery.thumbGallery.transitions[ grid.nav_effect ] || jQuery.thumbGallery.transitions[ "fade" ];
 			grid.nav_delay = $grid.data( "nav_delay" ) || 500;
@@ -1017,30 +1015,24 @@
 
 						if ( animate )
 							grid.isAnimating = true;
-
 						setTimeout( function( ) {
 							imgWrapper.CSSAnimate( displayProperties, grid.opt.gallery_timing, 50, grid.opt.ease );
-							oldImgWrapper.CSSAnimate( grid.slideShow.effect.out, grid.opt.gallery_timing, 120, grid.opt.ease, function( ) {
-
+							oldImgWrapper.CSSAnimate( grid.slideShow.effect.out, grid.opt.gallery_timing, 0, grid.opt.ease, function( ) {
 								grid.isAnimating = false;
+								slideShowPrev.removeClass( "disabled" );
+								slideShowNext.removeClass( "disabled" );
 								oldImgWrapper.removeClass( "in" );
 								jQuery( ".tg-img-wrapper", placeHolder ).not( ".in" ).remove( );
 							} );
 						}, 50 );
-
 					};
 
 					if ( contentType == "image" ) {
-
 						img.one( "load", function( ) {
-
 							var el = img.get( 0 );
-
 							if ( el.loaded )
 								return;
-
 							el.loaded = true;
-
 							showContent( );
 							imgContainer.css( {
 								backgroundImage: "url(" + imageToShowURL + ")",
@@ -1052,7 +1044,6 @@
 						} ).attr( {
 							src: imageToShowURL
 						} );
-
 
 					} else if ( contentType == "video" ) {
 						showContent( );
@@ -1066,7 +1057,6 @@
 						imgContainer.html( content );
 
 					} else {
-
 						showContent( );
 						content = jQuery( "#" + contentToShowID ).clone( true );
 						content.css( {
@@ -1075,7 +1065,6 @@
 						} );
 						imgContainer.html( content );
 					}
-
 				},
 
 				/**
@@ -1083,11 +1072,13 @@
 				 *
 				 */
 				next: function( ) {
-
 					grid.slideShow.effect = grid.slideShow.effectNext;
 
-					if ( grid.isAnimating && jQuery.browser.msie )
+					if ( grid.isAnimating )
 						return;
+
+					slideShowPrev.addClass( "disabled" );
+					slideShowNext.addClass( "disabled" );
 
 					var imagesList = grid.elements;
 					++grid.slideShowIdx;
@@ -1101,11 +1092,12 @@
 				 *
 				 */
 				prev: function( ) {
-
 					grid.slideShow.effect = grid.slideShow.effectPrev;
-
-					if ( grid.isAnimating && jQuery.browser.msie )
+					if ( grid.isAnimating )
 						return;
+
+					slideShowPrev.addClass( "disabled" );
+					slideShowNext.addClass( "disabled" );
 
 					var imagesList = grid.elements;
 					--grid.slideShowIdx;
