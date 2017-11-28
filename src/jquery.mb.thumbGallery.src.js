@@ -171,13 +171,13 @@
 						opacity: 0
 					},
 					out: {
-						scale: .2,
+						scale: 0.1,
 						opacity: 0
 					},
 					nav_delay_inverse: false
 				},
 				next: { in: {
-						scale: .2,
+						scale: 0.1,
 						opacity: 0
 					},
 					out: {
@@ -726,11 +726,6 @@
 				idxPlaceHolder.on( jQuery.thumbGallery.events.end, function( e ) {
 					var pageIndex = jQuery( this ).attr( "idx" );
 					grid.direction = grid.pageIndex < pageIndex ? "next" : "prev";
-					/*
-					 console.debug( "grid.isAnimating ", grid.isAnimating )
-					 console.debug( "grid.pageIndex ", grid.pageIndex )
-					 console.debug( "pageIndex ", pageIndex )
-					 */
 					if ( grid.isAnimating || grid.pageIndex == pageIndex )
 						return;
 					if ( jQuery.isMobile ) {
@@ -977,12 +972,13 @@
 					};
 
 					if ( animate ) {
-
-						imgWrapper.css( jQuery.normalizeCss( grid.slideShow.effectNext.in ) );
+						var cssProp = jQuery.normalizeCss( grid.slideShow.effect.in );
+						imgWrapper.css( cssProp );
 						grid.slideShow.spinner = setTimeout( function( ) {
 							spinner = new Spinner( spinnerOpts ).spin( target );
 							spinnerPh.fadeIn( 300 );
 						}, 1000 )
+
 					} else {
 						displayProperties = jQuery.normalizeCss( displayProperties );
 						imgWrapper.css( displayProperties );
@@ -993,7 +989,7 @@
 
 					var showContent = function( ) {
 						if ( animate ) {
-							imgWrapper.css( jQuery.normalizeCss( grid.slideShow.effectNext.in ) );
+							imgWrapper.css( jQuery.normalizeCss( grid.slideShow.effect.in ) );
 						} else {
 							displayProperties = jQuery.normalizeCss( displayProperties );
 							imgWrapper.css( displayProperties );
@@ -1001,8 +997,8 @@
 								opacity: 0
 							} );
 						}
-
 						clearTimeout( grid.slideShow.spinner );
+
 						spinnerPh.fadeOut( 300, function( ) {
 							spinnerPh.empty( );
 						} );
@@ -1102,8 +1098,7 @@
 					var imagesList = grid.elements;
 					--grid.slideShowIdx;
 					if ( grid.slideShowIdx == -1 ) {
-						grid.slideShowIdx = jQuery( imagesList )
-							.length - 1;
+						grid.slideShowIdx = jQuery( imagesList ).length - 1;
 					}
 					grid.slideShow.goTo( true );
 				}
