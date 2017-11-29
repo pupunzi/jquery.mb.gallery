@@ -34,10 +34,10 @@
     <title>jquery.mb.thumbGallery</title>
 
     <link href='http://fonts.googleapis.com/css?family=Lekton|Lobster' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="css/jquery.mb.thumbgallery.min.css?_v={{ version }}" />
+    <link rel="stylesheet" type="text/css" href="css/jquery.mb.gallery.min.css?_v={{ version }}" />
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="jquery.mb.thumbGallery.min.js?_v={{ version }}"></script>
+    <script src="jquery.mb.gallery.min.js?_v={{ version }}"></script>
 
     <style>
     body,
@@ -69,7 +69,6 @@
     }
     
     .tg-placeHolder {
-        /*background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);*/
         background: #000;
     }
     
@@ -214,8 +213,8 @@
     }
 
     /* Extend or modify effects */
-    /* Initialize the gallery */
-    var myGallery = jQuery( "#thumbGallery" ).thumbGallery();
+    /* Initialize the mbGallery */
+    var myGallery = jQuery( "#thumbGallery" ).mbGallery();
 
     /* customizer */
     jQuery( "#effect" ).on( "change", function() {

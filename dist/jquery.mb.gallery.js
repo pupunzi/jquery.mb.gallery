@@ -1,8 +1,8 @@
 /*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
  jquery.mb.components
 
- file: jquery.mb.thumbGallery.src.js
- last modified: 24/11/17 21.40
+ file: jquery.mb.gallery.src.js
+ last modified: 29/11/17 20.16
  Version:  1.3.1
  Build:  {{ buildnum }}
 
@@ -10,7 +10,7 @@
  email:  matteo@open-lab.com
  blog: 	http://pupunzi.open-lab.com
  site: 	http://pupunzi.com
- http://open-lab.com
+ 	http://open-lab.com
 
  Licences: MIT, GPL
  http://www.opensource.org/licenses/mit-license.php
@@ -20,11 +20,11 @@
  :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
 
 ( function( $ ) {
-	jQuery.thumbGallery = {
+	jQuery.mbGallery = {
 
-		name: "jquery.mb.thumbGallery",
+		name: "jquery.mb.mbGallery",
 		version: "1.3.1",
-		build: "893",
+		build: "902",
 		author: "Matteo Bicocchi",
 
 		defaults: {
@@ -254,7 +254,7 @@
 
 				$grid.addClass( "tg-container" );
 				grid.opt = {};
-				jQuery.extend( grid.opt, jQuery.thumbGallery.defaults, options );
+				jQuery.extend( grid.opt, jQuery.mbGallery.defaults, options );
 				$grid.hide( );
 
 				grid.isAnimating = false;
@@ -311,10 +311,10 @@
 					grid.pages.push( page );
 				}
 
-				jQuery.thumbGallery.drawPage( grid, false );
+				jQuery.mbGallery.drawPage( grid, false );
 
 				if ( grid.full_inline )
-					jQuery.thumbGallery.drawFullInline( grid );
+					jQuery.mbGallery.drawFullInline( grid );
 
 				jQuery( window ).resize( );
 
@@ -357,9 +357,9 @@
 				backgroundPosition: "center center"
 			} );
 
-			jQuery.thumbGallery.showFullInline( grid, 0 );
+			jQuery.mbGallery.showFullInline( grid, 0 );
 
-			/* Set the correct height to the gallery*/
+			/* Set the correct height to the mbGallery*/
 			/*
 						$grid.css( {
 							height: grid.full_inline_height + ( grid.thumbSize.h + 5 )
@@ -428,16 +428,16 @@
 						jQuery( ".tg-captionBox", thumb_box ).remove( );
 					}
 					thumbWrapper.data( "idx", x );
-					thumbWrapper.on( jQuery.thumbGallery.events.end, function( e ) {
+					thumbWrapper.on( jQuery.mbGallery.events.end, function( e ) {
 						if ( grid.isAnimating )
 							return;
 
 						var idx = jQuery( ".thumb_box", this ).data( "globalindex" );
 
 						if ( grid.full_inline ) {
-							jQuery.thumbGallery.showFullInline( grid, idx );
+							jQuery.mbGallery.showFullInline( grid, idx );
 						} else {
-							jQuery.thumbGallery.drawSlideShow( grid, idx );
+							jQuery.mbGallery.drawSlideShow( grid, idx );
 						}
 						e.originalEvent.preventDefault( );
 					} );
@@ -447,7 +447,7 @@
 							opacity: 0
 						} );
 						grid.direction = grid.direction || "next";
-						var transitionIn = jQuery.normalizeCss( jQuery.thumbGallery.transitions[ $grid.data( "nav_effect" ) ][ grid.direction ].in );
+						var transitionIn = jQuery.normalizeCss( jQuery.mbGallery.transitions[ $grid.data( "nav_effect" ) ][ grid.direction ].in );
 						thumbWrapper.css( transitionIn );
 					} else {
 						var displayProperties = jQuery.normalizeCss( {
@@ -465,12 +465,12 @@
 					}
 					$page.append( thumbWrapper );
 					jQuery( ".tg-next, .tg-prev", $page ).remove( );
-					var next = jQuery( "<div/>" ).addClass( "tg-next tg-icon" ).on( jQuery.thumbGallery.events.end, function( e ) {
-						jQuery.thumbGallery.nextPage( grid );
+					var next = jQuery( "<div/>" ).addClass( "tg-next tg-icon" ).on( jQuery.mbGallery.events.end, function( e ) {
+						jQuery.mbGallery.nextPage( grid );
 						e.originalEvent.preventDefault( );
 					} );
-					var prev = jQuery( "<div/>" ).addClass( "tg-prev tg-icon" ).on( jQuery.thumbGallery.events.end, function( e ) {
-						jQuery.thumbGallery.prevPage( grid );
+					var prev = jQuery( "<div/>" ).addClass( "tg-prev tg-icon" ).on( jQuery.mbGallery.events.end, function( e ) {
+						jQuery.mbGallery.prevPage( grid );
 						e.originalEvent.preventDefault( );
 					} );
 					if ( grid.elements.length > grid.nav_pagination )
@@ -480,11 +480,11 @@
 					break;
 				}
 			}
-			grid.thumbSize = jQuery.thumbGallery.setThumbSize( grid, jQuery( ".thumbWrapper", $page ) );
+			grid.thumbSize = jQuery.mbGallery.setThumbSize( grid, jQuery( ".thumbWrapper", $page ) );
 			jQuery( window ).off( "resize.thumbgallery_" + grid.id ).on( "resize.thumbgallery_" + grid.id, function( ) {
 
 				var el = jQuery( ".thumbWrapper", $page );
-				grid.thumbSize = jQuery.thumbGallery.setThumbSize( grid, el );
+				grid.thumbSize = jQuery.mbGallery.setThumbSize( grid, el );
 				$grid.css( {
 					height: grid.full_inline ? grid.full_inline_height + ( grid.thumbSize.h + 5 ) : grid.thumbSize.h
 				} );
@@ -518,12 +518,12 @@
 
 							if ( direction == "left" ) {
 
-								grid.nav_effect = jQuery.thumbGallery.transitions[ "mobSlide" ];
-								jQuery.thumbGallery.nextPage( grid );
+								grid.nav_effect = jQuery.mbGallery.transitions[ "mobSlide" ];
+								jQuery.mbGallery.nextPage( grid );
 
 							} else if ( direction == "right" ) {
-								grid.nav_effect = jQuery.thumbGallery.transitions[ "mobSlide" ];
-								jQuery.thumbGallery.prevPage( grid );
+								grid.nav_effect = jQuery.mbGallery.transitions[ "mobSlide" ];
+								jQuery.mbGallery.prevPage( grid );
 							}
 
 							return false;
@@ -534,7 +534,7 @@
 
 			grid.direction = grid.direction || "next";
 
-			var ease = jQuery.thumbGallery.transitions[ $grid.data( "nav_effect" ) ][ grid.direction ].ease || grid.opt.ease;
+			var ease = jQuery.mbGallery.transitions[ $grid.data( "nav_effect" ) ][ grid.direction ].ease || grid.opt.ease;
 
 			setTimeout( function( ) {
 
@@ -551,8 +551,8 @@
 				};
 
 				// IN
-				var delayIn = jQuery.thumbGallery.transitions[ $grid.data( "nav_effect" ) ][ grid.direction ].sequence ? grid.nav_delay * 3 : 0;
-				var nav_delay_inverse = jQuery.thumbGallery.transitions[ $grid.data( "nav_effect" ) ][ grid.direction ].nav_delay_inverse;
+				var delayIn = jQuery.mbGallery.transitions[ $grid.data( "nav_effect" ) ][ grid.direction ].sequence ? grid.nav_delay * 3 : 0;
+				var nav_delay_inverse = jQuery.mbGallery.transitions[ $grid.data( "nav_effect" ) ][ grid.direction ].nav_delay_inverse;
 
 				for ( var i = 0; i < jQuery( ".in .thumbWrapper", $grid )
 					.length; i++ ) {
@@ -571,7 +571,7 @@
 
 					var elOut = jQuery( ".out .thumbWrapper", $grid ).eq( idxOut );
 					elOut.data( "islast", ( nav_delay_inverse ? idxOut == 0 : idxOut == jQuery( ".out .thumbWrapper", $grid ).length - 1 ) );
-					var transitionOut = jQuery.thumbGallery.transitions[ $grid.data( "nav_effect" ) ][ grid.direction ].out;
+					var transitionOut = jQuery.mbGallery.transitions[ $grid.data( "nav_effect" ) ][ grid.direction ].out;
 					grid.nav.addClass( "waiting" );
 
 					elOut.CSSAnimate( transitionOut, grid.nav_timing, delayOut, ease, function( ) {
@@ -588,7 +588,7 @@
 
 				if ( !applyEffect ) {
 					//$grid.height( $page.height( ) );
-					jQuery.thumbGallery.buildIndex( grid );
+					jQuery.mbGallery.buildIndex( grid );
 					grid.isAnimating = false;
 
 					if ( typeof grid.nav != "undefined" && grid.nav_show )
@@ -596,7 +596,7 @@
 				}
 			}, 100 );
 
-			jQuery( window ).on( "resize.thumbGallery", function( ) {
+			jQuery( window ).on( "resize.mbGallery", function( ) {
 				//$grid.height( $page.height( ) );
 			} ).resize( );
 		},
@@ -666,7 +666,7 @@
 			if ( grid.pageIndex > grid.totPages - 1 )
 				grid.pageIndex = 0;
 
-			jQuery.thumbGallery.drawPage( grid, true );
+			jQuery.mbGallery.drawPage( grid, true );
 
 			if ( !grid.nav.length )
 				return;
@@ -692,7 +692,7 @@
 			if ( grid.pageIndex < 0 )
 				grid.pageIndex = grid.totPages - 1;
 
-			jQuery.thumbGallery.drawPage( grid, true );
+			jQuery.mbGallery.drawPage( grid, true );
 
 			if ( !grid.nav.length )
 				return;
@@ -723,19 +723,19 @@
 					idx: ( x - 1 )
 				} );
 				idxPlaceHolder.addClass( "indexEl" );
-				idxPlaceHolder.on( jQuery.thumbGallery.events.end, function( e ) {
+				idxPlaceHolder.on( jQuery.mbGallery.events.end, function( e ) {
 					var pageIndex = jQuery( this ).attr( "idx" );
 					grid.direction = grid.pageIndex < pageIndex ? "next" : "prev";
 					if ( grid.isAnimating || grid.pageIndex == pageIndex )
 						return;
 					if ( jQuery.isMobile ) {
 						if ( pageIndex < grid.pageIndex )
-							grid.nav_effect = jQuery.thumbGallery.transitions[ "mobSlide" ][ "prev" ];
+							grid.nav_effect = jQuery.mbGallery.transitions[ "mobSlide" ][ "prev" ];
 						else
-							grid.nav_effect = jQuery.thumbGallery.transitions[ "mobSlide" ][ "next" ];
+							grid.nav_effect = jQuery.mbGallery.transitions[ "mobSlide" ][ "next" ];
 					}
 					grid.pageIndex = pageIndex;
-					jQuery.thumbGallery.drawPage( grid );
+					jQuery.mbGallery.drawPage( grid );
 					jQuery( ".indexEl", nav ).removeClass( "sel" );
 					jQuery( ".indexEl", nav ).eq( grid.pageIndex ).addClass( "sel" );
 					e.preventDefault( );
@@ -777,8 +777,8 @@
 			}, grid.gallery_timing / 1.5, "ease-out", function( ) {
 				grid.fullInlineImg.remove( );
 				grid.fullInlineImg = newFullImg;
-			} ).off( jQuery.thumbGallery.events.end ).on( jQuery.thumbGallery.events.end, function( ) {
-				jQuery.thumbGallery.drawSlideShow( grid, grid.fullInlineImg.attr( "idx" ) );
+			} ).off( jQuery.mbGallery.events.end ).on( jQuery.mbGallery.events.end, function( ) {
+				jQuery.mbGallery.drawSlideShow( grid, grid.fullInlineImg.attr( "idx" ) );
 			} )
 
 		},
@@ -799,13 +799,13 @@
 				opacity: 0
 			} );
 			var placeHolder = jQuery( "<div/>" ).addClass( "tg-placeHolder" );
-			var slideShowClose = jQuery( "<div/>" ).addClass( "tg-close tg-icon" ).on( jQuery.thumbGallery.events.end, function( ) {
-				jQuery.thumbGallery.closeSlideShow( el, idx )
+			var slideShowClose = jQuery( "<div/>" ).addClass( "tg-close tg-icon" ).on( jQuery.mbGallery.events.end, function( ) {
+				jQuery.mbGallery.closeSlideShow( el, idx )
 			} );
-			var slideShowNext = jQuery( "<div/>" ).addClass( "tg-next tg-icon" ).on( jQuery.thumbGallery.events.end, function( ) {
+			var slideShowNext = jQuery( "<div/>" ).addClass( "tg-next tg-icon" ).on( jQuery.mbGallery.events.end, function( ) {
 				grid.slideShow.next( )
 			} );
-			var slideShowPrev = jQuery( "<div/>" ).addClass( "tg-prev tg-icon" ).on( jQuery.thumbGallery.events.end, function( ) {
+			var slideShowPrev = jQuery( "<div/>" ).addClass( "tg-prev tg-icon" ).on( jQuery.mbGallery.events.end, function( ) {
 				grid.slideShow.prev( )
 			} );
 			var spinnerPh = jQuery( "<div/>" ).addClass( "tg-spinner" );
@@ -815,7 +815,7 @@
 			var pHwidth = $origin.outerWidth( );
 			var pHheight = $origin.outerHeight( );
 
-			grid.nav_effect = jQuery.thumbGallery.transitions[ grid.nav_effect ] || jQuery.thumbGallery.transitions[ "fade" ];
+			grid.nav_effect = jQuery.mbGallery.transitions[ grid.nav_effect ] || jQuery.mbGallery.transitions[ "fade" ];
 			grid.nav_delay = $grid.data( "nav_delay" ) || 500;
 			grid.nav_timing = parseFloat( $grid.data( "nav_timing" ) ) * 2 || 3000;
 
@@ -877,8 +877,8 @@
 				},
 
 				effect: grid.gallery_effect,
-				effectNext: jQuery.thumbGallery.transitions[ grid.gallery_effect ][ "next" ] || grid.gallery_effect[ "next" ],
-				effectPrev: jQuery.thumbGallery.transitions[ grid.gallery_effect ][ "prev" ] || grid.gallery_effect[ "prev" ],
+				effectNext: jQuery.mbGallery.transitions[ grid.gallery_effect ][ "next" ] || grid.gallery_effect[ "next" ],
+				effectPrev: jQuery.mbGallery.transitions[ grid.gallery_effect ][ "prev" ] || grid.gallery_effect[ "prev" ],
 
 				/**
 				 *
@@ -887,12 +887,12 @@
 				keyboard: function( on ) {
 
 					if ( on ) {
-						jQuery( document ).on( "keydown.thumbGallery", function( e ) {
+						jQuery( document ).on( "keydown.mbGallery", function( e ) {
 
 							switch ( e.keyCode ) {
 
 								case 27: //Esc
-									jQuery.thumbGallery.closeSlideShow( el, idx );
+									jQuery.mbGallery.closeSlideShow( el, idx );
 									e.preventDefault( );
 									break;
 
@@ -917,7 +917,7 @@
 						} );
 
 					} else {
-						jQuery( document ).off( "keydown.thumbGallery" );
+						jQuery( document ).off( "keydown.mbGallery" );
 					}
 				},
 
@@ -1107,8 +1107,8 @@
 
 			if ( jQuery.isMobile ) {
 
-				grid.slideShow.effectNext = jQuery.thumbGallery.transitions[ "mobSlide" ][ "next" ];
-				grid.slideShow.effectPrev = jQuery.thumbGallery.transitions[ "mobSlide" ][ "prev" ];
+				grid.slideShow.effectNext = jQuery.mbGallery.transitions[ "mobSlide" ][ "next" ];
+				grid.slideShow.effectPrev = jQuery.mbGallery.transitions[ "mobSlide" ][ "prev" ];
 
 				overlay.swipe( {
 					allowPageScroll: "auto",
@@ -1214,9 +1214,8 @@
 		}
 	};
 
-	jQuery.fn.thumbGallery = jQuery.thumbGallery.init;
-} )( jQuery );
-;
+	jQuery.fn.mbGallery = jQuery.mbGallery.init;
+} )( jQuery );;
 /*
  * ******************************************************************************
  *  jquery.mb.components

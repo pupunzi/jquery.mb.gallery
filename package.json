@@ -1,6 +1,6 @@
 {
-  "name": "jquery.mb.thumbgallery",
-  "title": "jquery.mb.thumbGallery",
+  "name": "jquery.mb.gallery",
+  "title": "jquery.mb.gallery",
   "description": "This plugin let you create a thumbnail gallery with beautiful transition effects and an overlay slideshow.",
   "keywords": [
     "jquery-plugin",
@@ -16,23 +16,23 @@
     "Pupunzi <matteo@open-lab.com> (Matteo Bicocchi)"
   ],
   "bugs": {
-    "url": "https://github.com/pupunzi/jquery.mb.thumbGallery/issues"
+    "url": "https://github.com/pupunzi/jquery.mb.gallery/issues"
   },
-  "homepage": "https://github.com/pupunzi/jquery.mb.thumbGallery",
-  "demo": "https://github.com/pupunzi/jquery.mb.thumbGallery",
-  "docs": "https://github.com/pupunzi/jquery.mb.thumbGallery/wiki",
-  "download": "https://github.com/pupunzi/jquery.mb.thumbGallery/",
+  "homepage": "https://github.com/pupunzi/jquery.mb.gallery",
+  "demo": "https://github.com/pupunzi/jquery.mb.gallery",
+  "docs": "https://github.com/pupunzi/jquery.mb.gallery/wiki",
+  "download": "https://github.com/pupunzi/jquery.mb.gallery/",
   "dependencies": {
     "jquery": ">=1.8",
     "mozjpeg": "^4.1.1"
   },
-  "main": "dist/jquery.mb.thumbGallery.js",
+  "main": "dist/jquery.mb.gallery.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pupunzi/jquery.mb.thumbGallery.git"
+    "url": "git+https://github.com/pupunzi/jquery.mb.gallery.git"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
@@ -49,5 +49,5 @@
     "minimatch": "^3.0.2"
   },
   "license": "MIT",
-  "buildnum": "893"
+  "buildnum": "902"
 }

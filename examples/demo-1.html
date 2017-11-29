@@ -8,10 +8,10 @@
   Build:  {{ buildnum }}
 
   Open Lab s.r.l., Florence - Italy
-  email:  matteo@open-lab.com
+  email:    matteo@open-lab.com
   blog: 	http://pupunzi.open-lab.com
   site: 	http://pupunzi.com
-  	http://open-lab.com
+  	        http://open-lab.com
 
   Licences: MIT, GPL
   http://www.opensource.org/licenses/mit-license.php
@@ -19,7 +19,6 @@
 
   Copyright (c) 2001-2017. Matteo Bicocchi (Pupunzi)
   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
-
 <html>
 <head>
     <meta charset="UTF-8"/>
@@ -31,13 +30,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="cleartype" content="on">
 
-
-    <title>jquery.mb.thumbGallery</title>
+    <title>jquery.mb.gallery</title>
     <link href='http://fonts.googleapis.com/css?family=Lekton|Lobster' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="../dist/css/jquery.mb.thumbgallery.min.css?_v=1.3.1"/>
+    <link rel="stylesheet" type="text/css" href="../dist/css/jquery.mb.gallery.min.css?_v=1.3.1"/>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="../dist/jquery.mb.thumbGallery.js?_v=1.3.1"></script>
+    <script src="../dist/jquery.mb.gallery.js?_v=1.3.1"></script>
 
     <style>
         body, html {
@@ -139,7 +137,7 @@
 <body>
 
 <article id="wrapper">
-    <h1>mb.thumbGallery</h1>
+    <h1>mb.gallery</h1>
 
     <div id="customize">
         <label for="effect">transition effect</label>
@@ -218,8 +216,8 @@
         $( "#wrapper" ).prepend( logo ), $( "#logo" ).fadeIn()
     }
 
-    /* Initialize the gallery */
-    var myGallery = jQuery("#thumbGallery").thumbGallery();
+    /* Initialize the mbGallery */
+    var myGallery = jQuery("#thumbGallery").mbGallery();
 
     /* customizer */
     jQuery("#effect").on("change",function(){
