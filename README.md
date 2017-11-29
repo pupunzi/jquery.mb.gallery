@@ -1,4 +1,4 @@
-jquery.mb.thumbGallery
+jquery.mb.gallery
 ======================
 
-jquery.mb.thumbGallery
+jquery.mb.gallery
