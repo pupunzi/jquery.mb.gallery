@@ -24,7 +24,7 @@
 
 		name: "jquery.mb.mbGallery",
 		version: "1.3.1",
-		build: "902",
+		build: "906",
 		author: "Matteo Bicocchi",
 
 		defaults: {
@@ -260,8 +260,8 @@
 				grid.isAnimating = false;
 				grid.pageIndex = 0;
 
-				grid.id = grid.id ? grid.id : "thumbGallery_" + new Date( ).getTime( );
-				grid.setAttribute( "gid", "thumbGallery_" + new Date( ).getTime( ) );
+				grid.id = grid.id ? grid.id : "mbGallery_" + new Date( ).getTime( );
+				grid.setAttribute( "gid", "mbGallery_" + new Date( ).getTime( ) );
 
 				grid.nav_effect = $grid.data( "nav_effect" ) || grid.opt.nav_effect;
 				grid.nav_delay = $grid.data( "nav_delay" ) || grid.opt.nav_delay;
@@ -481,7 +481,7 @@
 				}
 			}
 			grid.thumbSize = jQuery.mbGallery.setThumbSize( grid, jQuery( ".thumbWrapper", $page ) );
-			jQuery( window ).off( "resize.thumbgallery_" + grid.id ).on( "resize.thumbgallery_" + grid.id, function( ) {
+			jQuery( window ).off( "resize.mbGallery_" + grid.id ).on( "resize.mbGallery_" + grid.id, function( ) {
 
 				var el = jQuery( ".thumbWrapper", $page );
 				grid.thumbSize = jQuery.mbGallery.setThumbSize( grid, el );
@@ -809,7 +809,7 @@
 				grid.slideShow.prev( )
 			} );
 			var spinnerPh = jQuery( "<div/>" ).addClass( "tg-spinner" );
-			var $origin = $grid.find( "[data-globalindex=" + idx + "]" ).parent( "li" );
+			var $origin = grid.full_inline ? jQuery( ".inline-full-box", $grid ) : jQuery( "[data-globalindex=" + idx + "]", $grid ).parent( "li" );
 			var pHleft = $origin.offset( ).left - jQuery( window ).scrollLeft( );
 			var pHtop = $origin.offset( ).top - jQuery( window ).scrollTop( );
 			var pHwidth = $origin.outerWidth( );
@@ -1176,7 +1176,7 @@
 
 			var grid = el,
 				$grid = jQuery( grid ),
-				origin = $grid.find( "[data-globalindex=" + idx + "]" )
+				origin = grid.full_inline? jQuery(".inline-full-box", $grid) : jQuery( "[data-globalindex=" + idx + "]", $grid )
 				.parents( "li" ),
 				pHleft = origin.offset( )
 				.left - jQuery( window )
@@ -1215,7 +1215,8 @@
 	};
 
 	jQuery.fn.mbGallery = jQuery.mbGallery.init;
-} )( jQuery );;
+} )( jQuery );
+;
 /*
  * ******************************************************************************
  *  jquery.mb.components
