@@ -1,8 +1,8 @@
 /*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
  jquery.mb.components
 
- file: thumbGallery.css
- last modified: 25/11/17 19.15
+ file: mbGallery.css
+ last modified: 30/11/17 21.48
  Version:  {{ version }}
  Build:  {{ buildnum }}
 
@@ -51,7 +51,7 @@
     font-style: normal
 }
 
-* {
+.tg-container * {
     box-sizing: border-box
 }
 
