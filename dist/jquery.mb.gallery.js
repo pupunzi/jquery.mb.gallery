@@ -24,7 +24,7 @@
 
 		name: "jquery.mb.mbGallery",
 		version: "1.3.1",
-		build: "902",
+		build: "906",
 		author: "Matteo Bicocchi",
 
 		defaults: {
@@ -809,7 +809,7 @@
 				grid.slideShow.prev( )
 			} );
 			var spinnerPh = jQuery( "<div/>" ).addClass( "tg-spinner" );
-			var $origin = $grid.find( "[data-globalindex=" + idx + "]" ).parent( "li" );
+			var $origin = grid.full_inline ? $( ".inline-full-box", $grid ) : $grid.find( "[data-globalindex=" + idx + "]" ).parent( "li" );
 			var pHleft = $origin.offset( ).left - jQuery( window ).scrollLeft( );
 			var pHtop = $origin.offset( ).top - jQuery( window ).scrollTop( );
 			var pHwidth = $origin.outerWidth( );
@@ -1176,16 +1176,16 @@
 
 			var grid = el,
 				$grid = jQuery( grid ),
-				origin = $grid.find( "[data-globalindex=" + idx + "]" )
+				$origin = grid.full_inline ? $( ".inline-full-box", $grid ) : $grid.find( "[data-globalindex=" + idx + "]" )
 				.parents( "li" ),
-				pHleft = origin.offset( )
+				pHleft = $origin.offset( )
 				.left - jQuery( window )
 				.scrollLeft( ),
-				pHtop = origin.offset( )
+				pHtop = $origin.offset( )
 				.top - jQuery( window )
 				.scrollTop( ),
-				pHwidth = origin.outerWidth( ),
-				pHheight = origin.outerHeight( );
+				pHwidth = $origin.outerWidth( ),
+				pHheight = $origin.outerHeight( );
 
 			jQuery( ".tg-overlay .tg-icon" ).fadeTo( 200, 0 );
 			jQuery( ".tg-placeHolder > div" ).fadeOut( 500 );
