@@ -134,11 +134,9 @@
 <body>
 
     <article id="wrapper">
-        <h1>mb.thumbGallery</h1>
-
+        <h1>mb.gallery</h1>
         <div id="customize">
-            <label for="effect">transition effect
-            </label>
+            <label for="effect">transition effect</label>
             <select id="effect">
                 <option value="zoom">zoom</option>
                 <option value="fade_zoom">fade_zoom</option>
@@ -149,19 +147,15 @@
             </select>
             <br>
             <br>
-            <label for="delay">transition delay (in ms)
-            </label>
+            <label for="delay">transition delay (in ms)</label>
             <input id="delay" value="100" />
             <br>
-            <label for="timing">transition timing (in ms)
-            </label>
+            <label for="timing">transition timing (in ms)</label>
             <input id="timing" value="1000" />
         </div>
 
         <section class="content">
-
             <div id="thumbGallery" class="thumbGallery" data-thumbGallery="true" data-nav_effect="slide_inverse" data-nav_delay="100" data-nav_timing="1000" data-nav_delay_inverse="1" data-nav_pagination="6" data-gallery_effect="slide_inverse" data-gallery_fullscreen_w="90%" data-gallery_fullscreen_h="100%" data-gallery_timing="1000" data-full_inline="true" data-full_inline_height="600" data-gallery_cover="true" data-thumb_ratio=4/3 data-thumb_fit=false>
-
                 <img src="img/LR/01.jpg" data-highres="img/HR/01.jpg" data-caption="Parturient Bibendum Malesuada Etiam" />
                 <img src="img/LR/02.jpg" data-highres="img/HR/02.jpg" />
                 <img src="img/LR/03.jpg" data-highres="img/HR/03.jpg" data-caption="Adipiscing Inceptos Ornare Cursus" />
@@ -184,11 +178,8 @@
                 <img src="img/LR/20.jpg" data-highres="img/HR/20.jpg" data-caption="Lorem Sit Condimentum Dolor" />
                 <img src="img/LR/21.jpg" data-highres="img/HR/21.jpg" data-caption="Aenean Dolor Etiam Porta" />
                 <img src="img/LR/22.jpg" data-highres="img/HR/22.jpg" data-caption="Mollis Elit Ornare Sit Fringilla" />
-
             </div>
-
         </section>
-
     </article>
 
     <a style="position: fixed;bottom:40px;right: 30px;" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=V6ZS8JPMZC446&lc=GB&item_name=mb%2eideas&item_number=MBIDEAS&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG_global%2egif%3aNonHosted">
@@ -220,7 +211,6 @@
     jQuery( "#effect" ).on( "change", function() {
         var x = $( this ).val();
         myGallery.data( "nav_effect", x );
-
     } );
 
     jQuery( "#delay" ).on( "change", function() {
