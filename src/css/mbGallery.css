@@ -422,8 +422,8 @@ nav.thumbGridNav.waiting a:not(.sel) {
         height: 10px;
         border-radius: 100%
     }
-    .tg-next,
-    .tg-prev {
+    .thumb-grid .tg-next,
+    .thumb-grid .tg-prev {
         visibility: hidden
     }
 }

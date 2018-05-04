@@ -277,6 +277,7 @@
 				grid.gallery_effect = $grid.data( "gallery_effect" ) || grid.nav_effect;
 				grid.gallery_timing = $grid.data( "gallery_timing" ) || 1000;
 				grid.nav_show = typeof $grid.data( "nav_show" ) != "undefined" ? $grid.data( "nav_show" ) : grid.opt.nav_show;
+				grid.nav_show = jQuery.isMobile ? true : grid.nav_show;
 				grid.clever_transition = typeof $grid.data( "clever_transition" ) != "undefined" ? $grid.data( "clever_transition" ) : grid.opt.clever_transition;
 				grid.full_inline = typeof $grid.data( "full_inline" ) != "undefined" ? $grid.data( "full_inline" ) : grid.opt.full_inline;
 				grid.full_inline_height = typeof $grid.data( "full_inline_height" ) != "undefined" ? parseFloat( $grid.data( "full_inline_height" ) ) : grid.opt.full_inline_height;
@@ -427,6 +428,7 @@
 					} else {
 						jQuery( ".tg-captionBox", thumb_box ).remove( );
 					}
+
 					thumbWrapper.data( "idx", x );
 					thumbWrapper.on( jQuery.mbGallery.events.end, function( e ) {
 						if ( grid.isAnimating )
@@ -473,7 +475,7 @@
 						jQuery.mbGallery.prevPage( grid );
 						e.originalEvent.preventDefault( );
 					} );
-					if ( grid.elements.length > grid.nav_pagination )
+					if ( grid.elements.length > grid.nav_pagination && !grid.nav_show )
 						$page.append( next ).append( prev );
 					$page.addClass( "active" );
 				} else {
@@ -591,8 +593,10 @@
 					jQuery.mbGallery.buildIndex( grid );
 					grid.isAnimating = false;
 
-					if ( typeof grid.nav != "undefined" && grid.nav_show )
+					if ( typeof grid.nav != "undefined" && grid.nav_show ) {
 						grid.nav.show( );
+
+					}
 				}
 			}, 100 );
 
