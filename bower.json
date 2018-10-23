@@ -3,7 +3,7 @@
   "version": "1.3.1",
   "homepage": "https://github.com/pupunzi/jquery.mb.gallery",
   "authors": [
-    "pupunzi <matteo@open-lab.com>"
+    "pupunzi <matbicoc@gmail.com>"
   ],
   "description": "This plugin let you create a thumbnail gallery with beautiful transition effects and an overlay slideshow.",
   "main": "src/jquery.mb.gallery.src.js",

@@ -7,7 +7,7 @@
  Build:  {{ buildnum }}
 
  Open Lab s.r.l., Florence - Italy
- email:  matteo@open-lab.com
+ email:  matbicoc@gmail.com
  blog: 	http://pupunzi.open-lab.com
  site: 	http://pupunzi.com
  	http://open-lab.com
@@ -1228,7 +1228,7 @@
  *
  *  Copyright (c) 2001-2014. Matteo Bicocchi (Pupunzi);
  *  Open lab srl, Firenze - Italy
- *  email: matteo@open-lab.com
+ *  email: matbicoc@gmail.com
  *  site: 	http://pupunzi.com
  *  blog:	http://pupunzi.open-lab.com
  * 	http://open-lab.com
@@ -1264,7 +1264,7 @@ jQuery.fn.css3=function(d){return this.each(function(){var a=jQuery(this),b=jQue
  _                                                                                                                                                  _
  _ Open Lab s.r.l., Florence - Italy                                                                                                                _
  _                                                                                                                                                  _
- _ email: matteo@open-lab.com                                                                                                                       _
+ _ email: matbicoc@gmail.com                                                                                                                       _
  _ site: http://pupunzi.com                                                                                                                         _
  _       http://open-lab.com                                                                                                                        _
  _ blog: http://pupunzi.open-lab.com                                                                                                                _

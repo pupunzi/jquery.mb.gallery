@@ -11,9 +11,9 @@
     "overlay"
   ],
   "version": "1.3.1",
-  "author": "Pupunzi <matteo@open-lab.com> (Matteo Bicocchi)",
+  "author": "Pupunzi <matbicoc@gmail.com> (Matteo Bicocchi)",
   "maintainers": [
-    "Pupunzi <matteo@open-lab.com> (Matteo Bicocchi)"
+    "Pupunzi <matbicoc@gmail.com> (Matteo Bicocchi)"
   ],
   "bugs": {
     "url": "https://github.com/pupunzi/jquery.mb.gallery/issues"
