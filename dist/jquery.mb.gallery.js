@@ -1,22 +1,22 @@
 /*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
  jquery.mb.components
-
- file: jquery.mb.gallery.src.js
- last modified: 29/11/17 20.16
- Version:  1.3.1
+ 
+ file: jquery.mb.gallery.js
+ last modified: 10/25/18 8:00 PM
+ Version:  {{ version }}
  Build:  {{ buildnum }}
-
+ 
  Open Lab s.r.l., Florence - Italy
- email:  matbicoc@gmail.com
+ email:  matteo@open-lab.com
  blog: 	http://pupunzi.open-lab.com
  site: 	http://pupunzi.com
  	http://open-lab.com
-
+ 
  Licences: MIT, GPL
  http://www.opensource.org/licenses/mit-license.php
  http://www.gnu.org/licenses/gpl.html
-
- Copyright (c) 2001-2017. Matteo Bicocchi (Pupunzi)
+ 
+ Copyright (c) 2001-2018. Matteo Bicocchi (Pupunzi)
  :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
 
 ( function( $ ) {
