@@ -1,9 +1,9 @@
 /*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
  jquery.mb.components
  
- file: jquery.mb.gallery.js
+ file: jquery.mb.gallery.src.js
  last modified: 10/25/18 8:00 PM
- Version:  {{ version }}
+ Version:  1.3.1
  Build:  {{ buildnum }}
  
  Open Lab s.r.l., Florence - Italy
@@ -24,7 +24,7 @@
 
 		name: "jquery.mb.mbGallery",
 		version: "1.3.1",
-		build: "911",
+		build: "912",
 		author: "Matteo Bicocchi",
 
 		defaults: {
