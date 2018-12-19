@@ -39,6 +39,11 @@
 			gallery_cover: false,
 			thumb_cover: true,
 
+			layout: "default", //or grid
+			layout_cols: 3,
+			layout_margin: 5,
+			layout_has_caption: true,
+
 			full_inline: false,
 			full_inline_height: 500,
 
@@ -253,8 +258,10 @@
 				var $grid = jQuery( grid );
 
 				$grid.addClass( "tg-container" );
+
 				grid.opt = {};
 				jQuery.extend( grid.opt, jQuery.mbGallery.defaults, options );
+
 				$grid.hide( );
 
 				grid.isAnimating = false;
@@ -278,6 +285,12 @@
 				grid.gallery_timing = $grid.data( "gallery_timing" ) || 1000;
 				grid.nav_show = typeof $grid.data( "nav_show" ) != "undefined" ? $grid.data( "nav_show" ) : grid.opt.nav_show;
 				grid.nav_show = jQuery.isMobile ? true : grid.nav_show;
+
+				grid.layout = $grid.data( "layout" ) || grid.opt.layout;
+				grid.layout_cols = $grid.data( "layout_cols" ) || grid.opt.layout_cols;
+				grid.layout_margin = $grid.data( "layout_margin" ) || grid.opt.layout_margin;
+				grid.layout_has_caption = $grid.data( "layout_has_caption" ) || grid.opt.layout_has_caption;
+
 				grid.clever_transition = typeof $grid.data( "clever_transition" ) != "undefined" ? $grid.data( "clever_transition" ) : grid.opt.clever_transition;
 				grid.full_inline = typeof $grid.data( "full_inline" ) != "undefined" ? $grid.data( "full_inline" ) : grid.opt.full_inline;
 				grid.full_inline_height = typeof $grid.data( "full_inline_height" ) != "undefined" ? parseFloat( $grid.data( "full_inline_height" ) ) : grid.opt.full_inline_height;
@@ -316,6 +329,9 @@
 
 				if ( grid.full_inline )
 					jQuery.mbGallery.drawFullInline( grid );
+
+				if ( grid.opt.layout == "grid" )
+					$grid.addClass( "grid-layout" );
 
 				jQuery( window ).resize( );
 
@@ -362,9 +378,9 @@
 
 			/* Set the correct height to the mbGallery*/
 			/*
-						$grid.css( {
-							height: grid.full_inline_height + ( grid.thumbSize.h + 5 )
-						} );
+			      $grid.css( {
+			        height: grid.full_inline_height + ( grid.thumbSize.h + 5 )
+			      } );
 			*/
 
 			grid.fullInlineBox.prepend( grid.fullInlineImg );
@@ -382,6 +398,7 @@
 				applyEffect = true;
 
 			var grid = el;
+			var layout = grid.opt.layout;
 			var $grid = jQuery( grid );
 
 			grid.nav_delay = $grid.data( "nav_delay" ) || 100;
@@ -391,8 +408,10 @@
 			var pageElements = grid.pages[ el.pageIndex ];
 			var $page = jQuery( "<ul/>" ).addClass( "thumb-grid" );
 			grid.page = $page;
+
 			if ( grid.full_inline )
 				$page.addClass( "full-inline" );
+
 			if ( typeof grid.opt.onSlide == "function" ) {
 				grid.opt.onSlide( grid )
 			}
@@ -422,7 +441,7 @@
 
 				if ( thumb.length ) {
 					var thumbWrapper = jQuery( "<li/>" ).addClass( "thumbWrapper" ).append( thumb_box );
-					if ( grid.nav_pagination == 1 && thumb.data( "caption" ) ) {
+					if ( ( grid.nav_pagination == 1 || grid.opt.layout_has_caption ) && thumb.data( "caption" ) ) {
 						var captionBox = jQuery( "<div/>" ).addClass( "tg-captionBox" ).html( thumb.data( "caption" ) );
 						thumb_box.after( captionBox );
 					} else {
@@ -431,6 +450,7 @@
 
 					thumbWrapper.data( "idx", x );
 					thumbWrapper.on( jQuery.mbGallery.events.end, function( e ) {
+
 						if ( grid.isAnimating )
 							return;
 
@@ -487,9 +507,11 @@
 
 				var el = jQuery( ".thumbWrapper", $page );
 				grid.thumbSize = jQuery.mbGallery.setThumbSize( grid, el );
-				$grid.css( {
-					height: grid.full_inline ? grid.full_inline_height + ( grid.thumbSize.h + 5 ) : grid.thumbSize.h
-				} );
+				/*
+				        $grid.css( {
+				          height: grid.full_inline ? grid.full_inline_height + ( grid.thumbSize.h + 5 ) : grid.thumbSize.h
+				        } );
+				*/
 
 			} ).resize( );
 
@@ -633,6 +655,10 @@
 			if ( grid.width < 600 && grid.nav_pagination > 3 )
 				w = ( grid.width / 2 ) - 10;
 
+			if ( grid.opt.layout == "grid" && ( grid.width / grid.opt.layout_cols ) > w )
+				// w = ( grid.width / grid.opt.layout_cols ) - ( grid.opt.layout_margin * grid.opt.layout_cols ) + ( grid.opt.layout_margin / grid.opt.layout_cols ) + grid.opt.layout_margin / 2;
+				w = ( grid.width / grid.opt.layout_cols ) - ( grid.opt.layout_margin * grid.opt.layout_cols );
+
 			var h = w / grid.thumb_ratio;
 
 			el.each( function( ) {
@@ -640,6 +666,12 @@
 					width: w,
 					height: h
 				} );
+
+				if ( grid.opt.layout == "grid" )
+					jQuery( this ).css( {
+						margin: grid.opt.layout_margin
+					} );
+
 			} );
 			return {
 				w: w,

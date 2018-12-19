@@ -65,7 +65,13 @@
 }
 
 .thumb-grid {
-    position: absolute;
+    /*position: absolute;*/
+    display: flex;
+    align-content: flex-start;
+    justify-content: flex-start;
+    flex-flow: row wrap;
+    flex-wrap: wrap;
+
     padding: 0;
     width: 100%;
     margin: 0 auto;
@@ -75,6 +81,13 @@
     white-space: nowrap;
     bottom: 0;
     line-height: 0;
+}
+
+.grid-layout .thumb-grid {
+    justify-items: center;
+    position: relative;
+    white-space: inherit;
+    text-align: left;
 }
 
 .thumb-grid img {
@@ -90,13 +103,13 @@
     position: relative;
     margin: 0 5px;
     overflow: hidden;
-    /*
-border: 1px solid rgba(0, 0, 0, .2);
-box-shadow: 0 0 5px rgba(0, 0, 0, .6);
-*/
     display: inline-block !important;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
+}
+
+.grid-layout .thumb-grid .thumbWrapper {
+    margin: 5px;
 }
 
 .thumb-grid:not(.full-inline) .thumbWrapper:hover:after,
@@ -387,6 +400,7 @@ nav.thumbGridNav.waiting a:not(.sel) {
     text-align: left;
     padding: 10px;
     background: rgba(0, 0, 0, 0.5);
+    line-height: 1.2;
 }
 
 @media (max-width: 1024px) {
