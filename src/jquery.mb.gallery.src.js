@@ -656,7 +656,7 @@
 				w = ( grid.width / 2 ) - 10;
 
 			if ( grid.opt.layout == "grid" && ( grid.width / grid.opt.layout_cols ) > w )
-				// w = ( grid.width / grid.opt.layout_cols ) - ( grid.opt.layout_margin * grid.opt.layout_cols ) + ( grid.opt.layout_margin / grid.opt.layout_cols ) + grid.opt.layout_margin / 2;
+			// w = ( grid.width / grid.opt.layout_cols ) - ( grid.opt.layout_margin * grid.opt.layout_cols ) + ( grid.opt.layout_margin / grid.opt.layout_cols ) + grid.opt.layout_margin / 2;
 				w = ( grid.width / grid.opt.layout_cols ) - ( grid.opt.layout_margin * grid.opt.layout_cols );
 
 			var h = w / grid.thumb_ratio;

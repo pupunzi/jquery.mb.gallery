@@ -24,7 +24,7 @@
 
 		name: "jquery.mb.mbGallery",
 		version: "1.3.1",
-		build: "942",
+		build: "943",
 		author: "Matteo Bicocchi",
 
 		defaults: {
